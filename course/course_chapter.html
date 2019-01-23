@@ -175,34 +175,11 @@
 		var isbuy = window.localStorage.getItem("isbuy");
 		var isFree = window.localStorage.getItem("isFree");
 		var freeChapters = window.localStorage.getItem("freeChapters");
-//		var j = 0;
 		
 		if (chapterList != "") {
-			//hasFreeChapter();
 			reloadDom();
 		}
 		
-		/**
-		 * isFree 是否有试看章节
-		 * freeChapters 试看章节数量
-		 * j 用于循环控制状态的参数
-		 */
-		
-//		function hasFreeChapter(){
-//			for(var i=0;i<chapterList.length;i++) {
-//				if (chapterList[i].freeYn == "Y") {
-//					freeChapters++;
-//				}
-//			}
-//			if(freeChapters > 0){
-//				isFree = "Y";
-//				window.localStorage.setItem("isFree",isFree);
-//				window.localStorage.setItem("freeChapters",freeChapters);
-//			}
-//			
-//		}
-		
-				
 		//渲染数据
 		function reloadDom(){
 			var dom = "";
@@ -238,7 +215,7 @@
 		}
 		/**
 		 * 点击某个章节到课程播放界面,并根据课程购买状态和试看章节数量，控制tip提示窗隐藏和显示，并给出友好提示
-		 * 
+		 * showTip();//方法在custom/tip内实现控制course_detaisl页面的tip样式
 		 */
 		function tocoursePlay(courseChapterUrl,nums){
 			isFree = window.localStorage.getItem("isFree");//因为reloadDom()方法里面把isFree改为了"N",所以此处要再重新从localstorage中获取一下
@@ -251,8 +228,10 @@
 					if (chapterList[nums-1].freeYn == "Y") {
 						this.toUrl(courseChapterUrl,nums);
 					}else{
-						showTip();//方法在custom/tip内实现控制course_detaisl页面的tip样式
+						showTip();
 					}
+				}else{
+					showTip();
 				}
 			}
 		}

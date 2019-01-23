@@ -229,7 +229,7 @@
 	    <!--音频-->
 	    <div class="audio-wrapper">
 	        <audio size="#4.50MB" duration="#02:57" filename="#Launch_Kan R. Gao.mp3">
-	            <source src="http://file.duzhai.net/Files/Audio/2017-08/af01ab05-d112-4ad7-9cff-2cfecced5bc6.mp3" type="audio/mp3">
+	            <source id="audio-source" src="http://file.duzhai.net/Files/Audio/2017-08/af01ab05-d112-4ad7-9cff-2cfecced5bc6.mp3" type="audio/mp3">
 	        </audio>
 	        <div class="audio-left">
 	            <img id="audioPlayer" src="img/play.png">
@@ -434,8 +434,7 @@
 	var chapterList = courseDetails.daniuCourseChapterList;
 	var j = 0;
 	
-	$("#video").attr("src",courseChapterUrl);
-	$("#video").attr("poster",courseDetails.courseImg);
+	
 	$("#course-title").text(courseDetails.courseTitle)
 	$("#course-chapter-numbers").text("共"+courseDetails.daniuCourseChapterList.length+"个课时");
 	
@@ -451,12 +450,17 @@
 		courseType = "音频";
 	}
 	
+	console.log("courseChapterUrl="+courseChapterUrl);
 	//根据课程类型设置课程banner样式
 	if(courseDetails.courseType == 2){//音频
 		$("#play-btn").css("display","none");//隐藏屏幕中间播放按钮
 		$("#control").css("display","none");//隐藏视频控制栏
 		$(".audio-wrapper").css("display","flex");//显示音频控制栏
 		$("#screen-time-wrap").css("display","none");//滑屏快进
+		$("#audio-source").attr("src",courseChapterUrl);
+	}else{
+		$("#video").attr("src",courseChapterUrl);
+		$("#video").attr("poster",courseDetails.courseImg);
 	}
 	
 	if (chapterList != "") {

@@ -188,7 +188,6 @@
 		    $(".h_12_em img").height(bannerHeight);
 		});
 		
-		//console.log(window.localStorage.getItem("courseId"))
 		$.ajax({
 			type:"post",
 			url:apiPath.coursePath,
@@ -198,7 +197,6 @@
 				"courseId":window.localStorage.getItem("courseId")
 			},
 			success:function(data){
-				//console.log("data="+data.object[0].courseTitle);
 				if(data.code == 0){
 					reloadDom(data.object[0]);
 				}

@@ -200,8 +200,16 @@
         </div>
 	</body>
 	<script type="text/javascript">
+		/**
+		 * 从localStorage中获取课程信息
+		 * courseDetails 课程json数据对象
+		 * chapterList 课程章节集合
+		 * hardList 课程难度集合
+		 */
 		var courseDetails = JSON.parse(window.localStorage.getItem("courseDetails"));
 		var chapterList = courseDetails.daniuCourseChapterList;
+		var hardList = courseDetails.daniuCourseHardDtlList;
+		
 		$("#course_details_img img").attr("src",courseDetails.detailsImg);
 		$("#course_name").text(courseDetails.courseTitle);
 		$("#course_price").text("￥"+courseDetails.coursePresentPrice);
@@ -211,9 +219,7 @@
 		}else if(courseDetails.courseMode == 2){
 			$("#course_mode").text("在线课程模式");
 		}
-		//课程难度
-		var hardList = courseDetails.daniuCourseHardDtlList;
-		//console.log("hardList="+hardList)
+		
 		if (hardList != "") {
 			var dom = "";
 			$("#course_hard_list li").remove();//清空默认的星星
@@ -257,8 +263,6 @@
 		//开课时间(在Mdate.js中设置)
 		//var timeList = JSON.parse(window.localStorage.getItem("daniuCourseBeginTimeList"));
 		
-		
-		
 		//根据courseId查询用户是否购买了该课程，根据购买状态控制底部试听和立即购买按钮的现实与隐藏
 		/**
 		 * isFree 是否有试看章节
@@ -269,7 +273,7 @@
 		var isFree = "N";
 		var freeChapters = 0;
 		var j = 0;
-		var isbuy = "Y";
+		var isbuy = "N";
 		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
 		
 		$.ajax({
@@ -305,13 +309,16 @@
 				freeChapters++;
 			}
 		}
-		if(freeChapters > 0){
+		if(freeChapters > 0){//此时的isFree和freeChapters为实际的值
 			isFree = "Y";
+			window.localStorage.setItem("isFree",isFree);
+			window.localStorage.setItem("freeChapters",freeChapters);
+		}else{//此时的isFree和freeChapters为默认的0
 			window.localStorage.setItem("isFree",isFree);
 			window.localStorage.setItem("freeChapters",freeChapters);
 		}
 			
-		
+		console.log("isFree="+isFree+" freeChapters="+freeChapters+" isbuy="+isbuy)
 		
 		//课程试听
 		$("#btn_audition").click(function(){

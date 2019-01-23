@@ -33,7 +33,6 @@
 				"courseLevel":"4"
 			},
 			success:function(data){
-				console.log("code="+data.code);
 				if(data.code == 0){
 					course_list = data.object;
 					reloadDom();
