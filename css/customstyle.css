@@ -1,0 +1,223 @@
+/**
+ * 自定义界面的样式
+ */
+/*学习界面*/
+.course_learing{
+	padding: 0 1.14em;
+	height: auto;
+	background: #fff;
+	padding-top: 1px;
+}
+.course_recommend{
+	padding: 0 1.14em;
+	height: auto;
+	background: #fff;
+	margin-top: 12px;
+	padding-top: 1px;
+}
+.learing_head {
+	margin: 10px 0;
+	height: 1.57em;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.learing_head .border{
+	width: 0.22em;
+	height: 1.07em;
+	background-image: linear-gradient(0deg, #FF7D25 0%, #FF5D24 100%);
+}
+.learing_head .word{
+	font-size: 1.14em;
+	color: #000000;
+	margin-left: 0.357em;
+}
+
+.item_cell_box {
+    width: 100%;
+    height: auto;
+    padding-bottom: 3rem;
+}
+.item_cell_box .no_learing_course{
+    width: 100%;
+    height: 100px;
+    background: url(../img/nocourse.png) center center no-repeat;
+    background-size: 12rem auto;
+    display: none;
+    justify-content: center;
+    align-items: flex-end;
+    padding-top: 4rem;
+    font-size: 1rem;
+    color: #B1B1B1;
+}
+.courses {
+    width: 48%;
+    height: auto;
+    text-align: center;
+    border-radius: 7px;
+    margin: 1%;
+    margin-bottom: 20px;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+}
+.kh_goods {
+    background: #fff;
+}
+/*.kh_goods div{
+    border: 1px solid;
+}*/
+.kh_img {
+    width: 100%;
+    /* height: 100px; */
+    height: auto;
+    border-radius: 4px;
+}
+.kh_maintitle {
+    font-size: 16px;
+	color: #1F1F1F;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+    padding: 10px 0;
+}
+
+
+/*我的*/
+.outer{
+	width: 100%;
+	height: auto;
+}
+.head_div{
+	width: 100%;
+	height: 10.14em;
+	display: flex;
+	flex-direction: row;
+	background-image: url(../img/wode_beijin.png);
+}
+.head_div .head_left{
+	flex: 1;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-content: center;
+}
+.head_div .head_left .head_img{
+	flex: 1;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+.head_div .head_left .head_img img{
+	width: 5em;
+	height: 5em;
+	border-radius: 100%;
+	/*margin-top: 2.6rem;*/
+}
+.head_div .head_left .nickname{
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	font-size: 1.43em;
+}
+.head_div .head_right{
+	flex: 1;
+}
+.my_btn{
+	width: 100%;
+	height: 3.71em;
+	display: flex;
+	flex-direction: row;
+	background: #fff;
+}
+.my_btn .btn_logo{
+	width: 3.93em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.my_btn .btn_logo img{
+	width: 1.57em;
+	height: auto;
+	/*margin-top: 1rem;*/
+}
+.my_btn .btn_msg{
+	flex: 1;
+	display: flex;
+	height: 100%;
+	align-items: center;
+}
+.my_btn .btn_img{
+	width: 2.71em;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.my_btn .btn_img img{
+	width: 1.14em;
+	height: auto%;
+	/*margin-top: 1rem;*/
+}
+
+/*开课时间样式*/
+.demoBox {
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 8px 8px 20px;
+}
+
+.demoBox >p{
+    padding-top: 10px;
+}
+
+.demoBox >ol {
+    padding-top: 15px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.3);
+}
+
+.demoBox >ol>li {
+    padding-top: 10px;
+    margin-left: 7%;
+}
+
+.demoBox >ol>li>span {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.4);
+    display: block;
+}
+
+.demo {
+    height: 35px;
+    margin: 15px 0;
+    display: flex;
+    display: -webkit-flex;
+    display: -moz-flex;
+}
+
+.demo >input {
+    display: block;
+    border: 0;
+    border-radius: 3px;
+    padding: 0 8px;
+    height: 100%;
+    flex: 1;
+    -webkit-flex: 1;
+    -moz-flex: 1;
+    font-size: 14px;
+}
+
+.demo >button {
+    background-color: #00c599;
+    color: #fff;
+    border: 0;
+    height: 100%;
+    margin-left: 8px;
+    padding: 0 15px;
+    border-radius: 3px;
+    font-size: 14px;
+}

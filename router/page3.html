@@ -1,0 +1,219 @@
+<template>
+    <!--<ak-header data-display="true">
+        <button type="button" class="left_0 w_25 pl_3 text_al_l text_12em" data-href="javascript:history.back();"><i class="text_14em icon-ln_fanhui_b"></i>返回</button>
+        <h1 class="text_al_c">加载效果</h1>
+    </ak-header>-->
+	
+	<div class="outer">
+		<div class="head_div">
+			<div class="head_left">
+				<div class="head_img">
+					<img src="img/thumbnails/tibet-5.jpg"/>
+				</div>
+				<div class="nickname">
+					阳关男孩
+				</div>
+			</div>
+			<div class="head_right">
+				
+			</div>
+		</div>
+		<div class="my_btn" id="suggestion_btn">
+			<div class="btn_logo">
+				<img src="img/yijianfankui.png"/>
+			</div>
+			<div class="btn_msg">
+				意见反馈
+			</div>
+			<div class="btn_img">
+				<img src="img/myChevron.png"/>
+			</div>
+		</div>
+	</div>
+	
+	
+    <!--<div class="module list press plug_DropLoad">
+        <ul>
+        </ul>
+    </div>-->
+
+    <ak-footer data-display="true">
+        <!--<fieldset class="h_in bor_top bor_gray_ddd bg_gray_f9f length2">
+            <legend class="fl h_100 line_h_32em c_gray_777 text_al_c" data-href="/page4">应付金额：<span class="c_orange text_bold">¥100.00</span></legend>
+            <button type="button" class="fl bg_title h_100 c_white">立即支付</button>
+        </fieldset>-->
+    </ak-footer>
+</template>
+	<!--
+    	作者：offline
+    	时间：2019-01-21
+    	描述：我的页面
+    -->
+<script type="text/javascript">
+	/**
+	 * 根据屏幕大小按banner长宽比动态调整大小
+	 */
+	window.onload=function(){
+	    var bannerWidth = $(".h_12_em").width();
+	    var	bannerHeight = bannerWidth/2.083;
+	    $(".h_12_em").height(bannerHeight);
+	    
+	    //当浏览器大小变化时
+	    $(window).resize(function () {
+		    var bannerWidth = $(".h_12_em").width();
+		    var	bannerHeight = bannerWidth/2.083;
+		    $(".h_12_em").height(bannerHeight);
+		});
+	}
+	
+	
+	var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+	//用户信息
+	$(document).ready(function(){
+		console.log("userId="+userInfo.userId);
+		$.ajax({
+			type:"post",
+			url:apiPath.userPath,
+			xhrFields:{withCredentials:true},
+			data:{
+				"method":user.get('userinfo'),
+				"userId":userInfo.userId
+			},
+			success:function(data){
+				//console.log(data.code);
+				if(data.code == 0){
+					$(".head_left .head_img img").attr("src",data.object.headimgurl);
+					$(".head_left .nickname").text(data.object.nickname);
+				}else if(data.code == 500){
+					alert("接口请求出错");
+				}
+			}
+		});
+   })
+	$("#suggestion_btn").click(function(){
+		window.location.href = "suggestion.html";
+	});
+</script>
+<script type="text/javascript">
+    //引入Andrew插件的区域
+
+    /*ak-header和ak-footer里面的所有DOM元素操作请使用以下的“delegate”方法*/
+    $(document).delegate("fieldset button","click", function(e){
+        e.preventDefault();
+        ak_webToast("恭喜您！您支付成功了!","middle",1000); //(提示文字，显示位置 top ，middle ，bottom ，耗时)
+        setTimeout(function(){
+            Andrew_Location("/page1");
+        },1000);
+    });
+
+    /*-----------------------------------------------Andrew_DropLoad 使用方法-------------------------------------------*/
+    $(function(){
+        // 页数
+        var page = 0;
+        // 每页展示5个
+        var size = 5;
+        $('.plug_DropLoad').Andrew_DropLoad({
+            scrollArea : window, // 滑动区域
+            domUp : { // 上方DOM
+                domRefresh : '↓ 下拉刷新',
+                domUpdate  : '↑ 释放更新',
+                domLoad    : '刷新中...'
+            },
+            domDown : { // 下方DOM
+                domRefresh : '↑ 上拉加载更多',
+                domLoad    : '加载中...',
+                domNoData  : '暂无数据'
+            },
+            autoLoad : true,// 自动加载
+            distance : 20,// 拉动距离
+            loadUpFn : function(me){ //上方function
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://ons.me/tools/dropload/json.php',
+                    dataType: 'json',
+                    success: function(data){
+                        // 为了测试，延迟3秒加载
+                        setTimeout(function(){
+                            // 每次数据加载完，必须重置
+                            me.resetload(); //重新初始化控件以及标识量
+                            me.unlock(); //解除锁定允许数据继续加载
+                            me.noData(false); //是否有数据（false代表有数据）
+                        },1000);
+                    },
+                    error: function(xhr, type){
+                        alert('Ajax error!');
+                        // 即使加载出错，也得重置
+                        me.resetload(); //重新初始化控件以及标识量
+                    }
+                });
+            },
+            loadDownFn : function(me){ //下方function
+                page++;
+                // 拼接HTML
+                var result = '';
+                $.ajax({
+                    type: 'GET',
+                    url: 'http://ons.me/tools/dropload/json.php?page='+page+'&size='+size,
+                    dataType: 'json',
+                    success: function(data){
+                        var arrLen = data.length;
+                        if(arrLen > 0){
+                            for(var i=0; i<arrLen; i++){
+                                result
+                                    +='     <li class="bg_white ovh mb_5">'
+                                    + '        <article class="rel w_100 ovh line_h_18em">'
+                                    + '            <div class="ovh wp_94 mt_1em mb_05em pb_05em">'
+                                    + '                <img src="'+data[i].pic+'" class="dis_block fl wh_32em bg_title bor_rad_50" />'
+                                    + '                <h3 class="fl ovh w_80 ml_05em">'+data[i].title+'</h3>'
+                                    + '            </div>'
+                                    + '            <ol class="w_100 ovh bor_top_dashed bor_gray_ddd length2 list_h_3em">'
+                                    + '                <li class="fl text_al_c">订单价格：<em class="c_orange text_12em">待定</em></li>'
+                                    + '                <li class="fr text_al_c">上市日期：<em class="c_jd">'+data[i].date+'</em></li>'
+                                    + '            </ol>'
+                                    + '        </article>'
+                                    + '     </li>';
+                            }
+                            // 如果没有数据
+                        }else{
+                            // 数据锁定
+                            me.lock();
+                            // 无数据
+                            me.noData();
+                        }
+                        // 为了测试，延迟3秒加载
+                        setTimeout(function(){
+                            // 插入数据到页面，放到最后面
+                            $('.plug_DropLoad').children("ul").append(result);
+                            // 每次数据插入，必须重置
+                            me.resetload(); //重新初始化控件以及标识量
+                        },1000);
+                    },
+                    error: function(xhr, type){
+                        alert('Ajax error!');
+                        // 即使加载出错，也得重置
+                        me.resetload(); //重新初始化控件以及标识量
+                    }
+                });
+            }
+        });
+    });
+
+</script>
+
+<style type="text/css">
+    /*样式覆盖区域*/
+</style>
+
+<!--
+//注：template，ak-header，ak-footer，script，style等这些元素在页面中不能多个使用否则代码无效；
+路由页面的布局结构使用方法（必须用以下的结构使用）：
+<template>
+    <ak-header></ak-header>
+    <div></div>
+    <ak-footer></ak-footer>
+</template>
+<script>
+</script>
+<style>
+</style>
+-->

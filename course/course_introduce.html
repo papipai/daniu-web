@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="renderer" content="webkit" />
+    <meta name="full-screen" content="yes" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta name="format-detection" content="telphone=no, email=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+	<title>课程介绍</title>
+	<link rel="stylesheet" type="text/css" href="css/customstyle.css"/>
+	<script src="js/iScroll.js"></script>
+	<!--api.js和WXPay.js必须放在Mdate.js前面-->
+	<script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/custom/WXPay.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/Mdate.js"></script>
+		<style>
+			.header{
+				border: 0px red solid;
+				width: calc(100%-20px);
+				height: 6em;
+				display: flex;
+				flex-direction: column;
+				padding: 14px 10px 20px 10px;
+			}
+			.header .header_1{
+				width: 100%;
+			    flex: 2;
+			    display: flex;
+			    flex-direction: row;
+			    justify-content: space-between;
+			}
+			.header .header_2{
+				width: 100%;
+				flex: 1;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+			}
+			.header .header_1 .course_name{
+				font-size: 1.5em;
+				color: #1F1F1F;
+			}
+			.header .header_1 .course_price{
+				text-align: right;
+				font-size: 1.25em;
+				color: #F24724;
+			}
+			.header .header_2 .course_mode{
+				font-size: .875em;
+				color: #FF5D24;
+			}
+			.header .header_2 .course_learing{
+				text-align: right;
+				font-size: .875em;
+				color: #1F1F1F;
+			}
+			.course_details_img img{
+				width: 100%;
+				height: auto;
+			}
+			.btn{
+				width: 100%;
+				height: 3.14em;
+				flex-direction: row;
+				display: flex;
+				position: fixed;
+				bottom: -1px;
+				left: 0;
+				z-index: 1;
+			}
+			.btn .btn_audition{
+				flex: 2;
+				height: 100%;
+				background: #fff;
+				font-size: 1em;
+				color: #FF5D24;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			.btn .btn_buy{
+				flex: 3;
+				height: 100%;
+				background-image: linear-gradient(-90deg, #FF7D25 0%, #FF5D24 100%);
+				font-size: 1em;
+				color: #fff;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+		</style>
+		
+		<script>
+			var h_8em = document.getElementById("background");
+			h_8em.classList.remove("rel", "ovh", "bg_white2");
+			h_8em.classList.add("rel", "ovh", "bg_white");
+		</script>
+	</head>
+	<body>
+		<div class="header">
+			<div class="header_1">
+				<div class="course_name" id="course_name">
+					
+				</div>
+				<div class="course_price" id="course_price">
+					
+				</div>
+			</div>
+			<div class="header_2">
+				<div class="course_mode" id="course_mode">
+					
+				</div>
+				<div class="course_learing" id="course_learing">
+					
+				</div>
+			</div>
+		</div>
+		<div class="module list press mt_5">
+            <ul class="list_h_36em" id="course_hard_list">
+              <li class="bor_bottom bor_gray_ddd bg_white">
+                <dl class="ovh h_in">
+                  <dt class="fl ovh ml_3 mr_03em">综合难度&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>
+                  <dd class="fl ovh">
+                    <div class="line_h_in ovh">
+                      <span id="plug_ratyli2" data-rate="3" data-ratemax="4">
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      </span>
+                    </div>
+                  </dd>
+                </dl>
+              </li>
+              <li class="bor_bottom bor_gray_ddd bg_white">
+                <dl class="ovh h_in">
+                  <dt class="fl ovh ml_3 mr_03em">理论知识&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>
+                  <dd class="fl ovh">
+                    <div class="line_h_in ovh">
+                      <span id="plug_ratyli2" data-rate="3" data-ratemax="4">
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      </span>
+                    </div>
+                  </dd>
+                </dl>
+              </li>
+              <li class="bor_bottom bor_gray_ddd bg_white">
+                <dl class="ovh h_in">
+                  <dt class="fl ovh ml_3 mr_03em">实战操作&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>
+                  <dd class="fl ovh">
+                    <div class="line_h_in ovh">
+                      <span id="plug_ratyli2" data-rate="3" data-ratemax="4">
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      </span>
+                    </div>
+                  </dd>
+                </dl>
+              </li>
+              <li class="bor_bottom bor_gray_ddd bg_white">
+                <dl class="ovh h_in">
+                  <dt class="fl ovh ml_3 mr_03em">社交互动&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>
+                  <dd class="fl ovh">
+                    <div class="line_h_in ovh">
+                      <span id="plug_ratyli2" data-rate="3" data-ratemax="4">
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      	<span><i class="c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em"></i></span>
+                      </span>
+                    </div>
+                  </dd>
+                </dl>
+              </li>
+            </ul>
+        </div>
+        <div class="course_details_img" id="course_details_img">
+        	<img src="http://p8v8q53wo.bkt.clouddn.com/yujiashipin1_fengm1.jpg" />
+        </div>
+        <div class="btn">
+        	<div class="btn_audition" id="btn_audition">
+        		试听
+        	</div>
+        	<div class="btn_buy" id="dateSelectorOne">
+        		立即购买
+        	</div>
+        </div>
+	</body>
+	<script type="text/javascript">
+		var courseDetails = JSON.parse(window.localStorage.getItem("courseDetails"));
+		var chapterList = courseDetails.daniuCourseChapterList;
+		$("#course_details_img img").attr("src",courseDetails.detailsImg);
+		$("#course_name").text(courseDetails.courseTitle);
+		$("#course_price").text("￥"+courseDetails.coursePresentPrice);
+		$("#course_learing").text(courseDetails.numberOfLearners+"人学过");
+		if(courseDetails.courseMode == 1){
+			$("#course_mode").text("训练营课程模式");
+		}else if(courseDetails.courseMode == 2){
+			$("#course_mode").text("在线课程模式");
+		}
+		//课程难度
+		var hardList = courseDetails.daniuCourseHardDtlList;
+		//console.log("hardList="+hardList)
+		if (hardList != "") {
+			var dom = "";
+			$("#course_hard_list li").remove();//清空默认的星星
+			for(var i = 0; i < hardList.length; i++ ){
+				var itemVO = hardList[i];
+				var courseDimensionMsg = "";
+				if (itemVO.courseDimensionCode == "COMPREHENSIVE_DIFFICULTY") {
+					courseDimensionMsg = "综合难度";
+				}else if(itemVO.courseDimensionCode == "THEORETICAL_KNOWLEDGE"){
+					courseDimensionMsg = "理论知识";
+				}else if(itemVO.courseDimensionCode == "ACTUAL_OPERATION"){
+					courseDimensionMsg = "实战操作";
+				}else if(itemVO.courseDimensionCode == "SOCIAL_INTERACTION"){
+					courseDimensionMsg = "社交互动";
+				}
+				
+				dom += "<li class='bor_bottom bor_gray_ddd bg_white'>";
+				dom += "<dl class='ovh h_in'>";
+				dom += "<dt class='fl ovh ml_3 mr_03em'>"+courseDimensionMsg+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>";
+				dom += "<dd class='fl ovh'>";
+				dom += "<div class='line_h_in ovh'>";
+				dom += "<span id='plug_ratyli2' data-rate='3' data-ratemax='4'>";
+				//难度星级
+				if(itemVO.source <= 5 && itemVO.source >= 1){
+					for(var j = 0; j < itemVO.source; j++ ){//根据source大小设置黄色的星星数量
+					dom += "<span><i class='c_gray_ccc_fill text_18em line_h_2em icon-mn_xingxing_fill mr_05em'></i></span>";
+					}
+					for(var k = 0; k < 5-itemVO.source; k++){//设置灰色星星个数
+						dom += "<span><i class='c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em'></i></span>";
+					}
+				}
+				dom += "</span>";
+				dom += "</div>";
+				dom += "</dd>";
+				dom += "</dl>";
+				dom += "</li>";
+			}
+			
+			$("#course_hard_list").append(dom);
+		}
+		//开课时间(在Mdate.js中设置)
+		//var timeList = JSON.parse(window.localStorage.getItem("daniuCourseBeginTimeList"));
+		
+		
+		
+		//根据courseId查询用户是否购买了该课程，根据购买状态控制底部试听和立即购买按钮的现实与隐藏
+		/**
+		 * isFree 是否有试看章节
+		 * freeChapters 试看章节数量
+		 * j 用于循环控制状态的参数
+		 * isbuy 是否购买
+		 */
+		var isFree = "N";
+		var freeChapters = 0;
+		var j = 0;
+		var isbuy = "Y";
+		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+		
+		$.ajax({
+			async:false,
+			type:"post",
+			url:apiPath.userPath,
+			xhrFields:{withCredentials:true},
+			data:{
+				"method":user.get('learning'),
+				"courseId":window.localStorage.getItem("courseId"),
+				"userId":userInfo.userId
+			},
+			success:function(data){
+				console.log("data.code="+data.code)
+				if(data.code == 0 && getJsonLength(data) > 0){
+					isbuy = "Y";
+				}else if(data.code == 500){
+					alert("接口请求出错");
+				}else{
+					isbuy = "N";
+				}
+				window.localStorage.setItem("isbuy",isbuy);
+			}
+		});
+		console.log("isbuy="+isbuy)
+		if(isbuy == "Y"){
+			$(".btn").remove();
+		}
+		
+		//统计免费试看章节数量并以此判断是否可以试看
+		for(var i=0;i<chapterList.length;i++) {
+			if (chapterList[i].freeYn == "Y") {
+				freeChapters++;
+			}
+		}
+		if(freeChapters > 0){
+			isFree = "Y";
+			window.localStorage.setItem("isFree",isFree);
+			window.localStorage.setItem("freeChapters",freeChapters);
+		}
+			
+		
+		
+		//课程试听
+		$("#btn_audition").click(function(){
+			window.localStorage.setItem("courseChapterUrl",courseDetails.daniuCourseChapterList[0].courseChapterUrl);
+			window.localStorage.setItem("nums",1);
+			window.location.href = "play.html";
+		})
+		
+		
+	</script>
+	<script type="text/javascript">
+		/**
+		 * 课程支付购买
+		 * 训练营课程需要选定时间才能付款（在Mdate.js实现）
+		 * 录播课程直接付款
+		 * @param {Object} courseId
+		 * @param {Object} userId
+		 */
+		//判断购买的课程模式是否为训练营模式，训练营模式需选择开课时间再支付，在线模式直接支付
+//		if (courseDetails.courseMode == 2) {//因为点击事件与Mdata插件冲突，所以当课程为在线模式时修改立即购买按钮的id
+//			$(".btn_buy").attr("id","btn_buy");
+//		}
+//		$("#btn_buy").click(function(){
+//			//alert("在线模式直接购买");
+//			toPayInit(courseDetails.courseId,userInfo.userId);
+//		})
+		
+	</script>
+	<script type="text/javascript">
+		new Mdate("dateSelectorOne");
+	</script>
+</html>

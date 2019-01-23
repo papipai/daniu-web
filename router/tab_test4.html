@@ -1,0 +1,112 @@
+<div class="module list mt_5 ovh rel">
+    <ul class="plug_for4" id="course_list4">
+        <!--<li class="rel ovh bg_white pa_3 bor_bottom bor_gray_ddd touchstart" data-href="/page3">
+        	<div class="course_list" style="display: flex;">
+        		<div class="fl bg_gray_f5f border bor_gray_ddd wh_6em img_auto">
+	                {{html Image}}
+	            </div>
+	            <div class="fl list_h_18em ml_1em ovh w_65">
+	                <h3 class="text_12em">${Title}</h3>
+	                <p class="c_gray_999 text_hidden">{{html Content}}</p>
+	                
+	                <p class="c_gray_777">
+	                	<span class="present_Price" style="font-size: 1.29em;color: #F24724;">${present_Price}</span>
+	                    <del class="text_al_t"style="font-size: 0.86em;">${original_Price}</del>
+	                    <span style="font-size: 0.86em;float: right;">36w人学过</span>
+	                </p>
+	            </div>
+        	</div>
+            
+        </li>-->
+    </ul>
+</div>
+<script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	var course_list = [];
+	jQuery(document).ready(function(){
+		$.ajax({
+			type:"post",
+			url:apiPath.coursePath,
+			xhrFields:{withCredentials:true},
+			data:{
+				"method":course.get('allcourse'),
+				"courseLevel":"3"
+			},
+			success:function(data){
+				console.log("code="+data.code);
+				if(data.code == 0){
+					course_list = data.object;
+					reloadDom();
+				}else{
+					var dom = "<li style='color: #FF5D24;text-align: center;'>暂无相关课程</li>";
+					$("#course_list4").append(dom);
+				}
+				
+			},
+			error:function(data){
+				alert("获取课程失败，无法连接后台服务");
+			}
+		});
+	});
+	
+	/**
+	 * 渲染数据
+	 */
+	function reloadDom(){
+		var dom = "";
+		for(var i = 0; i < course_list.length; i++ ){
+			var itemVO = course_list[i];
+			var numberOfLearners = 0;
+			if (itemVO.numberOfLearners != undefined ) {
+				numberOfLearners = itemVO.numberOfLearners;
+			}
+			dom += "<li class='rel ovh bg_white pa_3 bor_bottom bor_gray_ddd touchstart' onclick='courseDetails("+itemVO.courseId+")'>";
+			dom += "<div class='course_list' style='display: flex;'>";
+			dom += "<div class='fl bg_gray_f5f border bor_gray_ddd wh_6em img_auto'><img src='"+itemVO.courseImg+"' /></div>";
+			dom += "<div class='fl list_h_18em ml_1em ovh w_65'>";
+			dom += "<h3 class='text_12em'>"+itemVO.courseTitle+"</h3>";
+			dom += "<p class='c_gray_999 text_hidden'>"+itemVO.courseDerc+"</p>";
+			dom += "<p class='c_gray_777'>";
+			dom += "<span class='present_Price' style='font-size: 1.29em;color: #F24724;'>￥"+itemVO.coursePresentPrice+"</span>&nbsp&nbsp";
+			dom += "<del class='text_al_t'style='font-size: 0.86em;'>"+itemVO.courseOriginalPrice+"元</del>";
+			dom += "<span style='font-size: 0.86em;float: right;'>"+numberOfLearners+"人学过</span>";
+			dom += "</p>";
+			dom += "</div>";
+			dom += "</div>";
+			dom += "</li>";
+		}
+		$("#course_list4").append(dom);
+	}
+	
+	function courseDetails(courseId){
+		window.localStorage.setItem("courseId",courseId);
+		window.location.href="http://127.0.0.1:8020/video-h5test/course_details.html";
+	}
+</script>
+<script>
+	/*-----------------------------------------------Andrew_Template 使用方法-------------------------------------------*/
+    var list_data = [
+        {
+            Image: "<img src=\"./img/tibet-1.jpg\">",
+            Title: "产品名称001",
+            present_Price: "￥49.9",
+            original_Price: "60元",
+            Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
+        },
+        {
+            Image: "<img src=\"./img/tibet-2.jpg\">",
+            Title: "产品名称002",
+            present_Price: "￥49.9",
+            original_Price: "60元",
+            Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
+        },
+        {
+            Image: "<img src=\"./img/tibet-3.jpg\">",
+            Title: "产品名称003",
+            present_Price: "￥49.9",
+            original_Price: "60元",
+            Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
+        }
+    ];
+    $(".plug_for4").Andrew_Template(list_data);
+</script>

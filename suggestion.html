@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui" />
+	    <meta name="apple-mobile-web-app-capable" content="yes" />
+	    <meta name="renderer" content="webkit" />
+	    <meta name="full-screen" content="yes" />
+	    <meta name="x5-fullscreen" content="true" />
+	    <meta name="format-detection" content="telphone=no, email=no" />
+	    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+	    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+		<title>大牛财商</title>
+		
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+		<style type="text/css">
+			body{
+				margin: 0;
+				padding: 0;
+				font-size: 14px;
+			}
+			.outer{
+				width: 100%;
+				height: auto;
+			}
+			.suggestion_div{
+				height: 22.57em;
+				margin: 0.72em 1.14em 0 1.14em;
+				border: 2px solid #D5D5D5;
+				border-radius: 4px;
+				overflow: hidden;
+				padding: 10px 15px;
+			}
+			.suggestion_div .suggestion_tip{
+				font-size: 14px;
+				color: #B1B1B1;
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				padding-top: 8px;
+			}
+			.suggestion_div .suggestion_text{
+				width: 100%;
+				height: 100%;
+				border: none;
+				resize: none;
+				text-align: left;
+				font-size: 1.143em;
+			}
+			.suggestion_div .blur{
+				font-size: 1em;
+				color: #B1B1B1;
+				text-align: center;
+			}
+			.text-right{
+				text-align: right;
+				position: relative;
+				bottom: 20px;
+			}
+			.tip_msg{
+				font-size: .857em;
+				color: #B1B1B1;
+				margin: 8px 16px 0 16px;
+			}
+			.submit{
+				height: 3.14em;
+				padding: 0 16px;
+			}
+			.submit .submit_btn{
+				height: 100%;
+				border-radius: 83px;
+				background-clip: padding-box, border-box;
+				background-origin: padding-box, border-box;
+				background-image: linear-gradient(135deg, #fff, #fff), linear-gradient(135deg, #FF964A, #FF5D24);
+				border: 2px transparent solid;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 1.143em;
+				color: #FF5D24;
+				margin-top: 41px;
+			}
+			
+			.buy_tip{
+				width: 7.79em;
+				height: 7.79em;
+				border-radius: 4px;
+				opacity: 0.7;
+				background: #000000;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+				/*display: flex;*/
+				display: none;
+				flex-direction: column;
+			}
+			.buy_tip .buy_tip_img{
+			    flex: 4;
+			    width: 100%;
+			    display: flex;
+			    justify-content: center;
+			    align-items: flex-end;
+			}
+			.buy_tip .buy_tip_img img{
+				width: 3.52em;
+				height: 2.54em;
+			}
+			.buy_tip .tip_word{
+			    flex: 3;
+			    width: 100%;
+			    display: flex;
+			    justify-content: center;
+			    align-items: center;
+			    font-size: 15px;
+			    color: #fff;			
+			}
+		</style>
+	</head>
+	<body>
+		<div class="outer">
+			<!--提示窗-->
+			<div class="buy_tip">
+				<div class="buy_tip_img">
+					<img src="img/gou.png">
+				</div>
+				<div class="tip_word">
+					提交成功
+				</div>
+			</div>
+			<div class="suggestion_div">
+				
+	            <textarea id="suggestion_text" class="suggestion_text" name="test" onfocus="removeTip()" onblur="addTip()" onkeyup="textAreaChange(this)" onkeydown="textAreaChange(this)" rows="5"></textarea>
+	            <div class="text-right">
+	                <em>0</em>/<span>200</span>
+	            </div>
+		    </div>
+			<div class="tip_msg">
+				您也可以在公众号回复“人工客服”联系我们
+			</div>
+			<div class="submit">
+				<div class="submit_btn" id="submit_btn">
+					提交反馈
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		//提交反馈
+		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+		$("#submit_btn").click(function(){
+			console.log("msg="+$("#suggestion_text").val());
+			var msg = $("#suggestion_text").val();
+			if($.trim(msg).length == 0 || $.trim(msg) == "请详细描述您的问题，以便我们提供更好的帮助"){
+				initTip();
+				alert("请输入反馈信息~");
+			}else{
+				$.ajax({
+					type:"post",
+					url:apiPath.userPath,
+					xhrFields:{withCredentials:true},
+					contentType:"application/x-www-form-urlencoded",
+					data:{
+						"method":user.get('addsuggestion'),
+						"suggestionMsg":msg,
+						"userId":userInfo.userId
+					},
+					success:function(data){
+						//console.log(data.code);
+						if(data.code == 0){
+							$(".buy_tip").css("display","flex");
+							setTimeout(function(){
+								$(".buy_tip").css("display","none");
+								window.location.href = "my.html";
+							},1000);
+						}else{
+							$(".buy_tip").css("display","flex");
+							$(".buy_tip .tip_word").text('提交失败');
+							$(".buy_tip_img img").attr('src','img/fail.png');
+							setTimeout(function(){
+								$(".buy_tip").css("display","none");
+							},1000);
+						}
+						
+					}
+				});
+			}
+		   	
+		});
+		
+		
+		window.onload=function(){
+			$(".suggestion_text").val("请详细描述您的问题，以便我们提供更好的帮助");
+			$(".suggestion_text").addClass("blur");
+		}
+		function removeTip(){
+			if($(".suggestion_text").val() == "请详细描述您的问题，以便我们提供更好的帮助"){
+				$(".suggestion_text").val("");
+				$(".suggestion_text").removeClass("blur")
+			}
+		}
+		function addTip(){
+			if ($(".suggestion_text").val() == "") {
+				$(".suggestion_text").val("请详细描述您的问题，以便我们提供更好的帮助");
+				$(".suggestion_text").addClass("blur");
+			}
+		}
+		function initTip(){
+			$(".suggestion_text").val("");
+			$(".suggestion_text").removeClass("blur")
+		}
+	</script>
+	<script type="text/javascript">
+    //显示限制输入字符method
+    function textAreaChange(obj){
+        var $this = $(obj);
+        var count_total = $this.next().children('span').text();
+        var count_input = $this.next().children('em');
+        var area_val = $this.val();
+        if(area_val.len()>count_total){
+            area_val = autoAddEllipsis(area_val,count_total);//根据字节截图内容
+            $this.val(area_val);
+            count_input.text(200);//显示可输入数
+        }else{
+            count_input.text(area_val.len());//显示可输入数
+        }
+    }
+    //得到字符串的字节长度
+    String.prototype.len = function(){
+    	var len = 0;    
+	    for (var i=0; i<this.length; i++) {    
+	    	len ++;//中英文都占一个字节
+	    }    
+	    return len;  
+        //return this.replace(/[^\x00-\xff]/g, "xx").length;//中文占2个字数，数字英文占1个
+    };
+    /*
+     * 处理过长的字符串，截取并添加省略号
+     * 注：半角长度为1，全角长度为2
+     * pStr:字符串
+     * pLen:截取长度
+     * return: 截取后的字符串
+     */
+    function autoAddEllipsis(pStr, pLen) {
+        var _ret = cutString(pStr, pLen);
+        var _cutFlag = _ret.cutflag;
+        var _cutStringn = _ret.cutstring;
+        return _cutStringn;
+    }
+    /*
+     * 取得指定长度的字符串
+     * 注：半角长度为1，全角长度为2
+     * pStr:字符串
+     * pLen:截取长度
+     * return: 截取后的字符串
+     */
+    function cutString(pStr, pLen) {
+        // 原字符串长度
+        var _strLen = pStr.length;
+        var _tmpCode;
+        var _cutString;
+        // 默认情况下，返回的字符串是原字符串的一部分
+        var _cutFlag = "1";
+        var _lenCount = 0;
+        var _ret = false;
+        if (_strLen <= pLen/2){_cutString = pStr;_ret = true;}
+        if (!_ret){
+            for (var i = 0; i < _strLen ; i++ ){
+                if (isFull(pStr.charAt(i))){_lenCount += 2;}
+                else {_lenCount += 1;}
+                if (_lenCount > pLen){_cutString = pStr.substring(0, i);_ret = true;break;}
+                else if(_lenCount == pLen){_cutString = pStr.substring(0, i + 1);_ret = true;break;}
+            }
+        }
+        if (!_ret){_cutString = pStr;_ret = true;}
+        if (_cutString.length == _strLen){_cutFlag = "0";}
+        return {"cutstring":_cutString, "cutflag":_cutFlag};
+    }
+    /*
+     * 判断是否为全角
+     *
+     * pChar:长度为1的字符串
+     * return: true:全角
+     *         false:半角
+     */
+    function isFull (pChar){
+        if((pChar.charCodeAt(0) > 128)){return true;}
+        else{return false;}
+    }
+</script>
+</html>

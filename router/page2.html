@@ -1,0 +1,422 @@
+<template>
+    <article class="plug_refresh">
+        <!----------Andrew_NavScroll---------->
+        <div class="course_learing">
+			<div class="learing_head">
+				<div class="border"></div>
+				<div class="word">正在学习</div>
+			</div>
+			<div class="item_cell_box" id="learingCourselist">
+				<div class="no_learing_course">
+					你暂时还没有学习的课程哦~
+				</div>
+				<!--<div class="courses">
+					<div class="kh_goods" onclick="bindgome(1)">
+						<div>
+							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
+						</div>
+						<div>
+							<div class="kh_maintitle">基金训练营</div>
+						</div>
+					</div>
+				</div>
+				<div class="courses">
+					<div class="kh_goods" onclick="bindgome(2)">
+						<div>
+							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
+						</div>
+						<div>
+							<div class="kh_maintitle">基金训练营</div>
+						</div>
+					</div>
+				</div>
+				<div class="courses">
+					<div class="kh_goods" onclick="bindgome(3)">
+						<div>
+							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
+						</div>
+						<div>
+							<div class="kh_maintitle">基金训练营</div>
+						</div>
+					</div>
+				</div>
+				<div class="courses">
+					<div class="kh_goods" onclick="bindgome(4)">
+						<div>
+							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
+						</div>
+						<div>
+							<div class="kh_maintitle">基金训练营</div>
+						</div>
+					</div>
+				</div>-->
+			</div>
+		</div>
+		<div class="course_recommend">
+			<div class="learing_head">
+				<div class="border"></div>
+				<div class="word">课程推荐</div>
+			</div>
+			<div class="item_cell_box" id="recommendCourselist">
+				<!--<div class="courses">
+					<div class="kh_goods" onclick="bindgome(1,0.01)">
+						<div>
+							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
+						</div>
+						<div>
+							<div class="kh_maintitle">基金训练营</div>
+						</div>
+					</div>
+				</div>
+				<div class="courses">
+					<div class="kh_goods" onclick="bindgome(1,0.01)">
+						<div>
+							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
+						</div>
+						<div>
+							<div class="kh_maintitle">基金训练营</div>
+						</div>
+					</div>
+				</div>
+				<div class="courses">
+					<div class="kh_goods" onclick="bindgome(1,0.01)">
+						<div>
+							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
+						</div>
+						<div>
+							<div class="kh_maintitle">基金训练营</div>
+						</div>
+					</div>
+				</div>
+				<div class="courses">
+					<div class="kh_goods" onclick="bindgome(1,0.01)">
+						<div>
+							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
+						</div>
+						<div>
+							<div class="kh_maintitle">基金训练营</div>
+						</div>
+					</div>
+				</div>-->
+			</div>
+		</div>
+        <!----------Andrew_PopupWin End---------->
+    </article>
+
+    <ak-footer data-display="true">
+    </ak-footer>
+</template>
+	<script type="text/javascript">
+		/**
+		 * 初始化页面数据
+		 */
+		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+		$(document).ready(function(){
+			queryData(apiPath.userPath,user.get('learning'),userInfo.userId,"#learingCourselist");//正在学习
+			queryData(apiPath.coursePath,course.get('recommend'),userInfo.userId,"#recommendCourselist");//课程推荐
+	    })
+		
+		/**
+		 * 查询数据
+		 * url 接口请求地址
+		 * method 接口请求参数
+		 * userId 用户ID
+		 * id 数据渲染的位置
+		 * course_list 数据集合
+		 */
+		var course_list = [];
+		function queryData(url,method,userId,id){
+			console.log("url="+url+" method="+method+" userId="+userId+" id="+id);
+			$.ajax({
+				type:"post",
+				url:url,
+				xhrFields:{withCredentials:true},
+				contentType:"application/x-www-form-urlencoded",
+				data:{
+					"method":method,
+					"userId":userId
+				},
+				success:function(data){
+					console.log("data="+data.object)
+					course_list = data.object;
+					if(data.code == 0 && getJsonLength(data) > 0){
+						reloadDom(id,course_list);
+					}else if(data.code == 500){
+						alert("接口请求出错");
+					}else{
+						console.log("id="+(id == "#learingCourselist"))
+						if(id == "#learingCourselist"){
+							$(".no_learing_course").css("display","flex");
+						}
+						
+					}
+				}
+			});
+		}
+		
+		/**
+		 * 渲染数据
+		 * id 数据渲染的位置
+		 * course_list 数据集合
+		 */
+		function reloadDom(id,course_list){
+			var dom = "";
+			for(var i = 0; i < course_list.length; i++ ){
+				var itemVO = course_list[i];
+				dom += "<div class='courses'>";
+				dom += "<div class='kh_goods' onclick='bindgome("+itemVO.courseId+")'>";
+				dom += "<div>";
+				dom += "<img class='kh_img' src='"+itemVO.courseImg+"'>";
+				dom += "</div>";
+				dom += "<div>";
+				dom += "<div class='kh_maintitle'>"+itemVO.courseTitle+"</div>";
+				dom += "</div>";
+				dom += "</div>";
+				dom += "</div>";
+			}
+			$(id).append(dom);
+			initCourseImgHeight();
+		}
+		
+		//点击课程到课程详情页
+		function bindgome(courseId){
+			window.localStorage.setItem("courseId",courseId)
+			window.location.href = "course_details.html";
+		}
+		
+		//根据设备屏幕尺寸初始化课程图片大小
+		function initCourseImgHeight(){
+    		var courseImgWidth = $(".kh_goods .kh_img").width();
+    		var courseImgHeight = courseImgWidth/(330/198);
+    		$(".kh_goods .kh_img").height(courseImgHeight)
+    	}
+	</script>   
+
+<script type="text/javascript">
+    //引入Andrew插件的区域
+
+    /*-----------------------------------------------Andrew_ReadMore 使用方法-------------------------------------------*/
+    $(function () {
+        $('.plug_readmore').Andrew_ReadMore({
+            speed: 500, //展开折叠毫秒速度
+            maxHeight: 200, //被隐藏更多的内容时的高度（px）
+            heightMargin: 16, //以像素为单位，以避免倒塌是比仅稍大块了maxHeight
+            moreLink: '<button class="bg_white c_gray_333 w_100 h_36em bor_top bor_gray_ddd">查看更多 <i class="icon-ln_xiangxia"></i></button>', //展开按钮HTML
+            lessLink: '<button class="bg_white c_gray_333 w_100 h_36em bor_top bor_gray_ddd">收起内容 <i class="icon-ln_xiangshang"></i></button>', //收起按钮HTML
+            startOpen: false, //不要立即截断，开始在全开位置
+            afterToggle: function(trigger, element, expanded) { //称为后，该块被折叠或展开
+                if(!expanded) {
+                    $('main').animate({
+                        scrollTop: element.offset().top
+                    }, {duration: 500 } );
+                }
+            },
+            beforeToggle: function(trigger, element, expanded) { //称为或多或少链接被点击后，但之前的块被折叠或展开
+                if(!expanded) {
+                }
+            }
+        });
+    });
+
+    /*-----------------------------------------------Andrew_Vticker 使用方法-------------------------------------------*/
+    $(function(){
+        $('.plug_vticker').Andrew_Vticker({
+            showItems : 4, //显示多少行
+            pause : 3000, //滚动间隔，单位为毫秒
+            speed : 500, //每次滚动持续时间，单位为毫秒
+            mousePause : false, //鼠标悬停是否停止滚动
+            direction : "up", //滚动方向，可选 ‘up’ / ‘down’
+            isPaused: false, //默认是否暂停
+            height: 0 //容器高度，默认为 0，即根据 showItems 个数自动计算
+        });
+    });
+
+    /*-----------------------------------------------Andrew_TypeIt 使用方法-------------------------------------------*/
+    $(function(){
+        $(".plug_TypeIt").Andrew_TypeIt({
+            strings: [
+                "欢迎使用AKjs移动端前端UI框架。",
+                "AKjs移动端插件是一个基于JQuery的一套构建用户界面的前端框架插件里包含着移动端常用的功能效果以及简单明亮的CSS样式库对IOS和安卓系统的微站兼容性很完美。"
+            ],
+            typeSpeed: 10, //打字速度
+            backDelay: 50, //删除文字速度
+            contentType: 'html', // html or text
+            loop: true, //是否重复循环 （true,false）
+            callback: function(fun){ //结束后的回调
+                //console.log("已结束")
+            },
+            preString: function(array) {
+                //console.log("准备就绪")
+            },
+            onString: function(array) {
+                //console.log("进行中")
+            }
+        });
+    });
+
+    /*-----------------------------------------------Andrew_Template 使用方法-------------------------------------------*/
+    var list_data = [
+        {
+            Image: "<img src=\"./img/tibet-1.jpg\">",
+            Title: "产品名称001",
+            Price: "￥400.00",
+            Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
+        },
+        {
+            Image: "<img src=\"./img/tibet-2.jpg\">",
+            Title: "产品名称002",
+            Price: "￥500.00",
+            Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
+        },
+        {
+            Image: "<img src=\"./img/tibet-3.jpg\">",
+            Title: "产品名称003",
+            Price: "￥250.00",
+            Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
+        }
+    ];
+    $(".plug_for").Andrew_Template(list_data);
+
+    /*-----------------------------------------------Andrew_Lazyload 使用方法-------------------------------------------*/
+    $(function() {
+        $("img").Andrew_Lazyload({ //对所有的图片懒加载
+            scroll: $("main"), //滚动区域的容器
+            scrollTop: 100, //设置初始化滚动条位置（当滚动条滚动到当前设置的位置时所有效果将进行初始化）
+            Img_Effect: "fadeIn", //图片加载动画效果
+            Img_LoadStyle: "loading01", //图片加载之前显示的Loading效果 （loading01~05）注：Img_Effect，Img_LoadStyle，Img_Error 三个参数是图片懒加载专用参数；
+            Img_Error: "./img/noimage.png", //图片加载失败时默认显示图片URL
+            Callback: function(ele) { //初始化回调入口
+                //console.log(ele);
+            },
+            Scrollback: function(ele,scroll) { //页面滚动后的回调
+                //console.log(ele);
+            }
+        });
+    });
+
+    /*-----------------------------------------------Andrew_Popupwin (分享功能) 使用方法-------------------------------------------*/
+    $(function(){
+        setTimeout(function() { //为了兼容所有的jQuery版本header元素里面的任何绑定事件都需要延迟执行
+            $("#plug_Share").bind("click", function (c) {
+                Andrew_Popupwin({
+                    dom: "#plug_ShareWin", //弹窗内容的布局
+                    position: "bottom", //位置类型(top，bottom，left，right，middle)
+                    effectIn: "slideInUp ani_05s", //弹窗显示效果 (css动画库：andrew.animate.css)
+                    effectOut: "slideOutDown ani_05s", //弹窗消失效果 (css动画库：andrew.animate.css)
+                    maskPosition:"4", //Mask的z-index数值
+                    closeBtn: ".ak-mask", //关闭弹窗按钮的Class名
+                    OneButton: c.currentTarget, //点击按钮和关闭按钮通用时需要加该属性
+                    toggleIcon: "", //是否点击后替换图标功能，加图标的Class名 （建议启用OneButton的参数后使用）
+                    callback :function (ele) { //通过回调获取弹窗显示后的以上参数
+                        console.log($(ele[0].dom)); //获取当前的弹窗元素
+                    }
+                });
+            });
+        },100);
+    });
+
+    /*-----------------------------------------------Andrew_Marquee 使用方法-------------------------------------------*/
+    $(function(){
+        $('.plug_marquee').Andrew_Marquee({
+            direction: 'up', //滚动方向设置 （可选 left / right / up / down）
+            loop: -1, //是否重复循环 （0 = 不重复，-1 = 重复）
+            scrolldelay: 0, //每次重复之前的延迟
+            scrollamount: 10, //滚动速度 （数字越大速度越快）
+            circular: true, //无缝滚动，如果为 false，则和 marquee 效果一样
+            drag: true, //鼠标拖动 (true / false)
+            runshort: true, //内容不足是否滚动 (true / false)
+            hoverstop: true, //鼠标悬停暂停 (true / false)
+            inverthover: false, //反向，即默认不滚动，鼠标悬停滚动 (true / false)
+            xml: false //加载 xml 文件 (false 或 xml:'text.xml')
+        });
+    });
+
+    /*-----------------------------------------------Andrew_QRcode 使用方法-------------------------------------------*/
+    $(function(){
+        $(".plug_qrcode").Andrew_QRcode({
+            width: 200, //宽度
+            height:200, //高度
+            background: "#ffffff", //背景色
+            foreground: "#000000", //前景色
+            text: "http://m.baidu.com" //任意内容
+        });
+    });
+
+    /*-----------------------------------------------Andrew_NavScroll 使用方法-------------------------------------------*/
+    $(function() {
+        $(".plug_tabs_find").Andrew_NavScroll({
+            line_style: "dis_block abs bor_top2 bor_title",
+            active_corlor: "c_title",
+            ClickCallback: function(ele,index) { //回调获取点击后的元素和元素的index
+                console.log(ele);
+            }
+        });
+    });
+
+    /*-----------------------------------------------Andrew_Circliful 使用方法-------------------------------------------*/
+    $(function(){
+        $('.plug_circliful').Andrew_Circliful({
+            animationStep: 0.2 //动画毫秒设置
+        });
+        /*
+        data-dimension === 整个圆形的宽高
+        data-text === 圆形里的大标题
+        data-info === 圆形里的小标题
+        data-width="30" === 当前参数进度条边框宽度设置
+        data-prog_color === 当前参数进度条边框颜色设置
+        data-font_size  === 圆形里的大标题文字大小（px）
+        data-percent  === 当前参数设置（百分比）
+        data-font_color === 大标题和小标题文字颜色设置
+        data-bg_color === 整个圆形的边框颜色
+        data-fill_color === 里面填充颜色设置
+        data-spacing_color === 整个圆形的边框颜色
+        data-type="spacing" === 饼图类型设置 （half, spacing）；空值代表默认类型
+        */
+    });
+
+    /*-----------------------------------------------Andrew_DropLoad （页面刷新） 使用方法-------------------------------------------*/
+    $(function(){
+        $('.plug_refresh').Andrew_DropLoad({
+            scrollArea : window, // 滑动区域
+            domUp : { // 上方DOM
+                domRefresh : '↓ 下拉刷新',
+                domUpdate  : '↑ 释放更新',
+                domLoad    : '刷新中...'
+            },
+            distance : 20,// 拉动距离
+            loadUpFn : function(me){ //上方function
+                setTimeout(function(){
+                    //刷新后需要执行的代码
+
+                    $(".plug_tabs_find section").css({
+                        opacity: 0
+                    }).animate({
+                        opacity: 1
+                    },1000);
+
+                    me.resetload(); //重新初始化控件以及标识量
+                    me.unlock(); //解除锁定允许数据继续加载
+                    me.noData(false); //是否有数据（false代表有数据）
+                },1000);
+            }
+        });
+    });
+</script>
+
+<style type="text/css">
+    /*样式覆盖区域*/
+</style>
+
+<!--
+//注：template，ak-header，ak-footer，script，style等这些元素在页面中不能多个使用否则代码无效；
+路由页面的布局结构使用方法（必须用以下的结构使用）：
+<template>
+    <ak-header></ak-header>
+    <div></div>
+    <ak-footer></ak-footer>
+</template>
+<script>
+</script>
+<style>
+</style>
+-->

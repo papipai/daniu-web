@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="renderer" content="webkit" />
+    <meta name="full-screen" content="yes" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta name="format-detection" content="telphone=no, email=no" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+		<title>课程目录</title>
+		<style>
+			.course_chapter{
+				/*border: 1px red solid;*/
+				height: auto;
+				display: flex;
+				flex-direction: column;
+			}
+			.course_chapter .chapter_part{
+				/*border: 1px black solid;*/
+				border-radius: 4px;
+				margin-bottom: 10px;
+				height: 3.57em;
+				display: flex;
+				background-color: #fff;
+				-webkit-justify-content: center;
+				-webkit-align-items: center;
+			}
+			.course_chapter .chapter_part .chapter_node{
+				/*border: 1px black solid;*/
+				height: 100%;
+				flex: 1;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				font-size: 13px;
+				color: #646464;
+			}
+			.course_chapter .chapter_part .chapter_title{
+				/*border: 1px black solid;*/
+				height: 100%;
+				flex: 3;
+				display: flex;
+				align-items: center;
+				padding-left: 10px;
+				font-size: 13px;
+				color: #1F1F1F;
+			}
+			.course_chapter .chapter_part .chapter_status{
+				/*border: 1px black solid;*/
+				height: 100%;
+				flex: 1;
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+				padding-right: 0.714em;
+			}
+			.course_chapter .chapter_part .chapter_status .free_learing {
+				border: 1px #FF5D24 solid;
+				border-radius: 2px;
+				font-size: 12px;
+				color: #FF5D24;
+				text-align: center;
+				padding: 0 5px;
+			}
+			.course_chapter .chapter_part .chapter_status img{
+				/*border: 1px black solid;*/
+				height: 1.5em;
+				width: 1.5em;
+			}
+			
+			.ovh{
+				/*margin-bottom: 0.1px!important;*/
+			}
+		</style>
+		<script>
+			var h_8em = document.getElementById("background");
+			h_8em.classList.remove("rel", "ovh", "bg_white");
+			h_8em.classList.add("rel", "ovh", "bg_white2");
+		</script>
+	</head>
+	<body>
+		<!-- 提示窗-->
+		<!--<div class="tip">
+			<div class="tip_img">
+				<img src="img/tip.png"/>
+			</div>
+			<div class="tip_word">
+				加入学习后才能观看哦
+			</div>
+		</div>
+		<div class="buy_tip">
+			<div class="buy_tip_img">
+				<img src="img/gou.png">
+			</div>
+			<div class="tip_word">
+				购买成功
+			</div>
+		</div>-->	
+		
+		<!-- 课程章节列表-->
+		<div class="course_chapter" id="course_chapter">
+			<!--<div class="chapter_part">
+				<div class="chapter_node">
+					第一课
+				</div>
+				<div style="height: 20px;border-left: 1px #b4b4b4 solid;"></div>
+				<div class="chapter_title">
+					基金是什么?
+				</div>
+				<div class="chapter_status">
+					<div class="free_learing">
+						免费试学
+					</div>
+				</div>
+			</div>
+			<div class="chapter_part">
+				<div class="chapter_node">
+					第一课
+				</div>
+				<div style="height: 20px;border-left: 1px #b4b4b4 solid;"></div>
+				<div class="chapter_title">
+					基金是什么?
+				</div>
+				<div class="chapter_status">
+					<img src="http://p8v8q53wo.bkt.clouddn.com/shuo_mulu.png"/>
+				</div>
+			</div>
+			<div class="chapter_part">
+				<div class="chapter_node">
+					第一课
+				</div>
+				<div style="height: 20px;border-left: 1px #b4b4b4 solid;"></div>
+				<div class="chapter_title">
+					基金是什么?
+				</div>
+				<div class="chapter_status">
+					<img src="http://p8v8q53wo.bkt.clouddn.com/shuo_mulu.png"/>
+				</div>
+			</div>
+			<div class="chapter_part">
+				<div class="chapter_node">
+					第一课
+				</div>
+				<div style="height: 20px;border-left: 1px #b4b4b4 solid;"></div>
+				<div class="chapter_title">
+					基金是什么?
+				</div>
+				<div class="chapter_status">
+					<img src="http://p8v8q53wo.bkt.clouddn.com/shuo_mulu.png"/>
+				</div>
+			</div>
+			<div class="chapter_part">
+				<div class="chapter_node">
+					第一课
+				</div>
+				<div style="height: 20px;border-left: 1px #b4b4b4 solid;"></div>
+				<div class="chapter_title">
+					基金是什么?
+				</div>
+				<div class="chapter_status">
+					<img src="http://p8v8q53wo.bkt.clouddn.com/shuo_mulu.png"/>
+				</div>
+			</div>-->
+		</div>
+	</body>
+	<script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/custom/tip.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		//课程章节
+		var courseDetails = JSON.parse(window.localStorage.getItem("courseDetails"));
+		var chapterList = courseDetails.daniuCourseChapterList;
+		var isbuy = window.localStorage.getItem("isbuy");
+		var isFree = window.localStorage.getItem("isFree");
+		var freeChapters = window.localStorage.getItem("freeChapters");
+//		var j = 0;
+		
+		if (chapterList != "") {
+			//hasFreeChapter();
+			reloadDom();
+		}
+		
+		/**
+		 * isFree 是否有试看章节
+		 * freeChapters 试看章节数量
+		 * j 用于循环控制状态的参数
+		 */
+		
+//		function hasFreeChapter(){
+//			for(var i=0;i<chapterList.length;i++) {
+//				if (chapterList[i].freeYn == "Y") {
+//					freeChapters++;
+//				}
+//			}
+//			if(freeChapters > 0){
+//				isFree = "Y";
+//				window.localStorage.setItem("isFree",isFree);
+//				window.localStorage.setItem("freeChapters",freeChapters);
+//			}
+//			
+//		}
+		
+				
+		//渲染数据
+		function reloadDom(){
+			var dom = "";
+			for(var i = 0; i < chapterList.length; i++ ){
+				var itemVO = chapterList[i];
+				dom += "<div class='chapter_part' onclick='tocoursePlay(\""+itemVO.courseChapterUrl+"\","+(i+1)+")'>";
+				dom += "<div class='chapter_node'>第"+(i+1)+"课</div>";
+				dom += "<div style='height: 20px;border-left: 1px #b4b4b4 solid;'></div>";
+				dom += "<div class='chapter_title'>"+itemVO.courseChapterTitle+"</div>";
+				dom += "<div class='chapter_status'>";
+				
+				//此处需判断当前用户是否购买该课程
+				if (isbuy == "Y") {
+					$(".already-buy").remove();
+				}else{
+					if(isFree == "Y"){
+						if(j < freeChapters){
+							dom += "<div class='free_learing already-buy'>免费试学</div>";
+							j++;
+							if (j == freeChapters) {
+								isFree = "N";
+							}
+						}
+					}else{
+						dom += "<img class='already-buy' src='http://p8v8q53wo.bkt.clouddn.com/shuo_mulu.png'/>";
+					}
+				}
+				
+				dom += "</div>";
+				dom += "</div>";
+			}
+			$("#course_chapter").append(dom);
+		}
+		/**
+		 * 点击某个章节到课程播放界面,并根据课程购买状态和试看章节数量，控制tip提示窗隐藏和显示，并给出友好提示
+		 * 
+		 */
+		function tocoursePlay(courseChapterUrl,nums){
+			isFree = window.localStorage.getItem("isFree");//因为reloadDom()方法里面把isFree改为了"N",所以此处要再重新从localstorage中获取一下
+			if(isbuy == "Y"){
+				console.log("isbuy="+nums);
+				this.toUrl(courseChapterUrl,nums);
+			}else{
+				if(isFree == "Y"){
+					console.log("nums="+nums);
+					if (chapterList[nums-1].freeYn == "Y") {
+						this.toUrl(courseChapterUrl,nums);
+					}else{
+						showTip();//方法在custom/tip内实现控制course_detaisl页面的tip样式
+					}
+				}
+			}
+		}
+		function toUrl(courseChapterUrl,nums){
+			window.localStorage.setItem("courseChapterUrl",courseChapterUrl);
+			window.localStorage.setItem("nums",nums);
+			window.location.href = "play.html";
+		}
+	</script>
+	
+</html>
