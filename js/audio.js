@@ -10,7 +10,13 @@ document.addEventListener('DOMContentLoaded', function () {
 function initAudioEvent() {
     var audio = document.getElementsByTagName('audio')[0];
     var audioPlayer = document.getElementById('audioPlayer');
-
+	
+	//初始化音频总时长
+	audio.load();
+	audio.oncanplay = function () {
+		$("#audioTotalTime").text(formatSeconds(audio.duration));
+	}
+	
     // 点击播放/暂停图片时，控制音乐的播放与暂停
     audioPlayer.addEventListener('click', function () {
         // 监听音频播放时间并更新进度条
