@@ -1,23 +1,107 @@
 <template>
+	<!--<script src="js/config/browser.js" type="text/javascript" charset="utf-8"></script>-->
+	<script type="text/javascript">
+	var course_list = [];
+	$.ajax({
+		type:"post",
+		url:apiPath.coursePath,
+		xhrFields:{withCredentials:true},
+		data:{
+			"method":course.get("banner")
+		},
+		success:function(data){
+			//console.log(data.code)
+			if(data.code == 0 && getJsonLength(data) > 0){
+				course_list = data.object;
+				reloadDom();
+			}
+			
+		},
+		error:function(data){
+			alert("无法连接后台服务");
+		}
+	});
+	
+	/**
+	 * 渲染banner数据
+	 */
+	function reloadDom(){
+		$("#banner_list ul,ol").remove();//移除默认的轮播图
+		var dom = "<ul>";
+		for(var i = 0; i < course_list.length; i++ ){
+			var itemVO = course_list[i];
+			
+			dom += "<li onclick='bannerDetails("+itemVO.courseId+")'>";
+			dom += "<img src='"+itemVO.bannerUrl+"'>";
+			dom += "</li>";
+			
+		}
+		dom += "</ul>";
+		dom += "<ol>";
+		for(var i = 0; i < course_list.length; i++ ){
+			if(i == 0){
+				dom += "<li data-index='"+(i+1)+"' class='fl wh_08em bg_gray_333 border bor_white mr_05em bor_rad_50 pointer bg_title'></li>";
+			}else{
+				dom += "<li data-index='"+(i+1)+"' class='fl wh_08em bg_gray_333 border bor_white mr_05em bor_rad_50 pointer'></li>";
+			}
+			
+		}
+		dom += "</ol>";
+		$("#banner_list").append(dom);
+	}
+		
+	var course_type_list = [];
+	$.ajax({
+		type:"post",
+		url:apiPath.coursePath,
+		xhrFields:{withCredentials:true},
+		data:{
+			"method":course.get("courseList")
+		},
+		success:function(data){
+			if(data.code == 0 && getJsonLength(data) > 0){
+				course_type_list = data.object;
+				reloadCourseTypeDom();
+			}
+			
+		},
+		error:function(data){
+			alert("无法连接后台服务");
+		}
+	});
+	/**
+	 * 渲染课程类型数据
+	 */
+	function reloadCourseTypeDom(){
+		var dom = "";
+		for (var i = 0; i < course_type_list.length; i++ ) {
+			var itemVO = course_type_list[i];
+			dom += "<li class='fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart'>"+itemVO.courseTypeName+"</li>";
+		}
+
+	$("#course_type").append(dom);
+}
+</script>
     <article class="plug_refresh">
+
         <!----------Andrew_Slider---------->
         <div class="plug_slider w_100 h_12_em ovh rel" id="banner_list">
-            <ul>
+            <!--<ul>
                 <li><img src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png"></li>
                 <li><img src="http://p8v8q53wo.bkt.clouddn.com/yujiashipin1_fengmian2.jpg"></li>
                 <li><img src="https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=1406967693,1349760940&fm=85&app=63&f=JPEG?w=121&h=75&s=8172EC3346CBF7BDFE2459E20300E022"></li>
-            </ul>
+            </ul>-->
         </div>
 
         <!----------Andrew_Tabs---------->
         <div class="plug_tabs mt_5">
-            <nav class="ovh press bg_white" style="padding: 1em 1em 0 1em;border-bottom: 1px #D8D8D8 solid;">
-                <ul class="ovh list_h_3em nav_line_c length4">
-                    <li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">全部</li>
+            <nav class="ovh press bg_white course_type" style="padding: 1em 1em 0 1em;border-bottom: 1px #D8D8D8 solid;">
+                <ul class="ovh list_h_3em nav_line_c length4" id="course_type">
+                    <!--<li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">全部</li>
                     <li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">入门</li>
                     <li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">初级</li>
                     <li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">中级</li>
-					<li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">高级</li>
+					<li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">高级</li>-->
                 </ul>
             </nav>
             <article class="rel ovh h_8em">
@@ -57,49 +141,12 @@
 </template>
 
 <script type="text/javascript">
-	var course_list = [];
-	$.ajax({
-		type:"post",
-		url:"http://www.suibianshuo.com.cn/daniu-school/course/getCourse.do",
-		xhrFields:{withCredentials:true},
-		data:{
-			"method":"daniu.school.course.banner.list"
-		},
-		success:function(data){
-			//console.log(data.code)
-			if(data.code == 0 && getJsonLength(data) > 0){
-				course_list = data.object;
-				reloadDom();
-			}
-			
-		},
-		error:function(data){
-			alert("无法连接后台服务");
-		}
-	});
+
 	
-	/**
-	 * 渲染数据
-	 */
-	function reloadDom(){
-		$("#banner_list ul,ol").remove();//移除默认的轮播图
-		var dom = "<ul>";
-		for(var i = 0; i < course_list.length; i++ ){
-			var itemVO = course_list[i];
-			
-			dom += "<li onclick='bannerDetails("+itemVO.courseId+")'>";
-			dom += "<img src='"+itemVO.bannerUrl+"'>";
-			dom += "</li>";
-			
-		}
-		dom += "</ul>";
-		dom += "<ol>";
-		for(var i = 0; i < course_list.length; i++ ){
-			dom += "<li data-index='"+(i+1)+"' class='fl wh_08em bg_gray_333 border bor_white mr_05em bor_rad_50 pointer'></li>";
-		}
-		dom += "</ol>";
-		$("#banner_list").append(dom);
-	}
+
+	
+
+	
 	
 	/**
 	 * 点击banner到课程详情

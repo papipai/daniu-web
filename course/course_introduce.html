@@ -226,20 +226,10 @@
 			$("#course_hard_list li").remove();//清空默认的星星
 			for(var i = 0; i < hardList.length; i++ ){
 				var itemVO = hardList[i];
-				var courseDimensionMsg = "";
-				if (itemVO.courseDimensionCode == "COMPREHENSIVE_DIFFICULTY") {
-					courseDimensionMsg = "综合难度";
-				}else if(itemVO.courseDimensionCode == "THEORETICAL_KNOWLEDGE"){
-					courseDimensionMsg = "理论知识";
-				}else if(itemVO.courseDimensionCode == "ACTUAL_OPERATION"){
-					courseDimensionMsg = "实战操作";
-				}else if(itemVO.courseDimensionCode == "SOCIAL_INTERACTION"){
-					courseDimensionMsg = "社交互动";
-				}
 				
 				dom += "<li class='bor_bottom bor_gray_ddd bg_white'>";
 				dom += "<dl class='ovh h_in'>";
-				dom += "<dt class='fl ovh ml_3 mr_03em'>"+courseDimensionMsg+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>";
+				dom += "<dt class='fl ovh ml_3 mr_03em'>"+itemVO.courseDimensionDerc+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>";
 				dom += "<dd class='fl ovh'>";
 				dom += "<div class='line_h_in ovh'>";
 				dom += "<span id='plug_ratyli2' data-rate='3' data-ratemax='4'>";

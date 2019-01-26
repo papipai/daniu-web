@@ -16,7 +16,8 @@ var course = new Map([
 	['allcourse', 'daniu.school.course.allcourse'], 
 	['details', 'daniu.school.course.details'],
 	['recommend', 'daniu.school.course.recommend'],
-	['banner', 'daniu.school.course.banner.list']
+	['banner', 'daniu.school.course.banner.list'],
+	['courseList', 'daniu.school.course.type.list']
 ])
 //用户
 var user = new Map([

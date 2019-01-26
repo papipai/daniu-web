@@ -85,9 +85,16 @@ body,h1,h2,h3,h4,h5,h6,p,ul,li,ol,dl,dt,dd,th,td {
 	line-height: inherit
 }
 
-ul,ol,li {
+ul,ol {
 	padding: 0;
-	list-style: none
+	list-style: none;
+}
+.course_type ul{
+	display: flex;
+	flex-direction: row;
+}
+#course_type li{
+	flex: 1;
 }
 
 em,strong,i,b,u,small,time,cite,dfn,address {
