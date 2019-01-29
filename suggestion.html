@@ -174,7 +174,8 @@
 							$(".buy_tip").css("display","flex");
 							setTimeout(function(){
 								$(".buy_tip").css("display","none");
-								window.location.href = "my.html";
+								window.sessionStorage.setItem("point","point");
+								window.history.back(-1); //返回上一页
 							},1000);
 						}else{
 							$(".buy_tip").css("display","flex");

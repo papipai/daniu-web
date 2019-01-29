@@ -67,9 +67,10 @@
 	}
 	
 	
-	var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+	
 	//用户信息
 	$(document).ready(function(){
+		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
 		console.log("userId="+userInfo.userId);
 		$.ajax({
 			type:"post",

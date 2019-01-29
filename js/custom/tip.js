@@ -1,8 +1,9 @@
 
-function showTip(){
+function showTip(id){
+	console.log("id="+id);
 	console.log("tipsss.."+$(".tip_word").text());
-	$(".tip").css("display","flex");
+	$(id).css("display","flex");
 	setTimeout(function(){
-			$(".tip").css("display","none");
+			$(id).css("display","none");
 		},2000);
 }

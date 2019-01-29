@@ -1,7 +1,11 @@
 /**
  * 调起微信支付
+ * courseId 课程id
+ * userId 用户id
+ * pay_platform 购买渠道（1.公众号，2.小程序）
  */
 //初始化下单信息
+var pay_platform = 1;//公众号为1
 function toPayInit(courseId,userId){
 	var that = this;
 	$.ajax({
@@ -12,7 +16,8 @@ function toPayInit(courseId,userId){
 		data:{
 			"method":wechat.get('coursePay'),
 			"courseId":courseId,
-			"userId":userId
+			"userId":userId,
+			"pay_platform":pay_platform
 		},
 		success : function(data) {// 服务器响应成功时的处理函数
 			//alert("result="+data.object.result+" prepay_id="+data.object.prepay_id);
@@ -68,13 +73,15 @@ function onBridgeReady(appid,paySign,prepay_id,nonceStr,timestamp,courseId,userI
 						"detail":detail,
 						"body":body,
 						"out_trade_no":out_trade_no,
-						"money":money
+						"money":money,
+						"pay_platform":pay_platform
 					},
 					success : function(data) { // 服务器响应成功时的处理函数
 						//alert("支付是否成功="+data.code);
 						if(data.code == 0){//插入支付记录
 							window.localStorage.setItem("courseId",courseId);
-							alert('购买成功，开启学霸模式~');
+							showTip(".buy_tip");
+							//alert('购买成功，开启学霸模式~');
 						}
 					}
 				}); 

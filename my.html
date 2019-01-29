@@ -174,10 +174,12 @@
 <script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/config/browser.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
-		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+		
 		//用户信息
 		$(document).ready(function(){
-			alert("userId="+userInfo.userId);
+			//alert("I comeing.....");
+			var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+			//alert("userInfo="+userInfo.userId);
 			$.ajax({
 				type:"post",
 				url:apiPath.userPath,

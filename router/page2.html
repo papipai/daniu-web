@@ -7,7 +7,7 @@
 				<div class="border"></div>
 				<div class="word">正在学习</div>
 			</div>
-			<div class="item_cell_box" id="learingCourselist">
+			<div class="item_cell_box nocourse" id="learingCourselist">
 				<div class="no_learing_course">
 					你暂时还没有学习的课程哦~
 				</div>
@@ -111,8 +111,9 @@
 		/**
 		 * 初始化页面数据
 		 */
-		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+		
 		$(document).ready(function(){
+			var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
 			queryData(apiPath.userPath,user.get('learning'),userInfo.userId,"#learingCourselist");//正在学习
 			queryData(apiPath.coursePath,course.get('recommend'),userInfo.userId,"#recommendCourselist");//课程推荐
 	    })
@@ -141,6 +142,11 @@
 					console.log("data="+data.object)
 					course_list = data.object;
 					if(data.code == 0 && getJsonLength(data) > 0){
+						if(id == "#learingCourselist"){
+							if ($("#learingCourselist").hasClass("nocourse")) {
+								$("#learingCourselist").removeClass("nocourse");
+							}
+						}
 						reloadDom(id,course_list);
 					}else if(data.code == 500){
 						alert("接口请求出错");
@@ -148,6 +154,7 @@
 						console.log("id="+(id == "#learingCourselist"))
 						if(id == "#learingCourselist"){
 							$(".no_learing_course").css("display","flex");
+							$("#learingCourselist").addClass("nocourse");
 						}
 						
 					}

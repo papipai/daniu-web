@@ -48,38 +48,39 @@ $(document).ready(function(){
 	/**
 	 * point 防止多次请求后台
 	 */
-	//var point = sessionStorage.getItem("point");
-	var point = window.localStorage.getItem("point");
+	var point = window.sessionStorage.getItem("point");
+	//var point = window.localStorage.getItem("point");
 	console.log("point="+point);
   if (point == null) {
 		 	//sessionStorage.setItem("point","point");
-		 	window.localStorage.setItem("point","point");
+		 	window.sessionStorage.setItem("point","point");
 		 	if (code != null && code != "null") {
-			sendCode();
-		}
+		 			console.log("code="+code);
+					//sendCode();
+			}
 	}
 		
 	function sendCode(){
-		if (code != null && code != "null") {
-			 $.ajax({
-				type:"post",
-				url:apiPath.userPath,
-				xhrFields:{withCredentials:true},
-				data:{
-					"method":"daniu.school.user.info.add",
-					"code":code,
-					"source":source
-				},
-				success:function(data){//用户登录成功后吧用户信息保存到localstorage中
-					//console.log(data.code)
-					if(data.code == 0){
-						window.localStorage.setItem("userInfo",JSON.stringify(data.object));
-					}else{
-						alert("登录失败");
-					}
+		console.log("进入sendCode");
+		 $.ajax({
+			type:"post",
+			url:apiPath.userPath,
+			xhrFields:{withCredentials:true},
+			data:{
+				"method":user.get("adduser"),
+				"code":code,
+				"source":source
+			},
+			success:function(data){//用户登录成功后吧用户信息保存到localstorage中
+				console.log("data="+data);
+				console.log("data.object="+JSON.stringify(data.object));
+				if(data.code == 0){
+					window.localStorage.setItem("userInfo",JSON.stringify(data.object));
+				}else{
+					alert("登录失败");
 				}
-			});
-		}
+			}
+		});
 	}
 })
 </script>

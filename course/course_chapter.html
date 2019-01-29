@@ -175,6 +175,7 @@
 		var isbuy = window.localStorage.getItem("isbuy");
 		var isFree = window.localStorage.getItem("isFree");
 		var freeChapters = window.localStorage.getItem("freeChapters");
+		var isFree2 = isFree;
 		
 		if (chapterList != "") {
 			reloadDom();
@@ -195,12 +196,12 @@
 				if (isbuy == "Y") {
 					$(".already-buy").remove();
 				}else{
-					if(isFree == "Y"){
+					if(isFree2 == "Y"){
 						if(j < freeChapters){
 							dom += "<div class='free_learing already-buy'>免费试学</div>";
 							j++;
 							if (j == freeChapters) {
-								isFree = "N";
+								isFree2 = "N";
 							}
 						}
 					}else{
@@ -218,7 +219,6 @@
 		 * showTip();//方法在custom/tip内实现控制course_detaisl页面的tip样式
 		 */
 		function tocoursePlay(courseChapterUrl,nums){
-			isFree = window.localStorage.getItem("isFree");//因为reloadDom()方法里面把isFree改为了"N",所以此处要再重新从localstorage中获取一下
 			if(isbuy == "Y"){
 				console.log("isbuy="+nums);
 				this.toUrl(courseChapterUrl,nums);
@@ -228,10 +228,10 @@
 					if (chapterList[nums-1].freeYn == "Y") {
 						this.toUrl(courseChapterUrl,nums);
 					}else{
-						showTip();
+						showTip(".tip");
 					}
 				}else{
-					showTip();
+					showTip(".tip");
 				}
 			}
 		}
