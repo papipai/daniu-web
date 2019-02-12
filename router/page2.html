@@ -58,7 +58,10 @@
 				<div class="border"></div>
 				<div class="word">课程推荐</div>
 			</div>
-			<div class="item_cell_box" id="recommendCourselist">
+			<div class="item_cell_box nocourse" id="recommendCourselist">
+				<div class="no_recommend_course">
+					暂无相关课程推荐哦~
+				</div>
 				<!--<div class="courses">
 					<div class="kh_goods" onclick="bindgome(1,0.01)">
 						<div>
@@ -146,15 +149,21 @@
 							if ($("#learingCourselist").hasClass("nocourse")) {
 								$("#learingCourselist").removeClass("nocourse");
 							}
+						}else{
+							if ($("#recommendCourselist").hasClass("nocourse")) {
+								$("#recommendCourselist").removeClass("nocourse");
+							}
 						}
 						reloadDom(id,course_list);
 					}else if(data.code == 500){
 						alert("接口请求出错");
 					}else{
-						console.log("id="+(id == "#learingCourselist"))
 						if(id == "#learingCourselist"){
 							$(".no_learing_course").css("display","flex");
 							$("#learingCourselist").addClass("nocourse");
+						}else{
+							$(".no_recommend_course").css("display","flex");
+							$("#recommendCourselist").addClass("nocourse");
 						}
 						
 					}

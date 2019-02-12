@@ -79,8 +79,13 @@ function onBridgeReady(appid,paySign,prepay_id,nonceStr,timestamp,courseId,userI
 					success : function(data) { // 服务器响应成功时的处理函数
 						//alert("支付是否成功="+data.code);
 						if(data.code == 0){//插入支付记录
+							setTimeout(function(){
+								showTip(".buy_tip");
+							},500);
 							window.localStorage.setItem("courseId",courseId);
-							showTip(".buy_tip");
+							window.localStorage.setItem("isbuy","Y");
+							window.location.href = "play.html";
+							
 							//alert('购买成功，开启学霸模式~');
 						}
 					}
