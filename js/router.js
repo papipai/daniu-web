@@ -22,8 +22,8 @@
 /*-----------------------------------------------Andrew_Router (路由全局设置）使用方法-------------------------------------------*/
 $(document).ready(function(){
     Andrew_Include("css/theme.default.css"); //颜色相关样式文件引入（Andrew_Include是js文件中引入另一个js或css文件的功能）
-    Andrew_Include("js/data.js"); //Json数据文件引入（Andrew_Include是js文件中引入另一个js或css文件的功能）
-    Andrew_Include("js/plugin.js"); //功能插件按需引入（Andrew_Include是js文件中引入另一个js或css文件的功能）
+//  Andrew_Include("js/data.js"); //Json数据文件引入（Andrew_Include是js文件中引入另一个js或css文件的功能）
+  Andrew_Include("js/plugin.js"); //功能插件按需引入（Andrew_Include是js文件中引入另一个js或css文件的功能）
     Andrew_Router({ //路由配置管理
         Router: true, //是否开启路由（开启路由URL中带#的路径访问页面不刷新页面形式跳转 (开启 true, 停用 false）
         FileFormat: ".html", //路由目录中的文件格式设置,该参数设置后data-href值里可以不写文件格式 （可设置html,php,aspx,jsp...等程序的文件名）
@@ -50,21 +50,21 @@ $(document).ready(function(){
             });
 
             /*-----------------------------------------------Andrew_Loader 使用方法-------------------------------------------*/
-            if (Andrew_Params(1) != "start") { //通过Andrew_Params获取hash的第一个值后不执行下面loading效果
-                Andrew_Loader({
-                    //ele: $("main"), //是否使用局部遮挡层，使用请设置指定的局部元素 （不设置任何参数代表使用全部遮挡层）
-                    autoMode: true, //是否开启指定的时间后自动消失功能 (开启 true, 关闭 false）
-                    timeToHide: 1000, //毫秒时间设置 (automode必须开启才能有效)
-                    iconColor:"#ffffff", //图标颜色设置
-                    maskBG: false, //是否开启遮挡背景 (开启 true, 关闭 false）
-                    Loader:"load_2" //loading效果选择（load_1~7）
-                });
-            }
-            setTimeout(function() { //页面加载完5秒后执行
-                if($(".ak-Loader").css('display') == 'none'){
-                    //Andrew_Loader("destroy"); //关闭loading窗
-                }
-            },2000);
+//          if (Andrew_Params(1) != "start") { //通过Andrew_Params获取hash的第一个值后不执行下面loading效果
+//              Andrew_Loader({
+//                  //ele: $("main"), //是否使用局部遮挡层，使用请设置指定的局部元素 （不设置任何参数代表使用全部遮挡层）
+//                  autoMode: true, //是否开启指定的时间后自动消失功能 (开启 true, 关闭 false）
+//                  timeToHide: 1000, //毫秒时间设置 (automode必须开启才能有效)
+//                  iconColor:"#ffffff", //图标颜色设置
+//                  maskBG: false, //是否开启遮挡背景 (开启 true, 关闭 false）
+//                  Loader:"load_2" //loading效果选择（load_1~7）
+//              });
+//          }
+//          setTimeout(function() { //页面加载完5秒后执行
+//              if($(".ak-Loader").css('display') == 'none'){
+//                  //Andrew_Loader("destroy"); //关闭loading窗
+//              }
+//          },2000);
 
             /*-----------------------------------------------Andrew_Menu (底部菜单图标设置）使用方法-------------------------------------------*/
             Andrew_Menu({ //底部菜单的图标以及文字样式变化设置

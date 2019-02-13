@@ -213,86 +213,86 @@
     //引入Andrew插件的区域
 
     /*-----------------------------------------------Andrew_ReadMore 使用方法-------------------------------------------*/
-    $(function () {
-        $('.plug_readmore').Andrew_ReadMore({
-            speed: 500, //展开折叠毫秒速度
-            maxHeight: 200, //被隐藏更多的内容时的高度（px）
-            heightMargin: 16, //以像素为单位，以避免倒塌是比仅稍大块了maxHeight
-            moreLink: '<button class="bg_white c_gray_333 w_100 h_36em bor_top bor_gray_ddd">查看更多 <i class="icon-ln_xiangxia"></i></button>', //展开按钮HTML
-            lessLink: '<button class="bg_white c_gray_333 w_100 h_36em bor_top bor_gray_ddd">收起内容 <i class="icon-ln_xiangshang"></i></button>', //收起按钮HTML
-            startOpen: false, //不要立即截断，开始在全开位置
-            afterToggle: function(trigger, element, expanded) { //称为后，该块被折叠或展开
-                if(!expanded) {
-                    $('main').animate({
-                        scrollTop: element.offset().top
-                    }, {duration: 500 } );
-                }
-            },
-            beforeToggle: function(trigger, element, expanded) { //称为或多或少链接被点击后，但之前的块被折叠或展开
-                if(!expanded) {
-                }
-            }
-        });
-    });
+//  $(function () {
+//      $('.plug_readmore').Andrew_ReadMore({
+//          speed: 500, //展开折叠毫秒速度
+//          maxHeight: 200, //被隐藏更多的内容时的高度（px）
+//          heightMargin: 16, //以像素为单位，以避免倒塌是比仅稍大块了maxHeight
+//          moreLink: '<button class="bg_white c_gray_333 w_100 h_36em bor_top bor_gray_ddd">查看更多 <i class="icon-ln_xiangxia"></i></button>', //展开按钮HTML
+//          lessLink: '<button class="bg_white c_gray_333 w_100 h_36em bor_top bor_gray_ddd">收起内容 <i class="icon-ln_xiangshang"></i></button>', //收起按钮HTML
+//          startOpen: false, //不要立即截断，开始在全开位置
+//          afterToggle: function(trigger, element, expanded) { //称为后，该块被折叠或展开
+//              if(!expanded) {
+//                  $('main').animate({
+//                      scrollTop: element.offset().top
+//                  }, {duration: 500 } );
+//              }
+//          },
+//          beforeToggle: function(trigger, element, expanded) { //称为或多或少链接被点击后，但之前的块被折叠或展开
+//              if(!expanded) {
+//              }
+//          }
+//      });
+//  });
 
     /*-----------------------------------------------Andrew_Vticker 使用方法-------------------------------------------*/
-    $(function(){
-        $('.plug_vticker').Andrew_Vticker({
-            showItems : 4, //显示多少行
-            pause : 3000, //滚动间隔，单位为毫秒
-            speed : 500, //每次滚动持续时间，单位为毫秒
-            mousePause : false, //鼠标悬停是否停止滚动
-            direction : "up", //滚动方向，可选 ‘up’ / ‘down’
-            isPaused: false, //默认是否暂停
-            height: 0 //容器高度，默认为 0，即根据 showItems 个数自动计算
-        });
-    });
+//  $(function(){
+//      $('.plug_vticker').Andrew_Vticker({
+//          showItems : 4, //显示多少行
+//          pause : 3000, //滚动间隔，单位为毫秒
+//          speed : 500, //每次滚动持续时间，单位为毫秒
+//          mousePause : false, //鼠标悬停是否停止滚动
+//          direction : "up", //滚动方向，可选 ‘up’ / ‘down’
+//          isPaused: false, //默认是否暂停
+//          height: 0 //容器高度，默认为 0，即根据 showItems 个数自动计算
+//      });
+//  });
 
     /*-----------------------------------------------Andrew_TypeIt 使用方法-------------------------------------------*/
-    $(function(){
-        $(".plug_TypeIt").Andrew_TypeIt({
-            strings: [
-                "欢迎使用AKjs移动端前端UI框架。",
-                "AKjs移动端插件是一个基于JQuery的一套构建用户界面的前端框架插件里包含着移动端常用的功能效果以及简单明亮的CSS样式库对IOS和安卓系统的微站兼容性很完美。"
-            ],
-            typeSpeed: 10, //打字速度
-            backDelay: 50, //删除文字速度
-            contentType: 'html', // html or text
-            loop: true, //是否重复循环 （true,false）
-            callback: function(fun){ //结束后的回调
-                //console.log("已结束")
-            },
-            preString: function(array) {
-                //console.log("准备就绪")
-            },
-            onString: function(array) {
-                //console.log("进行中")
-            }
-        });
-    });
+//  $(function(){
+//      $(".plug_TypeIt").Andrew_TypeIt({
+//          strings: [
+//              "欢迎使用AKjs移动端前端UI框架。",
+//              "AKjs移动端插件是一个基于JQuery的一套构建用户界面的前端框架插件里包含着移动端常用的功能效果以及简单明亮的CSS样式库对IOS和安卓系统的微站兼容性很完美。"
+//          ],
+//          typeSpeed: 10, //打字速度
+//          backDelay: 50, //删除文字速度
+//          contentType: 'html', // html or text
+//          loop: true, //是否重复循环 （true,false）
+//          callback: function(fun){ //结束后的回调
+//              //console.log("已结束")
+//          },
+//          preString: function(array) {
+//              //console.log("准备就绪")
+//          },
+//          onString: function(array) {
+//              //console.log("进行中")
+//          }
+//      });
+//  });
 
     /*-----------------------------------------------Andrew_Template 使用方法-------------------------------------------*/
-    var list_data = [
-        {
-            Image: "<img src=\"./img/tibet-1.jpg\">",
-            Title: "产品名称001",
-            Price: "￥400.00",
-            Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
-        },
-        {
-            Image: "<img src=\"./img/tibet-2.jpg\">",
-            Title: "产品名称002",
-            Price: "￥500.00",
-            Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
-        },
-        {
-            Image: "<img src=\"./img/tibet-3.jpg\">",
-            Title: "产品名称003",
-            Price: "￥250.00",
-            Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
-        }
-    ];
-    $(".plug_for").Andrew_Template(list_data);
+//  var list_data = [
+//      {
+//          Image: "<img src=\"./img/tibet-1.jpg\">",
+//          Title: "产品名称001",
+//          Price: "￥400.00",
+//          Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
+//      },
+//      {
+//          Image: "<img src=\"./img/tibet-2.jpg\">",
+//          Title: "产品名称002",
+//          Price: "￥500.00",
+//          Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
+//      },
+//      {
+//          Image: "<img src=\"./img/tibet-3.jpg\">",
+//          Title: "产品名称003",
+//          Price: "￥250.00",
+//          Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
+//      }
+//  ];
+//  $(".plug_for").Andrew_Template(list_data);
 
     /*-----------------------------------------------Andrew_Lazyload 使用方法-------------------------------------------*/
     $(function() {
@@ -312,25 +312,25 @@
     });
 
     /*-----------------------------------------------Andrew_Popupwin (分享功能) 使用方法-------------------------------------------*/
-    $(function(){
-        setTimeout(function() { //为了兼容所有的jQuery版本header元素里面的任何绑定事件都需要延迟执行
-            $("#plug_Share").bind("click", function (c) {
-                Andrew_Popupwin({
-                    dom: "#plug_ShareWin", //弹窗内容的布局
-                    position: "bottom", //位置类型(top，bottom，left，right，middle)
-                    effectIn: "slideInUp ani_05s", //弹窗显示效果 (css动画库：andrew.animate.css)
-                    effectOut: "slideOutDown ani_05s", //弹窗消失效果 (css动画库：andrew.animate.css)
-                    maskPosition:"4", //Mask的z-index数值
-                    closeBtn: ".ak-mask", //关闭弹窗按钮的Class名
-                    OneButton: c.currentTarget, //点击按钮和关闭按钮通用时需要加该属性
-                    toggleIcon: "", //是否点击后替换图标功能，加图标的Class名 （建议启用OneButton的参数后使用）
-                    callback :function (ele) { //通过回调获取弹窗显示后的以上参数
-                        console.log($(ele[0].dom)); //获取当前的弹窗元素
-                    }
-                });
-            });
-        },100);
-    });
+//  $(function(){
+//      setTimeout(function() { //为了兼容所有的jQuery版本header元素里面的任何绑定事件都需要延迟执行
+//          $("#plug_Share").bind("click", function (c) {
+//              Andrew_Popupwin({
+//                  dom: "#plug_ShareWin", //弹窗内容的布局
+//                  position: "bottom", //位置类型(top，bottom，left，right，middle)
+//                  effectIn: "slideInUp ani_05s", //弹窗显示效果 (css动画库：andrew.animate.css)
+//                  effectOut: "slideOutDown ani_05s", //弹窗消失效果 (css动画库：andrew.animate.css)
+//                  maskPosition:"4", //Mask的z-index数值
+//                  closeBtn: ".ak-mask", //关闭弹窗按钮的Class名
+//                  OneButton: c.currentTarget, //点击按钮和关闭按钮通用时需要加该属性
+//                  toggleIcon: "", //是否点击后替换图标功能，加图标的Class名 （建议启用OneButton的参数后使用）
+//                  callback :function (ele) { //通过回调获取弹窗显示后的以上参数
+//                      console.log($(ele[0].dom)); //获取当前的弹窗元素
+//                  }
+//              });
+//          });
+//      },100);
+//  });
 
     /*-----------------------------------------------Andrew_Marquee 使用方法-------------------------------------------*/
     $(function(){
@@ -349,47 +349,45 @@
     });
 
     /*-----------------------------------------------Andrew_QRcode 使用方法-------------------------------------------*/
-    $(function(){
-        $(".plug_qrcode").Andrew_QRcode({
-            width: 200, //宽度
-            height:200, //高度
-            background: "#ffffff", //背景色
-            foreground: "#000000", //前景色
-            text: "http://m.baidu.com" //任意内容
-        });
-    });
+//  $(function(){
+//      $(".plug_qrcode").Andrew_QRcode({
+//          width: 200, //宽度
+//          height:200, //高度
+//          background: "#ffffff", //背景色
+//          foreground: "#000000", //前景色
+//          text: "http://m.baidu.com" //任意内容
+//      });
+//  });
 
     /*-----------------------------------------------Andrew_NavScroll 使用方法-------------------------------------------*/
-    $(function() {
-        $(".plug_tabs_find").Andrew_NavScroll({
-            line_style: "dis_block abs bor_top2 bor_title",
-            active_corlor: "c_title",
-            ClickCallback: function(ele,index) { //回调获取点击后的元素和元素的index
-                console.log(ele);
-            }
-        });
-    });
+//  $(function() {
+//      $(".plug_tabs_find").Andrew_NavScroll({
+//          line_style: "dis_block abs bor_top2 bor_title",
+//          active_corlor: "c_title",
+//          ClickCallback: function(ele,index) { //回调获取点击后的元素和元素的index
+//              console.log(ele);
+//          }
+//      });
+//  });
 
     /*-----------------------------------------------Andrew_Circliful 使用方法-------------------------------------------*/
-    $(function(){
-        $('.plug_circliful').Andrew_Circliful({
-            animationStep: 0.2 //动画毫秒设置
-        });
-        /*
-        data-dimension === 整个圆形的宽高
-        data-text === 圆形里的大标题
-        data-info === 圆形里的小标题
-        data-width="30" === 当前参数进度条边框宽度设置
-        data-prog_color === 当前参数进度条边框颜色设置
-        data-font_size  === 圆形里的大标题文字大小（px）
-        data-percent  === 当前参数设置（百分比）
-        data-font_color === 大标题和小标题文字颜色设置
-        data-bg_color === 整个圆形的边框颜色
-        data-fill_color === 里面填充颜色设置
-        data-spacing_color === 整个圆形的边框颜色
-        data-type="spacing" === 饼图类型设置 （half, spacing）；空值代表默认类型
-        */
-    });
+//  $(function(){
+//      $('.plug_circliful').Andrew_Circliful({
+//          animationStep: 0.2 //动画毫秒设置
+//      });
+//      data-dimension === 整个圆形的宽高
+//      data-text === 圆形里的大标题
+//      data-info === 圆形里的小标题
+//      data-width="30" === 当前参数进度条边框宽度设置
+//      data-prog_color === 当前参数进度条边框颜色设置
+//      data-font_size  === 圆形里的大标题文字大小（px）
+//      data-percent  === 当前参数设置（百分比）
+//      data-font_color === 大标题和小标题文字颜色设置
+//      data-bg_color === 整个圆形的边框颜色
+//      data-fill_color === 里面填充颜色设置
+//      data-spacing_color === 整个圆形的边框颜色
+//      data-type="spacing" === 饼图类型设置 （half, spacing）；空值代表默认类型
+//  });
 
     /*-----------------------------------------------Andrew_DropLoad （页面刷新） 使用方法-------------------------------------------*/
     $(function(){
