@@ -6,7 +6,11 @@
 	<script src="js/config/browser.js" type="text/javascript" charset="utf-8"></script>
 	<div class="outer">
 		<div class="head_div">
-			<div class="head_left">
+			<img src="img/thumbnails/tibet-5.jpg"/>
+			<div class="nickname">
+				阳光男孩
+			</div>
+			<!--<div class="head_left">
 				<div class="head_img">
 					<img src="img/thumbnails/tibet-5.jpg"/>
 				</div>
@@ -16,7 +20,7 @@
 			</div>
 			<div class="head_right">
 				
-			</div>
+			</div>-->
 		</div>
 		<div class="my_btn" id="suggestion_btn">
 			<div class="btn_logo">
@@ -83,8 +87,8 @@
 			success:function(data){
 				//console.log(data.code);
 				if(data.code == 0){
-					$(".head_left .head_img img").attr("src",data.object.headimgurl);
-					$(".head_left .nickname").text(data.object.nickname);
+					$(".head_div img").attr("src",data.object.headimgurl);
+					$(".head_div .nickname").text(data.object.nickname);
 				}else if(data.code == 500){
 					alert("接口请求出错");
 				}

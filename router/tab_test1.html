@@ -22,7 +22,6 @@
 </div>
 <script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-	var course_list = [];
 	jQuery(document).ready(function(){
 		//console.log(apiConfig.course.contextPath+apiConfig.course.maps[0].url);
 		$.ajax({
@@ -35,9 +34,10 @@
 			},
 			success:function(data){
 				//console.log(data.code)
+				var course_list = [];
 				if(data.code == 0){
 					course_list = data.object;
-					reloadDom();
+					reloadDom(course_list);
 				}else{
 					var dom = "<li style='color: #FF5D24;text-align: center;'><div class='no_learing_course'>暂时还没有相关课程哦~</div></li>";
 					$("#course_list1").append(dom);
@@ -52,7 +52,7 @@
 	/**
 	 * 渲染数据
 	 */
-	function reloadDom(){
+	function reloadDom(course_list){
 		var dom = "";
 		for(var i = 0; i < course_list.length; i++ ){
 			var itemVO = course_list[i];

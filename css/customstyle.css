@@ -98,37 +98,19 @@
 	height: 10.14em;
 	display: flex;
 	flex-direction: row;
+	align-items: center;
 	background-image: url(../img/wode_beijin.png);
 }
-.head_div .head_left{
-	flex: 1;
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-content: center;
-}
-.head_div .head_left .head_img{
-	flex: 1;
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-}
-.head_div .head_left .head_img img{
+.head_div img{
 	width: 5em;
 	height: 5em;
 	border-radius: 100%;
-	/*margin-top: 2.6rem;*/
+	margin-left: 1.929rem;
 }
-.head_div .head_left .nickname{
-	flex: 1;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+.head_div .nickname{
 	color: #fff;
 	font-size: 1.43em;
-}
-.head_div .head_right{
-	flex: 1;
+	margin-left: 1rem;
 }
 .my_btn{
 	width: 100%;
