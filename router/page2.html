@@ -5,7 +5,7 @@
         <div class="course_learing">
 			<div class="learing_head">
 				<div class="border"></div>
-				<div class="word">正在学习</div>
+				<div class="word">最近学习</div>
 			</div>
 			<div class="item_cell_box nocourse" id="learingCourselist">
 				<div class="no_learing_course">
@@ -117,7 +117,8 @@
 		
 		$(document).ready(function(){
 			var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-			queryData(apiPath.userPath,user.get('learning'),userInfo.userId,"#learingCourselist");//正在学习
+			console.log("学习界面userId="+userInfo.userId);
+			queryData(apiPath.userPath,user.get('learning'),userInfo.userId,"#learingCourselist");//最近学习
 			queryData(apiPath.coursePath,course.get('recommend'),userInfo.userId,"#recommendCourselist");//课程推荐
 	    })
 		
@@ -139,7 +140,8 @@
 				contentType:"application/x-www-form-urlencoded",
 				data:{
 					"method":method,
-					"userId":userId
+					"userId":userId,
+					"userCourseStatus":0
 				},
 				success:function(data){
 					console.log("data="+data.object)
@@ -183,7 +185,7 @@
 				dom += "<div class='courses'>";
 				dom += "<div class='kh_goods' onclick='bindgome("+itemVO.courseId+")'>";
 				dom += "<div>";
-				dom += "<img class='kh_img' src='"+itemVO.courseImg+"'>";
+				dom += "<img class='kh_img' src='"+itemVO.courseMainImg+"'>";
 				dom += "</div>";
 				dom += "<div>";
 				dom += "<div class='kh_maintitle'>"+itemVO.courseTitle+"</div>";
@@ -197,8 +199,8 @@
 		
 		//点击课程到课程详情页
 		function bindgome(courseId){
-			window.localStorage.setItem("courseId",courseId)
-			window.location.href = "course_details.html";
+			//window.localStorage.setItem("courseId",courseId)
+			window.location.href = "course_details.html?courseId="+courseId;
 		}
 		
 		//根据设备屏幕尺寸初始化课程图片大小

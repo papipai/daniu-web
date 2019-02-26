@@ -1,0 +1,128 @@
+<div class="module list mt_5 ovh rel" id="app">
+    <ul class="plug_for" id="course_list1">
+        <li v-for="item in list" @click="courseDetails(item.courseId)" class="rel ovh bg_white pa_3 bor_bottom bor_gray_ddd touchstart" data-href="/page3">
+        	<div class="course_list" style="display: flex;">
+        		<div class="fl bg_gray_f5f border bor_gray_ddd wh_6em img_auto">
+	                <img :src="item.courseMainImg" />
+	            </div>
+	            <div class="fl list_h_18em ml_1em ovh w_65">
+	                <h3 class="text_12em">{{item.courseTitle}}</h3>
+	                <p class="c_gray_999 text_hidden">{{item.courseDerc}}</p>
+	                
+	                <p class="c_gray_777">
+	                	<span class="present_Price" style="font-size: 1.29em;color: #F24724;">￥{{item.coursePresentPrice}}</span>
+	                    <del class="text_al_t"style="font-size: 0.86em;">{{item.courseOriginalPrice}}元</del>
+	                    <span style="font-size: 0.86em;float: right;">{{item.numberOfLearners}}人学过</span>
+	                </p>
+	            </div>
+        	</div>
+            
+        </li>
+    </ul>
+</div>
+<script src="https://cdn.bootcss.com/vue/2.5.17/vue.min.js"></script>
+<script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	new Vue({
+        el: '#app',
+        data: {
+            list: []
+        },
+        created: function () {
+　　　　　　//为了在内部函数能使用外部函数的this对象，要给它赋值了一个名叫self的变量。
+            var self = this;
+            $.ajax({
+            	async:false,
+                type:"post",
+				url:apiPath.coursePath,
+				xhrFields:{withCredentials:true},
+				data:{
+					"method":course.get('allcourse'),
+					"courseLevel":"1"
+				},
+                dataType: 'json'
+            }).then(function (res) {
+                console.log(res.object);
+　　　　　　　　　　//把从json获取的数据赋值给数组
+				var course_list = [];
+				if(res.code == 0){
+					self.list = res.object;
+				}else{
+					var dom = "<li style='color: #FF5D24;text-align: center;'><div class='no_learing_course'>暂时还没有相关课程哦~</div></li>";
+					$("#course_list1").append(dom);
+				}
+                
+            }).fail(function () {
+                console.log('失败');
+            })
+        },
+        methods:{
+        	courseDetails(courseId){
+        		window.location.href = "course_details.html?courseId="+courseId;
+        	}
+        }
+    })
+	
+//	jQuery(document).ready(function(){
+//		//console.log(apiConfig.course.contextPath+apiConfig.course.maps[0].url);
+//		$.ajax({
+//			type:"post",
+//			url:apiPath.coursePath,
+//			xhrFields:{withCredentials:true},
+//			data:{
+//				"method":course.get('allcourse'),
+//				"courseLevel":"1"
+//			},
+//			success:function(data){
+//				//console.log(data.code)
+//				var course_list = [];
+//				if(data.code == 0){
+//					course_list = data.object;
+//					reloadDom(course_list);
+//				}else{
+//					var dom = "<li style='color: #FF5D24;text-align: center;'><div class='no_learing_course'>暂时还没有相关课程哦~</div></li>";
+//					$("#course_list1").append(dom);
+//				}
+//				
+//			},
+//			error:function(data){
+//				alert("无法连接后台服务");
+//			}
+//		});
+//	});
+//	/**
+//	 * 渲染数据
+//	 */
+//	function reloadDom(course_list){
+//		var dom = "";
+//		for(var i = 0; i < course_list.length; i++ ){
+//			var itemVO = course_list[i];
+//			var numberOfLearners = 0;
+//			if (itemVO.numberOfLearners != undefined ) {
+//				numberOfLearners = itemVO.numberOfLearners;
+//			}
+//			dom += "<li class='rel ovh bg_white pa_3 bor_bottom bor_gray_ddd touchstart' onclick='courseDetails("+itemVO.courseId+")'>";
+//			dom += "<div class='course_list' style='display: flex;'>";
+//			dom += "<div class='fl bg_gray_f5f border bor_gray_ddd wh_6em img_auto'><img src='"+itemVO.courseMainImg+"' /></div>";
+//			dom += "<div class='fl list_h_18em ml_1em ovh w_65'>";
+//			dom += "<h3 class='text_12em'>"+itemVO.courseTitle+"</h3>";
+//			dom += "<p class='c_gray_999 text_hidden'>"+itemVO.courseDerc+"</p>";
+//			dom += "<p class='c_gray_777'>";
+//			dom += "<span class='present_Price' style='font-size: 1.29em;color: #F24724;'>￥"+itemVO.coursePresentPrice+"</span>&nbsp&nbsp";
+//			dom += "<del class='text_al_t'style='font-size: 0.86em;'>"+itemVO.courseOriginalPrice+"元</del>";
+//			dom += "<span style='font-size: 0.86em;float: right;'>"+numberOfLearners+"人学过</span>";
+//			dom += "</p>";
+//			dom += "</div>";
+//			dom += "</div>";
+//			dom += "</li>";
+//			
+//		}
+//		$("#course_list1").append(dom);
+//	}
+//	
+//	//点击课程到课程详情页
+//	function courseDetails(courseId){
+//		//window.localStorage.setItem("courseId",courseId);
+//		window.location.href="course_details.html?courseId="+courseId;
+//	}
+</script>

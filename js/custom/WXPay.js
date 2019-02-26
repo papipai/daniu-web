@@ -6,6 +6,7 @@
  */
 //初始化下单信息
 var pay_platform = 1;//公众号为1
+var pay_way = 1;//1-微信支付，2-支付宝支付，3-华为支付
 function toPayInit(courseId,userId){
 	var that = this;
 	$.ajax({
@@ -17,7 +18,8 @@ function toPayInit(courseId,userId){
 			"method":wechat.get('coursePay'),
 			"courseId":courseId,
 			"userId":userId,
-			"pay_platform":pay_platform
+			"pay_platform":pay_platform,
+			"pay_way":pay_way
 		},
 		success : function(data) {// 服务器响应成功时的处理函数
 			//alert("result="+data.object.result+" prepay_id="+data.object.prepay_id);
@@ -74,13 +76,15 @@ function onBridgeReady(appid,paySign,prepay_id,nonceStr,timestamp,courseId,userI
 						"body":body,
 						"out_trade_no":out_trade_no,
 						"money":money,
-						"pay_platform":pay_platform
+						"pay_platform":pay_platform,
+						"pay_way":pay_way
 					},
 					success : function(data) { // 服务器响应成功时的处理函数
 						//alert("支付是否成功="+data.code);
 						if(data.code == 0){//插入支付记录
 							setTimeout(function(){
-								showTip(".buy_tip");
+								//showTip(".buy_tip");
+								showTip("img/gou.png","购买成功");
 							},500);
 							window.localStorage.setItem("courseId",courseId);
 							window.localStorage.setItem("isbuy","Y");

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui" />
+    
+		<title>我的课程</title>
+		<link rel="stylesheet" type="text/css" href="../css/customstyle.css"/>
+		<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+	<style type="text/css">
+	* { margin: 0; padding: 0; }
+	.line-normal-avatar-wrapper { width: 8rem; height: 4.75rem; margin-left: 1rem; border-radius: 0.25rem;}
+	.line-normal-avatar-wrapper img { width: 8rem; height: 4.75rem;border-radius: 0.25rem;}
+	.line-normal-left-wrapper {display: flex;flex-direction: row;margin-top: 1.25rem;}
+	.line-normal-info-wrapper { margin-left: .625rem; flex: 1;display: flex;flex-direction: column;height: 4.75rem;margin-right: 1rem;overflow: hidden;}
+	.line-normal-user-name { overflow: hidden;text-overflow: ellipsis;white-space: nowrap;font-family: PingFangSC-Medium;font-size: 1.0625rem;color: #333333; flex: 1;display: flex;align-items: center;width: 12.81rem;}
+	.line-normal-msg {overflow: hidden;text-overflow: ellipsis;white-space: nowrap; flex: 1;font-family: PingFangSC-Regular;font-size: .875rem;color: #999999;display: flex;align-items: center;width: 12.81rem;}
+	.line-normal-time { flex: 1; font-family: PingFangSC-Regular;font-size: .75rem;color: #B3B3B3;display: flex;flex-direction: row;justify-content: space-between; align-items: center;}
+	.course_buy_list{width: 100%;height: 100%;}
+	.no_buy_course{display: none;flex-direction: column;justify-content: center;align-content: center;}
+	.no_buy_course .tip{display: flex;align-content: center;justify-content: center;flex-direction: column;}
+	.no_buy_course .tip img{width: 11.81rem;height: 7.08rem;text-align: center;display: block;margin: auto;}
+	.no_buy_course .tip span{font-family: PingFangSC-Medium;font-size: .875rem;color: #767676;margin-top: .73rem;text-align: center;}
+	</style>
+	</head>
+	<body>
+	<div class="course_buy_list " id="course_buy_list">
+		<!--您暂时没有购买任何课程哦~-->
+		<div class="no_buy_course">
+			<div class="tip">
+				<img src="../img/nocourse.png"/>
+				<span id="">您暂时没有购买任何课程哦~</span>
+			</div>
+			
+		</div>
+		<div v-for="item in list" class="line-normal-left-wrapper" @click="courseDetails(item.courseId)">
+	        <div class="line-normal-avatar-wrapper"><img :src="item.courseMainImg" /></div>
+	        <div class="line-normal-info-wrapper">
+	          <div class="line-normal-user-name">{{item.courseTitle}}</div>
+	          <div class="line-normal-msg">{{item.courseDerc}}</div>
+	          <div class="line-normal-time">观看至68%</div>
+	        </div>
+	    </div>
+	</div>
+	</body>
+	<script src="../js/config/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://cdn.bootcss.com/vue/2.5.17/vue.min.js"></script>
+	<script type="text/javascript">
+		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+		new Vue({
+	        el: '#course_buy_list',
+	        data: {
+	            list: []
+	        },
+	        created: function () {
+	　　　　　　//为了在内部函数能使用外部函数的this对象，要给它赋值了一个名叫self的变量。
+	            var self = this;
+	            $.ajax({
+	            	async:false,
+	                type:"post",
+					url:apiPath.userPath,
+					xhrFields:{withCredentials:true},
+					data:{
+						"method":user.get('learning'),
+						"userId":userInfo.userId,
+						"userCourseStatus":0
+					},
+	                dataType: 'json'
+	            }).then(function (res) {
+	                console.log(res.object);
+	　　　　　　　　　　//把从json获取的数据赋值给数组
+					if (res.code == 0) {
+						self.list = res.object;
+					}else{
+						$(".no_buy_course").css("display","flex");
+					}
+	                
+	            }).fail(function () {
+	                console.log('失败');
+	            })
+	        },
+	        methods:{
+	        	courseDetails(courseId){
+	        		window.location.href = "../course_details.html?courseId="+courseId;
+	        	}
+	        }
+	    })
+		
+		$(".no_buy_course").height($(window).height());
+		$(".no_buy_course").width($(window).width());
+	</script>
+</html>

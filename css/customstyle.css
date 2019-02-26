@@ -54,6 +54,7 @@
     font-size: 1rem;
     color: #B1B1B1;
 }
+
 .courses {
     width: 48%;
     height: auto;
@@ -126,7 +127,7 @@
 	align-items: center;
 }
 .my_btn .btn_logo img{
-	width: 1.57em;
+	width: 1.88em;
 	height: auto;
 	/*margin-top: 1rem;*/
 }
@@ -142,9 +143,16 @@
 	justify-content: center;
 	align-items: center;
 }
+.my_btn .border_bottom{
+	flex: 1;
+	height: 3.71em;
+	border-bottom: 1px #EEEEEE solid;
+	display: flex;
+    flex-direction: row;
+}
 .my_btn .btn_img img{
 	width: 1.14em;
-	height: auto%;
+	height: auto;
 	/*margin-top: 1rem;*/
 }
 
@@ -206,4 +214,45 @@
     padding: 0 15px;
     border-radius: 3px;
     font-size: 14px;
+}
+
+/*历史播放*/
+.history_play{
+	width: 3.857rem;
+	height: 3.857rem;
+	background: #fff;
+	border-radius: 50%;
+	box-shadow: 0 2px 6px 0 #564B48;
+	display: none;
+	position:fixed;
+	right: 1rem;
+    bottom: 5.5rem;
+}
+.history_play .course_thumb_img{
+	width: 3.571rem;
+	height: 3.571rem;
+	border: 0px red solid;
+	border-radius: 50%;
+	margin: auto;
+	overflow: hidden;
+}
+.history_play .course_thumb_img img{
+	width: 3.571rem;
+	height: auto;
+}
+.history_play .mark{
+	width: 3.571rem;
+	height: 3.571rem;
+	background-color:rgba(0, 0, 0, 0.6);
+	border-radius: 50%;
+	position: fixed;
+    right: 1.13rem;
+	bottom: 5.62rem;
+	z-index: 1;
+	display: flex;
+}
+.history_play .mark img{
+	width: 3.571rem;
+    	height: 3.571rem;
+	margin: auto;
 }

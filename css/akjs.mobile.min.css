@@ -1583,6 +1583,9 @@ legend {
 .text_12em {
 	font-size: 1.2em!important;
 	font-weight: bold;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .text_11em {

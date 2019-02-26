@@ -11,13 +11,22 @@
     <meta name="format-detection" content="telphone=no, email=no" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>大牛财商</title>
+    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+    
+    <script src="js/config/browser.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/config/Authorize.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/config/GetUserInfo.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
+    
     <link rel="stylesheet" type="text/css" href="css/akjs.mobile.min.css" /><!--AKjs公共样式库引入-->
     <link rel="stylesheet" type="text/css" href="css/style.css" /><!--布局相关样式-->
     <link rel="stylesheet" type="text/css" href="css/theme.default.css" /><!--颜色相关样式-->
-    <script type="text/javascript" src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
-    <script type="text/javascript" language="javascript" src="js/data.js"></script><!--Json数据-->
+    
     <script type="text/javascript" language="javascript" src="js/akjs.mobile.min.js"></script><!--AKjs引入-->
     <script type="text/javascript" language="javascript" src="js/plugin.js"></script><!--功能插件按需引入-->
+   
+    
    
     <style type="text/css">
     	.course_banner img{
@@ -96,6 +105,62 @@
 		    font-size: 15px;
 		    color: #fff;			
 		}
+		
+		.btn{
+			width: 100%;
+			height: 3.14em;
+			flex-direction: row;
+			display: flex;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			z-index: 1;
+		}
+		.btn .btn_collect{
+			flex: 2;
+			height: 100%;
+			background: #fff;
+			font-size: 1em;
+			color: #FF5D24;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.btn .btn_collect .no_collect_icon{
+			background: url(img/my/soucang_xiangqingye.png) center center no-repeat;
+			background-size: 1.3rem 1.3rem;
+			width: 1.3rem;
+		    height: 100%;
+		    margin-left: .5rem;
+		}
+		.btn .btn_collect .has_collect_icon{
+			background: url(img/my/yishoucang_xiangqingye.png) center center no-repeat;
+			background-size: 1.3rem 1.3rem;
+			width: 1.3rem;
+		    height: 100%;
+		    margin-left: .5rem;
+		}
+		.btn .btn_buy{
+			flex: 3;
+			height: 100%;
+			background-image: linear-gradient(-90deg, #FF7D25 0%, #FF5D24 100%);
+			font-size: 1em;
+			color: #fff;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+		.learing_at_once{
+			flex: 3;
+		    height: 100%;
+		    background-image: linear-gradient(-90deg, #FF7D25 0%, #FF5D24 100%);
+		    font-size: 1em;
+		    color: #fff;
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+			display: none;
+		}
     </style>
     <!--<script>
     	var banner_div = document.getElementById("banner_div");
@@ -166,18 +231,56 @@
 
         <!----------Andrew_PopupWin End---------->
     </article>
-
+	<div class="btn">
+    	<div class="btn_collect" id="btn_collect">
+    		<span id="">收藏</span>
+    		<div class="collect_icon no_collect_icon"></div>
+    	</div>
+    	<div class="btn_buy" id="dateSelectorOne">
+    		立即购买
+    	</div>
+    	<div class="learing_at_once" id="learing_at_once">
+	    	立即学习
+	    </div>
+    </div>
+    
 </main>
 
 
 </body>
-<script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
+<!--<script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/config/browser.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/config/new_file.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/config/authorization.js" type="text/javascript" charset="utf-8"></script>-->
 <script>
 	/**
 	 * 根据屏幕大小按banner长宽比动态调整大小
 	 */
+	var courseId = "";
+	
 	jQuery(document).ready(function(){
+		/**
+		 * 从url中获取courseId
+		 */
+		function GetRequest() {
+			var url = location.search; //获取url中"?"符后的字串
+			var theRequest = new Object();
+			if (url.indexOf("?") != -1) {
+				var str = url.substr(1);
+				strs = str.split("&");
+				for(var i = 0; i < strs.length; i ++) {
+					theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+				}
+			}
+			return theRequest;
+		}
+		var Request = new Object();
+			  Request = GetRequest();
+		courseId = Request['courseId'];
+		console.log("课程id="+courseId);
+		var userId = window.localStorage.getItem("userId");
+		console.log("课程详情页去除用户id="+userId);
+	
 		var bannerWidth = $(".h_12_em img").width();
 	    var	bannerHeight = bannerWidth/(375/180);
 	    $(".h_12_em img").height(bannerHeight);
@@ -189,13 +292,15 @@
 		    $(".h_12_em img").height(bannerHeight);
 		});
 		
+		//查询课程详情
 		$.ajax({
 			type:"post",
 			url:apiPath.coursePath,
 			xhrFields:{withCredentials:true},
 			data:{
 				"method":course.get("details"),
-				"courseId":window.localStorage.getItem("courseId")
+				"courseId":courseId,
+				"userId":userId
 			},
 			success:function(data){
 				if(data.code == 0){
@@ -207,6 +312,7 @@
 				alert("无法连接后台服务");
 			}
 		});
+		
 	})
 	
 	/**
@@ -220,11 +326,73 @@
 		 * 后续要操作该JSON对象，要将之前存储的JSON字符串先转成JSON对象再进行操作
 		 * JSON.parse(localStorage.getItem("****"));
 		 */
+		document.title = courseObject.courseTitle;//设置网页标题为课程标题
 		$("#banner_img").attr("src",courseObject.courseImg);
+		if(courseObject.isCollect == "Y"){
+			$(".collect_icon").removeClass("no_collect_icon").addClass("has_collect_icon");
+		}
 		window.localStorage.setItem("courseDetails",JSON.stringify(courseObject));
 		
 	}
 	
+	//点击添加或取消课程收藏
+	$("#btn_collect").click(function(){
+		console.log("添加收藏。。。。")
+		if($(".collect_icon").hasClass("has_collect_icon")){
+			collectCourse(user.get("delete"),"已取消收藏");
+		}else{
+			collectCourse(user.get("add"),"已添加到“我的收藏”");
+		}
+		
+	})
+	
+	/**
+	 * 收藏函数
+	 * @param {Object} method 调用的接口地址
+	 * @param {Object} tipWord 弹窗提示信息
+	 */
+	function collectCourse(method,tipWord){
+		$.ajax({
+			type:"post",
+			url:apiPath.userPath,
+			xhrFields:{withCredentials:true},
+			data:{
+				"method":method,
+				"userId":userInfo.userId,
+				"courseId":courseId,
+				"userCourseStatus":"1"//0-已购买，1-已收藏，2-最近学习，3-完成学习
+			},
+			success:function(data){
+				if(data.code == 0){
+					//改变收藏的icon
+					showTip("img/tip.png",tipWord);
+					if(tipWord == "已取消收藏"){
+						$(".collect_icon").removeClass("has_collect_icon").addClass("no_collect_icon");
+					}else{
+						$(".collect_icon").removeClass("no_collect_icon").addClass("has_collect_icon");
+					}
+					
+				}
+				
+			},
+			error:function(data){
+				alert("无法连接后台服务");
+			}
+		});
+	}
+	
+	//立即学习
+	$("#learing_at_once").click(function(){
+		if(isFree == "Y"){
+			window.localStorage.setItem("courseChapterUrl",courseDetails.daniuCourseChapterList[0].courseChapterUrl);
+			window.localStorage.setItem("nums",1);
+			window.location.href = "play.html";
+		}else{
+			//showTip(".tip");
+			showTip("img/tip.png","加入学习后才能观看哦");
+		}
+		
+	})
 </script>
 <script src="js/custom/tip.js" type="text/javascript" charset="utf-8"></script>
 	

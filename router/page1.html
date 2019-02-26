@@ -98,10 +98,10 @@
             <nav class="ovh press bg_white course_type" style="padding: 1em 1em 0 1em;border-bottom: 1px #D8D8D8 solid;">
                 <ul class="ovh list_h_3em nav_line_c length4" id="course_type">
                     <!--<li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">全部</li>
-                    <li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">入门</li>
-                    <li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">初级</li>
-                    <li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">中级</li>
-					<li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">高级</li>-->
+                    <li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">赚钱</li>
+                    <li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">省钱</li>
+                    <li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">守钱</li>
+					<li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">商学院</li>-->
                 </ul>
             </nav>
             <article class="rel ovh h_8em">
@@ -134,27 +134,80 @@
                 </div>
             </article>
         </div>
-
+		<div class="history_play" onclick="toPLay()">
+			<div class="course_thumb_img">
+				<img src="img/delete/2.jpg"/>
+			</div>
+			<div class="mark">
+				<img src="img/thumb/suibian.png"/>
+			</div>
+		</div>
     </article>
     <ak-footer data-display="true">
     </ak-footer>
 </template>
 
 <script type="text/javascript">
-
 	
-
-	
-
-	
-	
+	/**
+	 * 获取本地保存的用户最后一次观看的记录
+	 */
+	var historyPlay = window.localStorage.getItem("historyPlay");
+	console.log("historyPlay="+historyPlay);
+	//alert("historyPlay="+historyPlay)
+	if(historyPlay == "1"){
+		var courseThumbImg = window.localStorage.getItem("courseThumbImg");
+		
+		var courseDetails = JSON.parse(window.localStorage.getItem("courseDetails"));
+	 	var nums = window.localStorage.getItem("nums");
+	 	var isbuy = window.localStorage.getItem("isbuy");
+	 	var isFree = window.localStorage.getItem("isFree");
+	 	var freeChapters = window.localStorage.getItem("freeChapters");
+	 	var userId = window.localStorage.getItem("userId");
+	 	var courseChapterUrl = window.localStorage.getItem("courseChapterUrl");
+		var timepoint = window.localStorage.getItem("timepoint");
+		
+	 	console.log("courseDetails="+courseDetails);
+	 	console.log("nums="+nums);
+	 	console.log("isbuy="+isbuy);
+	 	console.log("isFree="+isFree);
+	 	console.log("freeChapters="+freeChapters);
+	 	console.log("userId="+userId);
+	 	console.log("courseChapterUrl="+courseChapterUrl);
+	 	console.log("timepoint="+timepoint);
+	 		
+		$(".history_play").css("display","flex");
+		$(".course_thumb_img img").attr("src",courseThumbImg);
+		
+	}
+	/**
+	 * 点击浮窗去播放页
+	 */
+	function toPLay(){
+		var courseDetails = JSON.parse(window.localStorage.getItem("courseDetails"));
+	 	var nums = window.localStorage.getItem("nums");
+	 	var isbuy = window.localStorage.getItem("isbuy");
+	 	var isFree = window.localStorage.getItem("isFree");
+	 	var freeChapters = window.localStorage.getItem("freeChapters");
+	 	var userId = window.localStorage.getItem("userId");
+	 	var courseChapterUrl = window.localStorage.getItem("courseChapterUrl");
+	 	var timepoint = window.localStorage.getItem("timepoint");
+	 	window.localStorage.setItem("courseDetails",JSON.stringify(courseDetails));
+	 	window.localStorage.setItem("nums",nums);
+	 	window.localStorage.setItem("isbuy",isbuy);
+	 	window.localStorage.setItem("isFree",isFree);
+	 	window.localStorage.setItem("freeChapters",freeChapters);
+	 	window.localStorage.setItem("userId",userId);
+	 	window.localStorage.setItem("courseChapterUrl",courseChapterUrl);
+		window.localStorage.setItem("timepoint",timepoint);
+		window.location.href = "play.html"
+	}
 	/**
 	 * 点击banner到课程详情
 	 */
 	
 	function bannerDetails(courseId){
-		window.localStorage.setItem("courseId",courseId);
-		window.location.href="course_details.html";
+		window.location.href="course_details.html?courseId="+courseId;
 	}
 	
 	/**
@@ -333,6 +386,8 @@
                     var ajax_url = './router/tab_test4.html';
                 } else if (index == 4) {
                     var ajax_url = './router/tab_test5.html';
+                } else if (index == 5) {
+                    var ajax_url = './router/tab_test6.html';
                 }
                 //console.log(ajax_url);
                 /* 以下代码是Tabs内容可以通过ajax请求界面内容的方法 */
@@ -1277,5 +1332,5 @@
 <script>
 </script>
 <style>
-</style>
--->
+	
+</style>-->

@@ -61,7 +61,7 @@
 			}
 			dom += "<li class='rel ovh bg_white pa_3 bor_bottom bor_gray_ddd touchstart' onclick='courseDetails("+itemVO.courseId+")'>";
 			dom += "<div class='course_list' style='display: flex;'>";
-			dom += "<div class='fl bg_gray_f5f border bor_gray_ddd wh_6em img_auto'><img src='"+itemVO.courseImg+"' /></div>";
+			dom += "<div class='fl bg_gray_f5f border bor_gray_ddd wh_6em img_auto'><img src='"+itemVO.courseMainImg+"' /></div>";
 			dom += "<div class='fl list_h_18em ml_1em ovh w_65'>";
 			dom += "<h3 class='text_12em'>"+itemVO.courseTitle+"</h3>";
 			dom += "<p class='c_gray_999 text_hidden'>"+itemVO.courseDerc+"</p>";
@@ -78,8 +78,7 @@
 	}
 	
 	function courseDetails(courseId){
-		window.localStorage.setItem("courseId",courseId);
-		window.location.href="course_details.html";
+		window.location.href="course_details.html?courseId="+courseId;
 	}
 </script>
 <script>

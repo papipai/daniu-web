@@ -1,5 +1,5 @@
 <div class="module list mt_5 ovh rel">
-    <ul class="plug_for4" id="course_list4">
+    <ul class="plug_for5" id="course_list6">
         <!--<li class="rel ovh bg_white pa_3 bor_bottom bor_gray_ddd touchstart" data-href="/page3">
         	<div class="course_list" style="display: flex;">
         		<div class="fl bg_gray_f5f border bor_gray_ddd wh_6em img_auto">
@@ -30,7 +30,7 @@
 			xhrFields:{withCredentials:true},
 			data:{
 				"method":course.get('allcourse'),
-				"courseLevel":"4"
+				"courseLevel":"6"
 			},
 			success:function(data){
 				var course_list = [];
@@ -39,7 +39,7 @@
 					reloadDom(course_list);
 				}else{
 					var dom = "<li style='color: #FF5D24;text-align: center;'><div class='no_learing_course'>暂时还没有相关课程哦~</div></li>";
-					$("#course_list4").append(dom);
+					$("#course_list6").append(dom);
 				}
 				
 			},
@@ -75,7 +75,7 @@
 			dom += "</div>";
 			dom += "</li>";
 		}
-		$("#course_list4").append(dom);
+		$("#course_list6").append(dom);
 	}
 	
 	function courseDetails(courseId){
@@ -107,5 +107,5 @@
             Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
         }
     ];
-    $(".plug_for4").Andrew_Template(list_data);
+    $(".plug_for5").Andrew_Template(list_data);
 </script>

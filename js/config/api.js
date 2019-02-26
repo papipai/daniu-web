@@ -3,12 +3,15 @@
  * apiPath：服务器地址
  * course：接口地址
  */
-
+//var prefix = "http://www.suibianshuo.com.cn/daniu-school/";//大牛财商正式环境
+var prefix = "http://www.suibianshuo.com.cn/super-lecture/";//超级讲座正式环境
+//var prefix = "http://wechat.ngrok.xiaomiqiu.cn/";//本地测试环境
+//var prefix = "http://www.suibianshuo.com.cn/daniu-school-test/";//测试环境
 var apiPath = {
 	
-	coursePath:'http://www.suibianshuo.com.cn/daniu-school/course/getCourse.do',
-	userPath:'http://www.suibianshuo.com.cn/daniu-school/user/getUser.do',
-	wechatPath:'http://www.suibianshuo.com.cn/daniu-school/wechat/toPayInit.do',
+	coursePath:prefix+'course/getCourse.do',
+	userPath:prefix+'user/getUser.do',
+	wechatPath:prefix+'pay/toPayInit.do',
 	
 }
 //课程
@@ -23,8 +26,10 @@ var course = new Map([
 var user = new Map([
 	['addsuggestion', 'daniu.school.user.suggestion.add'], 
 	['learning', 'daniu.school.user.course.learning'],
+	['add', 'daniu.school.user.course.add'],
 	['userinfo', 'daniu.school.user.info.details'],
-	['adduser', 'daniu.school.user.info.add']
+	['adduser', 'daniu.school.user.info.add'],
+	['delete', 'daniu.school.user.course.delete']
 ])
 //微信支付
 var wechat = new Map([

@@ -229,7 +229,7 @@
 
 	<div id="video-wrap" class="video-wrap">
 	    <div id="video-screen" class="video-screen">
-	        <video id="video" poster="http://p8v8q53wo.bkt.clouddn.com/yujiashipin1_fengmian2.jpg" src="" playsinline webkit-playsinline ></video>
+	        <video id="video" poster="http://p8v8q53wo.bkt.clouddn.com/yujiashipin1_fengmian2.jpg" src="http://p8v8q53wo.bkt.clouddn.com/diyijie1.mp4" playsinline webkit-playsinline ></video>
 	        <div id="loading" class="loading hide"></div>
 	        <div id="play-btn" class="play-btn play-hide"></div>
 	    </div>
@@ -414,7 +414,6 @@
 		<!--课程章节横向滑动的白色背景-->
 		<div class="scroller-background">
 		</div>
-		<input id="nums" type="hidden" value="" />
 	</div>
 
 <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
@@ -432,12 +431,6 @@
 
 </body>
 <script src="js/video/videoplay.js"></script>
-<script src="js/video/zepto.min.js"></script>
-<script src="js/video/TweenMax.min.js"></script>
-<script src="js/video/function.js"></script>
-
-<script src="js/video/hammer.min.js"></script>
-<script src="js/video/hls.min.js"></script>
 <script type="text/javascript">
 	var courseDetails = JSON.parse(window.localStorage.getItem("courseDetails"));
 	var courseChapterUrl = window.localStorage.getItem("courseChapterUrl");
@@ -445,48 +438,38 @@
 	var isbuy = window.localStorage.getItem("isbuy");
 	var isFree = window.localStorage.getItem("isFree");
 	var freeChapters = window.localStorage.getItem("freeChapters");
-	var userId = window.localStorage.getItem("userId");
+	var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
 	var chapterList = courseDetails.daniuCourseChapterList;
 	var j = 0;
 	
-	var audio = document.getElementsByTagName('audio')[0];
-	var audioPlayer = document.getElementById('audioPlayer');
-	var VP=new VideoPlay();
 	
-	document.title = courseDetails.courseTitle;//设置网页标题为课程标题
-	$("#course-title").text(chapterList[nums-1].courseChapterTitle);//设置课程章节标题
+	$("#course-title").text(courseDetails.courseTitle)
 	$("#course-chapter-numbers").text("共"+courseDetails.daniuCourseChapterList.length+"个课时");
 	$("#video").attr("poster",courseDetails.courseImg);
 	
-	changeChapter(courseChapterUrl,nums,1);
-	
-	console.log("课程详情="+courseDetails);
-	console.log("课程章节="+courseChapterUrl);
 	console.log("点击="+nums);
-	console.log("isbuy="+isbuy);
-	console.log("isFree="+isFree);
 	console.log("试看数="+freeChapters);
-	console.log("userId="+userId);
+
 	
-	
-	console.log("chapterList="+chapterList);
-	console.log("courseChapterType="+chapterList[1].courseChapterType);
-	
-	//根据课程章节类型设置课程banner样式（每次切换课程的时候也需要做判断）
-	function bannerStyle(nums){
-		if(chapterList[nums-1].courseChapterType == "voice"){//音频
-			$("#play-btn").css("display","none");//隐藏屏幕中间播放按钮
-			$("#control").css("display","none");//隐藏视频控制栏
-			$(".audio-wrapper").css("display","flex");//显示音频控制栏
-			$("#screen-time-wrap").css("display","none");//滑屏快进
-		}else{
-			$("#play-btn").css("display","block");//显示屏幕中间播放按钮
-			$("#control").css("display","flex");//显示视频控制栏
-			$(".audio-wrapper").css("display","none");//隐藏音频控制栏
-			$("#play-btn").attr("display","none");
-		}
+	//课程类型
+	var courseType = "";
+	if(courseDetails.courseType == 1){
+		courseType = "视频";
+	}else if(courseDetails.courseType == 2){
+		courseType = "音频";
 	}
 	
+	console.log("courseChapterUrl="+courseChapterUrl);
+	//根据课程类型设置课程banner样式
+	if(courseDetails.courseType == 2){//音频
+		$("#play-btn").css("display","none");//隐藏屏幕中间播放按钮
+		$("#control").css("display","none");//隐藏视频控制栏
+		$(".audio-wrapper").css("display","flex");//显示音频控制栏
+		$("#screen-time-wrap").css("display","none");//滑屏快进
+		$("#audio-source").attr("src",courseChapterUrl);
+	}else{
+		$("#video").attr("src",courseChapterUrl);
+	}
 	
 	if (chapterList != "") {
 		reloadDom();
@@ -519,40 +502,26 @@
 		for(var i = 0; i < chapterList.length; i++ ){
 			var itemVO = chapterList[i];
 			
-			//课程章节类型
-			var courseChapterType = "";
-			if(chapterList[i].courseChapterType == "video"){
-				courseChapterType = "视频";
-			}else if(chapterList[i].courseChapterType == "voice"){
-				courseChapterType = "音频";
-			}
-			
-			
 			dom += "<li>";
-			dom += "<a href='javascript:void(0)' onclick='changeChapter(\""+itemVO.courseChapterUrl+"\","+(i+1)+",0)'>";
+			dom += "<a href='javascript:void(0)' onclick='changeChapter(\""+itemVO.courseChapterUrl+"\","+(i+1)+")'>";
 			dom += "<div class='course-chapter' id=courseChapter_"+(i+1)+">";
 			dom += "<div class='course-chapter-mode'>";
-			dom += "<div class='course-mode course-mode-free'>"+courseChapterType+"</div>";
+			dom += "<div class='course-mode course-mode-free'>"+courseType+"</div>";
 			
-			//判断课程是否免费
-			if(courseDetails.freeYn == "Y"){
-				//免费课程暂不做标识
+			//此处需判断当前用户是否购买该课程
+			if (isbuy == "Y") {
+				$(".already-buy").remove();
 			}else{
-				//此处需判断当前用户是否购买该课程
-				if (isbuy == "Y") {
-					$(".already-buy").remove();
-				}else{
-					if(isFree == "Y"){
-						if(j < freeChapters){
-							dom += "<div class='course-status word'>免费试学</div>";
-							j++;
-							if (j == freeChapters) {
-								isFree = "N";
-							}
+				if(isFree == "Y"){
+					if(j < freeChapters){
+						dom += "<div class='course-status word'>免费试学</div>";
+						j++;
+						if (j == freeChapters) {
+							isFree = "N";
 						}
-					}else{
-						dom += "<div class='course-status img'><img src='img/shuo_bodang.png'/></div>";
 					}
+				}else{
+					dom += "<div class='course-status img'><img src='img/shuo_bodang.png'/></div>";
 				}
 			}
 			
@@ -592,63 +561,29 @@
 	 * 切换课程章节播放
 	 * @param {Object} chapterUrl 章节地址
 	 * @param {Object} nums 用户当前点击的第几章节
-	 * @param {Object} isFirst 是否首次加载
 	 */
-	function changeChapter(chapterUrl,nums,isFirst){
-		$("#nums").val(nums);//更新用户点击的章节，便于保存本地记录
+	function changeChapter(chapterUrl,nums){
 		markShow(nums);
-		bannerStyle(nums);
 		console.log("nums="+nums);
 		console.log("freeChapters="+freeChapters);
 		if(isbuy != "Y"){
 			if (nums <= freeChapters) {
-				changeStyle(chapterUrl,nums,isFirst);
+				changeStyle(chapterUrl,nums);
 			}
 		}else{
-			changeStyle(chapterUrl,nums,isFirst);
+			changeStyle(chapterUrl,nums);
 		}
+		
 	}
 	
-	//更改课程地址
-	function changeStyle(chapterUrl,nums,isFirst){
-		$("#course-title").text(chapterList[nums-1].courseChapterTitle);//设置课程章节标题
-		if (chapterList[nums-1].courseChapterType == "video") {
-			//先暂停音频，再播放视频
-			audio.pause();
-			console.log("video");
-			console.log("src="+$("#video")[0].src);
-			console.log("chapterUrl="+chapterUrl);
-			console.log($("#video")[0].src != chapterUrl);
-			if ($("#video")[0].src != chapterUrl) {
-				$("#video").attr("src",chapterUrl);//改变video地址
-				$("#audio-source").attr("src","");//清空音频的url
-				if(isFirst == 1){
-					currentTime("#video");//获取历史播放时间
-				}
-				
-				//videoControllerBar();
-				VP.pauseStyle();
-			}
+	//更该课程地址
+	function changeStyle(chapterUrl,nums){
+		if (courseDetails.courseType == 1) {
+			$("#video").attr("src",chapterUrl);//改变video地址
+			videoControllerBar();
 		}else{
-			//先暂停视频，再播放音频
-			VP.startStyle();
-			console.log("audio-source");
-			console.log("src="+$("#audio-source")[0].src);
-			console.log("chapterUrl="+chapterUrl);
-			console.log($("#audio-source")[0].src != chapterUrl);
-			if ($("#audio-source")[0].src != chapterUrl) {
-				$("#audio-source").attr("src",chapterUrl);//改变audio地址
-				$("#video").attr("src","");//清空视频的URL
-				if(isFirst == 1){
-					currentTime("#audio-source");//获取历史播放时间
-				}
-				
-	    		audioEnded();// 初始化音频控制事件
-	    		setTimeout(function(){
-	    			autoPlay(audio,audioPlayer);
-	    		},1000);
-			}
-			
+			$("#audio-source").attr("src",chapterUrl);//改变audio地址
+    		audioEnded();// 初始化音频控制事件
 		}
 		
 		
@@ -659,21 +594,6 @@
 		}else{
 			$(id).addClass("chapter-selected")
 		}
-	}
-	
-	/**
-	 * 获取历史播放时间点
-	 * @param {Object} id
-	 */
-	function currentTime(id){
-		var timepoint = window.localStorage.getItem("timepoint");
-		if (timepoint != null) {
-			console.log("历史播放时间为="+timepoint);
-		
-			$(id)[0].currentTime = timepoint;
-		}
-		console.log("当前播放时间为="+$(id)[0].currentTime);
-		
 	}
 	
 	//视频控制栏状态
@@ -687,44 +607,29 @@
 	
 	//到详情页
 	$("#course-details").click(function(){
-		//window.localStorage.setItem("courseId",courseDetails.courseId);
-		window.location.href = "course_details.html?courseId="+courseDetails.courseId;	
+		window.localStorage.setItem("courseId",courseDetails.courseId);
+		window.location.href = "course_details.html";	
 	})
 	
 	//立即购买
 	$("#buy-now").click(function(){
-		//window.localStorage.setItem("courseId",courseDetails.courseId);
-		window.location.href = "course_details.html?courseId="+courseDetails.courseId;
+		window.localStorage.setItem("courseId",courseDetails.courseId);
+		window.location.href = "course_details.html";
 		//toPayInit(courseDetails.courseId,userInfo.userId);
 	})
-	
-	/**
-	 * 监听页面关闭时间，把用户最后一次观看的课程保存到本地
-	 */
-	window.onbeforeunload = function(event) {
-	 	window.localStorage.setItem("historyPlay","1");//标志用户有观看记录
-	 	window.localStorage.setItem("courseDetails",JSON.stringify(courseDetails));
-	 	window.localStorage.setItem("nums",$("#nums").val());
-	 	window.localStorage.setItem("isbuy",isbuy);
-	 	window.localStorage.setItem("isFree",isFree);
-	 	window.localStorage.setItem("freeChapters",freeChapters);
-	 	window.localStorage.setItem("userId",userId);
-	 	window.localStorage.setItem("courseThumbImg",courseDetails.courseThumbImg);
-	 	
-	 	if (chapterList[$("#nums").val()-1].courseChapterType == "video") {
-	 		window.localStorage.setItem("courseChapterUrl",$("#video")[0].src);
-	 		window.localStorage.setItem("timepoint",$("#video")[0].currentTime);
-	 	}else{
-	 		window.localStorage.setItem("courseChapterUrl",$("#audio-source")[0].src);
-	 		window.localStorage.setItem("timepoint",$("#audio-source")[0].currentTime);
-	 	}
-	};
 </script>
 <!--<script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/custom/WXPay.js" type="text/javascript" charset="utf-8"></script>-->
+<script src="js/video/zepto.min.js"></script>
+<script src="js/video/TweenMax.min.js"></script>
+<script src="js/video/function.js"></script>
 
+<script src="js/video/hammer.min.js"></script>
+<script src="js/video/hls.min.js"></script>
 <script>
-//  var VP=new VideoPlay();
-//     VP.pauseStyle();
+    var VP;
+    $(function(){
+       VP=new VideoPlay();
+    });
 </script>
 </html>

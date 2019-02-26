@@ -7,9 +7,10 @@ document.addEventListener('DOMContentLoaded', function () {
     initAudioEvent();
 }, false);
 
+
 function initAudioEvent() {
     var audio = document.getElementsByTagName('audio')[0];
-    var audioPlayer = document.getElementById('audioPlayer');
+	var audioPlayer = document.getElementById('audioPlayer');
 	
 	//初始化音频总时长
 	audio.load();
@@ -19,6 +20,7 @@ function initAudioEvent() {
 	
     // 点击播放/暂停图片时，控制音乐的播放与暂停
     audioPlayer.addEventListener('click', function () {
+    	//autoPlay(audio,audioPlayer);
         // 监听音频播放时间并更新进度条
         audio.addEventListener('timeupdate', function () {
             updateProgress(audio);
@@ -55,6 +57,25 @@ function initAudioEvent() {
 
     // 拖动进度点调节进度
     dragProgressDotEvent(audio);
+}
+
+/**
+ * 自动播放
+ */
+function autoPlay(audio,audioPlayer){
+	// 监听音频播放时间并更新进度条
+    audio.addEventListener('timeupdate', function () {
+        updateProgress(audio);
+    }, false);
+
+    // 监听播放完成事件
+    audio.addEventListener('ended', function () {
+        audioEnded();
+    }, false);
+
+    // 改变播放/暂停图片
+    audio.play();
+    audioPlayer.src = 'img/pause.png';
 }
 
 /**

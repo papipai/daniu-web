@@ -169,7 +169,14 @@
 	<script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/custom/tip.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
-		//课程章节
+		/**
+		 * courseDetails 课程详情
+		 * chapterList 课程章节集合
+		 * isbuy 是否购买
+		 * isFree 是否有试看章节
+		 * freeChapters 试看章节数量
+		 * 
+		 */
 		var courseDetails = JSON.parse(window.localStorage.getItem("courseDetails"));
 		var chapterList = courseDetails.daniuCourseChapterList;
 		var isbuy = window.localStorage.getItem("isbuy");
@@ -192,20 +199,25 @@
 				dom += "<div class='chapter_title'>"+itemVO.courseChapterTitle+"</div>";
 				dom += "<div class='chapter_status'>";
 				
-				//此处需判断当前用户是否购买该课程
-				if (isbuy == "Y") {
-					$(".already-buy").remove();
+				//判断课程是否免费
+				if(courseDetails.freeYn == "Y"){
+					//免费课程暂不做标识
 				}else{
-					if(isFree2 == "Y"){
-						if(j < freeChapters){
-							dom += "<div class='free_learing already-buy'>免费试学</div>";
-							j++;
-							if (j == freeChapters) {
-								isFree2 = "N";
-							}
-						}
+					//此处需判断当前用户是否购买该课程
+					if (isbuy == "Y") {
+						$(".already-buy").remove();
 					}else{
-						dom += "<img class='already-buy' src='http://p8v8q53wo.bkt.clouddn.com/shuo_mulu.png'/>";
+						if(isFree2 == "Y"){
+							if(j < freeChapters){
+								dom += "<div class='free_learing already-buy'>免费试学</div>";
+								j++;
+								if (j == freeChapters) {
+									isFree2 = "N";
+								}
+							}
+						}else{
+							dom += "<img class='already-buy' src='http://p8v8q53wo.bkt.clouddn.com/shuo_mulu.png'/>";
+						}
 					}
 				}
 				
@@ -228,10 +240,10 @@
 					if (chapterList[nums-1].freeYn == "Y") {
 						this.toUrl(courseChapterUrl,nums);
 					}else{
-						showTip(".tip");
+						showTip("img/tip.png","加入学习后才能观看哦");
 					}
 				}else{
-					showTip(".tip");
+					showTip("img/tip.png","加入学习后才能观看哦");
 				}
 			}
 		}
