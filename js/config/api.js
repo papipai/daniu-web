@@ -3,8 +3,8 @@
  * apiPath：服务器地址
  * course：接口地址
  */
-//var prefix = "http://www.suibianshuo.com.cn/daniu-school/";//大牛财商正式环境
-var prefix = "http://www.suibianshuo.com.cn/super-lecture/";//超级讲座正式环境
+var prefix = "http://www.suibianshuo.com.cn/daniu-school/";//大牛财商正式环境
+//var prefix = "http://www.suibianshuo.com.cn/super_lecture/";//超级讲座正式环境
 //var prefix = "http://wechat.ngrok.xiaomiqiu.cn/";//本地测试环境
 //var prefix = "http://www.suibianshuo.com.cn/daniu-school-test/";//测试环境
 var apiPath = {
