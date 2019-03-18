@@ -78,7 +78,7 @@
 		<div class="header">
 			<div class="header_1">
 				<div class="course_name" id="course_name">
-					
+					<input type="hidden" id="course_derc" value="" />
 				</div>
 				<div class="course_price" id="course_price">
 					
@@ -179,6 +179,7 @@
 		
 		$("#course_details_img img").attr("src",courseDetails.detailsImg);
 		$("#course_name").text(courseDetails.courseTitle);
+		$("#course_derc").val(courseDetails.courseDerc);
 		$("#course_price").text("￥"+courseDetails.coursePresentPrice);
 		$("#course_learing").text(courseDetails.numberOfLearners+"人学过");
 		if(courseDetails.courseMode == 1){

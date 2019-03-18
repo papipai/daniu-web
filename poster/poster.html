@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui" />
+    	<title>我的微店</title>
+    	<style type="text/css">
+    		body{margin: 0;padding: 0;font-family: PingFangSC-Regular;}
+    		.outer{width: 100%;display: flex;flex-direction: column;}
+    		.poster{width: 100%;flex: 1;background: #2C2C2C;}
+    		.poster .dialog{display:none;color: #FFFFFF;width: 7rem;height: 5rem;line-height: 5rem;border-radius: .5rem;background-color: rgba(0,0,0,0.8);position: fixed;top: 50%;text-align: center;}
+    		.poster .poster_tip{color: #FFFFFF;font-size: .75rem;text-align: center;height: 2.31rem;line-height: 2.31rem;}
+    		.poster .poster_img{display: flex;flex-direction: row;justify-content: center;align-content: center;}
+    		.poster .poster_img img{width: 75%; height: 87%;}
+    		.template{width: 100%;height: 6rem;}
+    		.template .temp_tip{color: #000000;font-size: .75rem;text-align: center;padding-top: .5rem;}
+    		.template .temp_list{width: 100%;padding: 0.6rem 0;display: flex;flex-direction: row;overflow-x: scroll;}
+    		.temp_list .temp_thumb{width: 3.31rem;height: 3.31rem;border-radius: 0.125rem;margin-left: 0.61rem;position: relative;}
+    		.temp_thumb img{width: 3.31rem;height: 3.31rem;}
+    		.temp_thumb .mark{width: 3.31rem;height: 3.31rem;position: absolute;display: none;}
+    	</style>
+	</head>
+	<body>
+		<div class="outer" id="app">
+			<div class="poster">
+				<div class="poster_tip">
+					店铺产生的收益可在我的收益处提现
+				</div>
+				<div class="poster_img">
+					<div class="dialog">
+						海报生产中...
+					</div>
+					<img :src="posterUrl"/>
+				</div>
+			</div>
+			<div class="template">
+				<div class="temp_tip">
+					长按上图保存海报分享给好友
+				</div>
+				<div class="temp_list">
+					<div v-for="item in templist" class="temp_thumb" @click="createPoster(item.tempId)" :id="item.tempId">
+						<img v-if="item.tempId == '1'" style="display: block;" class="mark" src="../img/my/poster_selected.png"/>
+						<img v-if="item.tempId != '1'" class="mark" src="../img/my/poster_selected.png"/>
+						<img :src="item.thumbImg"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+	<script src="../js/config/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://cdn.bootcss.com/vue/2.5.17/vue.min.js"></script>
+		<script type="text/javascript">
+		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+		new Vue({
+	        el: '#app',
+	        data: {
+	            templist: [],
+	            posterUrl:""
+	        },
+	        created: function () {
+	　　　　　　//为了在内部函数能使用外部函数的this对象，要给它赋值了一个名叫self的变量。
+	            var self = this;
+	            $.ajax({
+	            	async:false,
+	                type:"post",
+					url:apiPath.userPath,
+					xhrFields:{withCredentials:true},
+					data:{
+						"method":user.get('tempList')
+					},
+	                dataType: 'json'
+	            }).then(function (res) {
+	            	self.createPoster(1);
+					if (res.code == 0) {
+						self.templist = res.object;
+					}
+	            }).fail(function () {
+	                console.log('失败');
+	            })
+	        },
+	        methods:{
+	        	createPoster(tempId){
+	        		$(".mark").css("display","none");
+	        		$("#"+tempId+" .mark").css("display","block");
+	        		var self = this;
+		            $.ajax({
+		            	async:false,
+		                type:"post",
+						url:apiPath.userPath,
+						xhrFields:{withCredentials:true},
+						data:{
+							"method":user.get('createPoster'),
+							"userId":301,
+							"shopId":27,
+							"tempId":tempId,
+							"channel":"gzh"
+						},
+		                dataType: 'json',
+		                beforeSend:function(){
+		                	$(".dialog").css("display","block");
+		                }
+		            }).then(function (res) {
+		            	$(".dialog").css("display","none");
+		　　　　　　　　　　//把从json获取的数据赋值给数组
+						if (res.code == 0) {
+							self.posterUrl = res.object;
+						}
+		                
+		            }).fail(function () {
+		                console.log('失败');
+		            })
+	        	}
+	        }
+	    })
+		
+		$(".no_collect_course").height($(window).height());
+		$(".no_collect_course").width($(window).width());
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".outer").css("height",document.documentElement.clientHeight);
+		})
+	</script>
+</html>

@@ -3,8 +3,187 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui" />
-    	<title>匡邦的知识微店</title>
+
+		<title>我的微店</title>
+		<link rel="stylesheet" type="text/css" href="../css/customstyle.css"/>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../js/my/course.js"></script>
+	<script src="../js/config/browser.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/config/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/config/Authorize.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../js/config/GetUserInfo.js" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="../css/mycourse.css"/>
+	<link rel="stylesheet" type="text/css" href="../css/poster.css"/>
+	<style type="text/css">
+		
+	</style>
 	</head>
 	<body>
+		<div id="app">
+			<div class="outer">
+				<div class="poster">
+				<!--<img src="../img/my/shop_bg.png"/>-->
+					<div class="user_info">
+						<div class="head">
+							<img :src="headimgurl"/>
+						</div>
+						<div class="word">
+							<div id="name">
+								{{nickname}}
+							</div>
+							<div id="profit">
+								您已通过分享知识赚取了:0.00元
+							</div>
+						</div>
+					</div>
+					<div class="numbers">
+						<!--<img src="../img/my/numbers_bg.png"/>-->
+						<div class="word" id="word">
+							<div id="first">已有 <span class="white" id="white">2486</span>人</div>
+							<div id="">在超级讲座分享知识<span class="white">月入过万</span></div>
+						</div>
+					</div>
+					<div class="knowledge">
+						<img class="img_know" src="http://p8v8q53wo.bkt.clouddn.com/kaidianjieshao.png"/>
+					</div>
+				</div>
+				<div class="poster_btn">
+					<div class="poster_btn_left">
+						<div class="top">
+							<span id="free">限时免费</span>
+							<del>原价：199</del>
+						</div>
+						<div class="bottom">
+							百万名师帮你赚钱
+						</div>
+					</div>
+					<div class="poster_btn_righht">
+						立即开店
+					</div>
+				</div>
+			</div>
+			<div class="shop_course_list">
+				<div class="course_collect_list app" id="course_collect_list">
+					<div v-for="item in list" class="line-wrapper" :id="item.courseId" @click="courseDetail(item.courseId)">
+					  <div class="line-scroll-wrapper">
+					    <div class="line-normal-wrapper">
+					      <div class="line-normal-left-wrapper">
+					        <div class="line-normal-avatar-wrapper"><img :src="item.courseMainImg" /></div>
+					        <div class="line-normal-info-wrapper">
+					          <div class="line-normal-user-name">{{item.courseTitle}}</div>
+					          <div class="present_price">￥{{item.coursePresentPrice}}</div>
+					          <div class="line-normal-time">
+					          	 <div class="numberOfLearners">{{item.numberOfLearners}}人学过</div>
+					          	 <div class="dis_profit">赚￥{{item.courseDistributionPrice}}</div>
+					          </div>
+					        </div>
+					      </div>
+					    </div>
+					    <div class="line-btn-delete"><button @click="deleteCourse(item.courseId)">删除</button></div>
+					  </div>
+					</div>
+				</div>
+				<div class="shop_btn">
+					<div class="add_course" @click="addcourse()">
+						添加课程
+					</div>
+					<div class="create_poster" @click="poster()">
+						分享海报
+					</div>
+				</div>
+			</div>
+		</div>
 	</body>
+	<script src="https://cdn.bootcss.com/vue/2.5.17/vue.min.js"></script>
+	<script type="text/javascript">
+		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+		console.log("我的店铺userInfo="+userInfo)
+		//根据用户id和分销用户的id判断用户进入的是自己的店铺还是别人的店铺
+		function GetRequest() {
+			var url = location.search; //获取url中"?"符后的字串
+			var theRequest = new Object();
+			if (url.indexOf("?") != -1) {
+				var str = url.substr(1);
+				strs = str.split("&");
+				for(var i = 0; i < strs.length; i ++) {
+					theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+				}
+			}
+			return theRequest;
+		};
+		var Request = new Object();
+			Request = GetRequest();
+		var disUserId = Request['disUserId'];
+		var shopId = Request['shopId'];
+		
+		console.log("disUserId="+disUserId);
+		console.log("shopId="+shopId);
+		console.log("dis="+userInfo.userId == disUserId);
+		if(disUserId != null && userInfo.userId != disUserId){
+//			window.localStorage.setItem("shopId",shopId);
+			window.location.href = "othershop.html?shopId="+shopId+"&disUserId="+disUserId;
+		};
+		
+		new Vue({
+	        el: '#app',
+	        data: {
+	            shopId:"",
+	        	userInfo:userInfo,
+	            list: [],
+	            nickname:userInfo.nickname,
+	            headimgurl:userInfo.headimgurl
+	        },
+	        created: function () {
+	　　　　　　//为了在内部函数能使用外部函数的this对象，要给它赋值了一个名叫self的变量。
+	            var self = this;
+	            $.ajax({
+	            	async:false,
+	                type:"post",
+					url:apiPath.userPath,
+					xhrFields:{withCredentials:true},
+					data:{
+						"method":user.get('shopDetails'),
+						"userId":userInfo.userId,
+						"isMyStore":"Y"
+					},
+	                dataType: 'json'
+	            }).then(function (res) {
+	                console.log(res.object);
+	　　　　　　　　　　//把从json获取的数据赋值给数组
+					if (res.code == -1) {
+						$(".outer").css("display","flex");
+						$(".shop_course_list").css("display","none");
+					}else{
+						self.list = res.object.shopCourseList;
+						self.shopId = res.object.shopId;
+						window.localStorage.setItem("shopId",self.shopId);
+					}
+	                
+	            }).fail(function () {
+	                console.log('失败');
+	            })
+	        },
+	        methods:{
+	        	addcourse() {
+	        		window.location.href = "shop_dis_course.html";
+	        	},
+	        	poster(){
+	        		window.location.href = "../poster/poster.html";
+	        	},
+	        	courseDetail(courseId){
+	        		window.localStorage.setItem("userId",userInfo.userId);
+	        		window.location.href = "../course_details.html?courseId="+courseId;
+	        	}
+	        }
+	    })
+		
+		$(".no_collect_course").height($(window).height());
+		$(".no_collect_course").width($(window).width());
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".outer").css("height",document.documentElement.clientHeight);
+			$("#word").css("height",$("#word").width()/1.7757);
+		})
+	</script>
 </html>

@@ -131,12 +131,17 @@
                             
                         </div>
                     </section>
+                    <section class="rel ovh">
+                        <div class="ma_3 c_gray_777 line_h_18em">
+                            
+                        </div>
+                    </section>
                 </div>
             </article>
         </div>
 		<div class="history_play" onclick="toPLay()">
 			<div class="course_thumb_img">
-				<img src="img/delete/2.jpg"/>
+				<img src=""/>
 			</div>
 			<div class="mark">
 				<img src="img/thumb/suibian.png"/>
@@ -154,7 +159,9 @@
 	 */
 	var historyPlay = window.localStorage.getItem("historyPlay");
 	console.log("historyPlay="+historyPlay);
-	//alert("historyPlay="+historyPlay)
+	var nums = window.localStorage.getItem("nums");
+	console.log("nums="+nums);
+//	alert("historyPlay="+historyPlay)
 	if(historyPlay == "1"){
 		var courseThumbImg = window.localStorage.getItem("courseThumbImg");
 		

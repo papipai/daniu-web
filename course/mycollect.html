@@ -3,130 +3,16 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui" />
-    
+
 		<title>我的收藏</title>
 		<link rel="stylesheet" type="text/css" href="../css/customstyle.css"/>
 	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
-	<script type="text/javascript">
-	$(document).ready(function(e) {
-	    // 设定每一行的宽度=屏幕宽度+按钮宽度
-	    $(".line-scroll-wrapper").width($(".line-wrapper").width() + $(".line-btn-delete").width());
-	    // 设定常规信息区域宽度=屏幕宽度
-	    $(".line-normal-wrapper").width($(".line-wrapper").width());
-	    // 设定文字部分宽度（为了实现文字过长时在末尾显示...）
-	    $(".line-normal-msg").width($(".line-normal-info-wrapper").width());
-	
-	    // 获取所有行，对每一行设置监听
-	    var lines = $(".line-normal-wrapper");
-	    var len = lines.length; 
-	    var lastX, lastXForMobile;
-	
-	    // 用于记录被按下的对象
-	    var pressedObj;  // 当前左滑的对象
-	    var lastLeftObj; // 上一个左滑的对象
-	
-	    // 用于记录按下的点
-	    var start;
-	
-	    // 网页在移动端运行时的监听
-	    for (var i = 0; i < len; ++i) {
-	        lines[i].addEventListener('touchstart', function(e){
-	            lastXForMobile = e.changedTouches[0].pageX;
-	            pressedObj = this; // 记录被按下的对象 
-	
-	            // 记录开始按下时的点
-	            var touches = event.touches[0];
-	            start = { 
-	                x: touches.pageX, // 横坐标
-	                y: touches.pageY  // 纵坐标
-	            };
-	        });
-	
-	        lines[i].addEventListener('touchmove',function(e){
-	            // 计算划动过程中x和y的变化量
-	            var touches = event.touches[0];
-	            delta = {
-	                x: touches.pageX - start.x,
-	                y: touches.pageY - start.y
-	            };
-	
-	            // 横向位移大于纵向位移，阻止纵向滚动
-	            if (Math.abs(delta.x) > Math.abs(delta.y)) {
-	                event.preventDefault();
-	            }
-	        });
-	
-	        lines[i].addEventListener('touchend', function(e){
-	            if (lastLeftObj && pressedObj != lastLeftObj) { // 点击除当前左滑对象之外的任意其他位置
-	                $(lastLeftObj).animate({marginLeft:"0"}, 500); // 右滑
-	                lastLeftObj = null; // 清空上一个左滑的对象
-	            }
-	            var diffX = e.changedTouches[0].pageX - lastXForMobile;
-	            if (diffX < -150) {
-	                $(pressedObj).animate({marginLeft:"-132px"}, 500); // 左滑
-	                lastLeftObj && lastLeftObj != pressedObj && 
-	                    $(lastLeftObj).animate({marginLeft:"0"}, 500); // 已经左滑状态的按钮右滑
-	                lastLeftObj = pressedObj; // 记录上一个左滑的对象
-	            } else if (diffX > 150) {
-	              if (pressedObj == lastLeftObj) {
-	                $(pressedObj).animate({marginLeft:"0"}, 500); // 右滑
-	                lastLeftObj = null; // 清空上一个左滑的对象
-	              }
-	            }
-	        });
-	    }
-	
-	    // 网页在PC浏览器中运行时的监听
-	    for (var i = 0; i < len; ++i) {
-	        $(lines[i]).bind('mousedown', function(e){
-	            lastX = e.clientX;
-	            pressedObj = this; // 记录被按下的对象
-	        });
-	
-	        $(lines[i]).bind('mouseup', function(e){
-	            if (lastLeftObj && pressedObj != lastLeftObj) { // 点击除当前左滑对象之外的任意其他位置
-	                $(lastLeftObj).animate({marginLeft:"0"}, 500); // 右滑
-	                lastLeftObj = null; // 清空上一个左滑的对象
-	            }
-	            var diffX = e.clientX - lastX;
-	            if (diffX < -150) {
-	                $(pressedObj).animate({marginLeft:"-132px"}, 500); // 左滑
-	                lastLeftObj && lastLeftObj != pressedObj && 
-	                    $(lastLeftObj).animate({marginLeft:"0"}, 500); // 已经左滑状态的按钮右滑
-	                lastLeftObj = pressedObj; // 记录上一个左滑的对象
-	            } else if (diffX > 150) {
-	              if (pressedObj == lastLeftObj) {
-	                $(pressedObj).animate({marginLeft:"0"}, 500); // 右滑
-	                lastLeftObj = null; // 清空上一个左滑的对象
-	              }
-	            }
-	        });
-	    }
-	});
+	<script type="text/javascript" src="../js/my/course.js">
+
 	</script>
+	<link rel="stylesheet" type="text/css" href="../css/mycourse.css"/>
 	<style type="text/css">
-	* { margin: 0; padding: 0; }
-	.line-wrapper { width: 100%; height: 4.75rem; overflow: hidden;margin-top: 1.25rem; }
-	.line-scroll-wrapper { white-space: nowrap; height: 4.75rem; clear: both; }
-	.line-btn-delete { float: left; width: 132px; height: 4.75rem; }
-	.line-btn-delete button { width: 100%; height: 100%; background: red; border: none; font-size: 1.5rem; font-family: 'Microsoft Yahei'; color: #fff; }
-	.line-normal-wrapper { display: inline-block; float: left;}
-	.line-normal-icon-wrapper { float: right; width: 120px; height: 120px; margin-right: 12px; }
-	.line-normal-icon-wrapper img { width: 120px; height: 120px; }
-	.line-normal-avatar-wrapper { width: 8rem; height: 4.75rem; margin-left: 1rem; border-radius: 0.25rem;}
-	.line-normal-avatar-wrapper img { width: 8rem; height: 4.75rem;border-radius: 0.25rem;}
-	.line-normal-left-wrapper {display: flex;flex-direction: row;}
-	.line-normal-info-wrapper { margin-left: .625rem; flex: 1;display: flex;flex-direction: column;height: 4.75rem;margin-right: 1rem;}
-	.line-normal-user-name { width:12.81rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;font-family: PingFangSC-Medium;font-size: 1.0625rem;color: #333333; flex: 1;display: flex;align-items: center}
-	.line-normal-msg { width:12.81rem;overflow:hidden; text-overflow:ellipsis; flex: 1;font-family: PingFangSC-Regular;font-size: .875rem;color: #999999;display: flex;align-items: center}
-	.line-normal-time { flex: 1; font-family: PingFangSC-Regular;font-size: .75rem;color: #B3B3B3;display: flex;flex-direction: row;justify-content: space-between; align-items: flex-end;}
-	#present_price{font-family: PingFangSC-Medium;font-size: 1.125rem;color: #F24724;}
-	#origianl_price{font-family: PingFangSC-Medium;font-size: .75rem;color: #B3B3B3;}
-	.course_collect_list{width: 100%;height: 100%;}
-	.no_collect_course{display: none;flex-direction: column;justify-content: center;align-content: center;}
-	.no_collect_course .tip{display: flex;align-content: center;justify-content: center;flex-direction: column;}
-	.no_collect_course .tip img{width: 11.81rem;height: 7.08rem;text-align: center;display: block;margin: auto;}
-	.no_collect_course .tip span{font-family: PingFangSC-Medium;font-size: .875rem;color: #767676;margin-top: .73rem;text-align: center;}
+	
 	</style>
 	</head>
 	<body>
@@ -137,7 +23,7 @@
 				<img src="../img/nocourse.png"/>
 				<span id="">您暂时没有收藏任何课程哦~</span>
 			</div>
-			
+
 		</div>
 		<div v-for="item in list" class="line-wrapper" :id="item.courseId">
 		  <div class="line-scroll-wrapper">
@@ -161,7 +47,7 @@
 		  </div>
 		</div>
 	</div>
-	
+
 	</body>
 	<script src="../js/config/api.js" type="text/javascript" charset="utf-8"></script>
 	<script src="https://cdn.bootcss.com/vue/2.5.17/vue.min.js"></script>
@@ -182,7 +68,7 @@
 					xhrFields:{withCredentials:true},
 					data:{
 						"method":user.get('learning'),
-						"userId":userInfo.userId,
+						"userId":301,
 						"userCourseStatus":1
 					},
 	                dataType: 'json'
@@ -200,8 +86,11 @@
 	            })
 	        },
 	        methods:{
-	        	courseDetails(courseId){
-	        		window.location.href = "../course_details.html?courseId="+courseId;
+	        	addcourse() {
+	        		window.location.href = "shop_dis_course.html?shopId="+this.shopId;
+	        	},
+	        	poster(){
+	        		window.location.href = "../poster/poster.html?shopId="+this.shopId;
 	        	},
 	        	deleteCourse(courseId){
 	        		$.ajax({

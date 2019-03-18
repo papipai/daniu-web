@@ -701,24 +701,39 @@
 	/**
 	 * 监听页面关闭时间，把用户最后一次观看的课程保存到本地
 	 */
-	window.onbeforeunload = function(event) {
-	 	window.localStorage.setItem("historyPlay","1");//标志用户有观看记录
-	 	window.localStorage.setItem("courseDetails",JSON.stringify(courseDetails));
-	 	window.localStorage.setItem("nums",$("#nums").val());
-	 	window.localStorage.setItem("isbuy",isbuy);
-	 	window.localStorage.setItem("isFree",isFree);
-	 	window.localStorage.setItem("freeChapters",freeChapters);
-	 	window.localStorage.setItem("userId",userId);
-	 	window.localStorage.setItem("courseThumbImg",courseDetails.courseThumbImg);
-	 	
-	 	if (chapterList[$("#nums").val()-1].courseChapterType == "video") {
-	 		window.localStorage.setItem("courseChapterUrl",$("#video")[0].src);
-	 		window.localStorage.setItem("timepoint",$("#video")[0].currentTime);
-	 	}else{
-	 		window.localStorage.setItem("courseChapterUrl",$("#audio-source")[0].src);
-	 		window.localStorage.setItem("timepoint",$("#audio-source")[0].currentTime);
-	 	}
-	};
+	if (window.addEventListener) {
+        window.addEventListener('pagehide', function () {
+         addRecord();
+        })
+      } else if (window.attachEvent) {
+        // 主要是为了兼容老的IE
+        window.attachEvent('on' + 'pagehide', function () {
+          addRecord();
+        })
+      } else {
+        window.onbeforeunload = function () {
+           addRecord();
+        }
+      }
+	  
+	  function addRecord(){
+	  		window.localStorage.setItem("historyPlay","1");//标志用户有观看记录
+		 	window.localStorage.setItem("courseDetails",JSON.stringify(courseDetails));
+		 	window.localStorage.setItem("nums",$("#nums").val());
+		 	window.localStorage.setItem("isbuy",isbuy);
+		 	window.localStorage.setItem("isFree",isFree);
+		 	window.localStorage.setItem("freeChapters",freeChapters);
+		 	window.localStorage.setItem("userId",userId);
+		 	window.localStorage.setItem("courseThumbImg",courseDetails.courseThumbImg);
+		 	
+		 	if (chapterList[$("#nums").val()-1].courseChapterType == "video") {
+		 		window.localStorage.setItem("courseChapterUrl",$("#video")[0].src);
+		 		window.localStorage.setItem("timepoint",$("#video")[0].currentTime);
+		 	}else{
+		 		window.localStorage.setItem("courseChapterUrl",$("#audio-source")[0].src);
+		 		window.localStorage.setItem("timepoint",$("#audio-source")[0].currentTime);
+		 	}
+	  }
 </script>
 <!--<script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/custom/WXPay.js" type="text/javascript" charset="utf-8"></script>-->

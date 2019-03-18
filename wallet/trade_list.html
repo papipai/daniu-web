@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui" />
+    	<title>收支记录</title>
+		<style type="text/css">
+			body{margin: 0;padding: 0;background: #F0F0F0;}
+			.trade_details{width: 100%;height: 3.31rem;display: flex;flex-direction: column;background: #FFFFFF;border-bottom: 1px #f0f0f0 solid;border-top: 1px #f0f0f0 solid;}
+			.top{flex: 1;display: flex;flex-direction: row;justify-content: space-between;}
+			.bottom{flex: 1;display: flex;flex-direction: row;justify-content: space-between;}
+			.trade_type{padding: .44rem 0 0 1rem;color: #1F1F1F;font-size: .88rem;}
+			.trade_time{padding: .69rem 1rem 0 0;color: #6F6F6F;font-size: .75rem;}
+			.balance{color: #1F1F1F;font-size: .75rem;padding: .19rem 0 0 1rem;}
+			.money{color: #1F1F1F;font-size: .88rem;padding: 0 1.25rem 0 0;letter-spacing: 0.23px;}
+		</style>
+	</head>
+	<body>
+		<div class="trade_list" id="app">
+			<div v-for="item in list" class="trade_details">
+				<div class="top">
+					<div class="trade_type" v-if="item.tradeKind == 'profit'">
+						推广收益
+					</div>
+					<div class="trade_type" v-if="item.tradeKind == 'buy'">
+						买课
+					</div>
+					<div class="trade_type" v-if="item.tradeKind == 'draw'">
+						提现
+					</div>
+					<div class="trade_time">
+						{{item.createTime.substring(0,10)}}
+					</div>
+				</div>
+				<div class="bottom">
+					<div class="balance">
+						余额:{{(item.balance).toFixed(2)}}
+					</div>
+					<div class="money" v-if="item.tradeType == 'expenditure'">
+						-{{(item.money).toFixed(2)}}元
+					</div>
+					<div class="money" v-if="item.tradeType == 'income'">
+						+{{(item.money).toFixed(2)}}元
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+	<script src="../js/config/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://cdn.bootcss.com/vue/2.5.17/vue.min.js"></script>
+	<script type="text/javascript">
+		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+		new Vue({
+	        el: '#app',
+	        data: {
+	            list:[]
+	        },
+	        created: function () {
+	　　　　　　//为了在内部函数能使用外部函数的this对象，要给它赋值了一个名叫self的变量。
+	            var self = this;
+	            $.ajax({
+	            	async:false,
+	                type:"post",
+					url:apiPath.userPath,
+					xhrFields:{withCredentials:true},
+					data:{
+						"method":user.get('tradeRecord'),
+						"userId":userInfo.userId
+					},
+	                dataType: 'json'
+	            }).then(function (res) {
+					if (res.code == 0) {
+						self.list = res.object;
+					}
+	            }).fail(function () {
+	                console.log('失败');
+	            })
+	        }
+	    })
+	</script>
+</html>

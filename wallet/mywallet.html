@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui" />
+    	<title>我的收益</title>
+    	<script src="../js/config/browser.js" type="text/javascript" charset="utf-8"></script>
+	    <script src="../js/config/api.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/config/Authorize.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/config/GetUserInfo.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			body{background: #F5F5F5;margin: 0;padding: 0;}
+			.outer{background: #fff;}
+			.balance{width: 100%;height: 14.39rem;display: flex;flex-direction: column;justify-content: center;align-items: center;text-align: center;}
+			.balance .my_balance_bg{width: 10.63rem;height: 10.63rem;background-image: url(http://p8v8q53wo.bkt.clouddn.com/balance_bg.png);background-size: 100% 100%;display: flex;flex-direction: column;justify-content: center;align-content: center;}
+			.balance .my_balance_bg .balance_tip{color: #B1B1B1;font-size: .75rem;margin-bottom: .19rem;}
+			.balance .my_balance_bg .my_balance{color: #1F1F1F;font-size: 1.88rem;}
+			.balance .my_balance_bg .trade_details{color: #FF5C23;font-size: .75rem;margin-top: .56rem;}
+			.profit{width: 100%;height: 3.31rem;display: flex;flex-direction: row;border-bottom: 1px  #F5F5F5 solid;border-top: 1px  #F5F5F5 solid;}
+			.profit .today{flex:1;border-right:1px #F5F5F5 solid;text-align: center;display: flex;flex-direction: column;justify-content: center;}
+			.profit .total{flex:1;text-align: center;display: flex;flex-direction: column;justify-content: center;}
+			.money{color: #1F1F1F;font-size: 1rem;}
+			.tip{color: #6F6F6F;font-size: .75rem;}
+			.withdraw{width: 100%;height: 2.5rem;text-align: center;line-height: 2.5rem;color: #FF5D24;font-size: 1.06rem;}
+		</style>
+	</head>
+	<body>
+		<div class="outer" id="app">
+			<div class="balance">
+				<div class="my_balance_bg">
+					<div class="balance_tip">
+						我的余额(元)
+					</div>
+					<div class="my_balance">
+						{{my_balance}}
+					</div>
+					<div class="trade_details" @click="tradeList()">
+						查看明细
+					</div>
+				</div>
+			</div>
+			<div class="profit">
+				<div class="today">
+					<div class="money">
+						{{todayProfit}}
+					</div>
+					<div class="tip">
+						今日收益
+					</div>
+				</div>
+				<div class="total">
+					<div class="money">
+						{{total}}
+					</div>
+					<div class="tip">
+						历史总收益
+					</div>
+				</div>
+			</div>
+			<div class="withdraw" @click="withDraw()">
+				提现
+			</div>
+		</div>
+		
+	</body>
+	<script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+	<script src="https://cdn.bootcss.com/vue/2.5.17/vue.min.js"></script>
+	<script type="text/javascript">
+		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+		new Vue({
+	        el: '#app',
+	        data: {
+	        	todayProfit:0,
+	            my_balance:0,
+	            money:0,
+	            total:0,
+	            userId:0
+	        },
+	        created: function () {
+	　　　　　　//为了在内部函数能使用外部函数的this对象，要给它赋值了一个名叫self的变量。
+	            var self = this;
+	            $.ajax({
+	            	async:false,
+	                type:"post",
+					url:apiPath.userPath,
+					xhrFields:{withCredentials:true},
+					data:{
+						"method":user.get('wallet'),
+						"userId":userInfo.userId
+					},
+	                dataType: 'json'
+	            }).then(function (res) {
+	                console.log(res.object);
+	　　　　　　　　　　//把从json获取的数据赋值给数组
+					if (res.code == 0) {
+						self.todayProfit = (res.object.todayProfit).toFixed(2);
+						self.my_balance = (res.object.reward).toFixed(2);
+						self.money = (res.object.reward).toFixed(2);
+						self.total = (res.object.reward + res.object.totalDraw).toFixed(2);
+						self.userId = res.object.userId;
+					}
+	                
+	            }).fail(function () {
+	                console.log('失败');
+	            })
+	        },
+	        methods:{
+	        	tradeList() {
+	        		window.localStorage.setItem("userId",this.userId);
+	        		window.location.href = "../wallet/trade_list.html";
+	        	},
+	        	withDraw(){
+	        		alert('在“超级讲座”公众号内回复“超级讲座提现”，即可提现到微信零钱');
+	        	}
+	        }
+	    })
+	</script>
+</html>

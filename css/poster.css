@@ -1,0 +1,162 @@
+html,body{
+	font-family: PingFangSC-Medium;
+	margin: 0;
+	padding: 0;
+	background: #F5F5F5;
+}
+.outer{
+	width: 100%;
+	height: 100%;
+	display: none;
+	flex-direction: column;
+}
+.outer .poster{
+	flex: 1;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	background-image: url(http://p8v8q53wo.bkt.clouddn.com/kaidian_ditu.png);
+	background-size: 100%;
+}
+.outer .poster img{
+	width: 100%;
+	flex: 1;
+}
+.outer .poster_btn{
+	width: 100%;
+	height: 4rem;
+	display: flex;
+	flex-direction: row;
+}
+.poster_btn .poster_btn_left{
+	flex: 1;
+	height: 100%;
+}
+.poster_btn .poster_btn_righht{
+	width: 37.9%;
+	height: 100%;
+	font-family: .PingFang-SC-Medium;
+	font-size: 1.13rem;
+	color: #FFFFFF;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	justify-content: center;
+	background-image: linear-gradient(-90deg, #FF7D25 0%, #FF5D24 100%);
+}
+.poster_btn .poster_btn_left .top #free{
+	font-size: 1.13rem;
+	color: #FF5D24;
+}
+.poster_btn .poster_btn_left .top del{
+	font-size: 0.75rem;
+	color: #6F6F6F;
+}
+.poster_btn .poster_btn_left .bottom{
+	font-size: .75rem;
+}
+.poster_btn .poster_btn_left .top,.bottom{
+	margin: .5rem 0 0 1rem;
+}
+.user_info {
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 1.19rem;
+}
+.user_info .head{
+	width: 3.5rem;
+	height: 3.5rem;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-top: 1.88rem;
+	margin-left: 3.31rem;
+}
+.user_info .head img{
+	width: 3.5rem;
+	height: 3.5rem;
+}
+.user_info .word{
+	margin-top: 2.06rem;
+	margin-left: .94rem;
+}
+.user_info .word #name{
+	font-size: 1.13rem;
+	color: #FFFFFF;
+}
+.user_info .word #profit{
+	font-size: .75rem;
+	color: #FFFFFF;
+	margin-top: .38rem;
+}
+.poster .numbers{
+	width: 100%;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.poster .numbers .word{
+	width: 76%;
+	text-align: center;
+	color: #844F0E;
+	font-size: 0.88rem;
+	background-image: url(http://p8v8q53wo.bkt.clouddn.com/muke/vue/numbers_bg.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+.poster .numbers .word .white{
+	color: #FFFFFF;
+}
+.poster .numbers .word #white{
+	font-size: 2rem;
+}
+.poster .numbers .word #first{
+	padding-top: 1.5rem;
+}
+.poster .knowledge{
+	width: 100%;
+	text-align: center;
+	float: left;
+	margin-top: -16.5%;
+	
+}
+.poster .numbers img{
+	width: 76%;
+}
+.poster .knowledge img{
+	width: 91.5%;
+}
+.shop_course{
+	padding-top: 1.25rem;
+	background: #fff;
+	margin-bottom: 6rem;
+}
+.shop_btn{
+	    width: 100%;
+	display: flex;
+	flex-direction: row;
+	height: 2.75rem;
+	position: fixed;
+	left: 0;
+	bottom: 0;
+}
+.shop_btn .add_course{
+	flex: 1;
+	background: #FAFAFA;
+	font-size: 1rem;
+	color: #6F6F6F;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}
+.shop_btn .create_poster{
+	flex: 1;
+	background-image: linear-gradient(-90deg, #FF7D25 0%, #FF5D24 100%);
+	font-size: 1rem;
+	color: #ffffff;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}

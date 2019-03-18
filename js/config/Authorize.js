@@ -2,16 +2,18 @@
 	 * 判断用户是否已经授权
 	 * url:需要授权的页面
 	 * oauth2Url：微信授权接口
+	 * 一定要对url进行encodeURIComponent()
 	 */
 	
-	var appid = "wxe222cbca54bed80c";//大牛财商
-	//var appid = "wx17780cf670141bac";//超级讲座
+//	var appid = "wxe222cbca54bed80c";//大牛财商
+	var appid = "wx17780cf670141bac";//超级讲座
 	//var appid = "wx0fc83cabd74c9566";//大牛学堂
 	var redirect_uri = window.location.href;//获取当前页面的url
-	var oauth2Url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+redirect_uri+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+	var oauth2Url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+encodeURIComponent(redirect_uri)+"&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 	var userInfo = window.localStorage.getItem("userInfo");
 	
 	console.log("redirect_uri="+redirect_uri);
+	console.log("encodeURIComponent(redirect_uri)="+encodeURIComponent(redirect_uri));
 	console.log("oauth2Url="+oauth2Url);
 	console.log("userInfo="+userInfo);
 	
