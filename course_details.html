@@ -10,13 +10,13 @@
     <meta name="x5-fullscreen" content="true" />
     <meta name="format-detection" content="telphone=no, email=no" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <title>大牛财商</title>
+    <title>超级讲座</title>
     <script type="text/javascript" src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
     
-    <script src="js/config/browser.js" type="text/javascript" charset="utf-8"></script>
+    <!--<script src="js/config/browser.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/config/Authorize.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/config/GetUserInfo.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/config/GetUserInfo.js" type="text/javascript" charset="utf-8"></script>-->
     <script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
     
     <link rel="stylesheet" type="text/css" href="css/akjs.mobile.min.css" /><!--AKjs公共样式库引入-->
@@ -29,6 +29,9 @@
     
    
     <style type="text/css">
+    	body{
+    		background: #F7F7F7;
+    	}
     	.course_banner img{
     		width: 100%;
     	}
@@ -178,6 +181,57 @@
 			justify-content: center;
 			align-content: center;
 		}
+		
+		.header{
+				display: flex;
+				flex-direction: column;
+				padding: 1rem;
+				background: #fff;
+				margin-bottom: 0.5rem;
+				margin-top: -2px;
+			}
+			.header .header_1{
+				width: 100%;
+			    display: flex;
+			    flex-direction: row;
+			    justify-content: space-between;
+			}
+			.header .header_2{
+				width: 100%;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				padding-top: 1rem;
+			}
+			.header .header_1 .course_name{
+				font-size: 1rem;
+				flex: 1;
+			    color: #1F1F1F;
+			    font-family:PingFangSC-Medium;
+				font-weight:500;
+			}
+			.header .header_2 .course_price span{
+				font-size: 1.25rem;
+				color: #F24724;
+				font-family:PingFang-SC-Medium;
+				font-weight:500;
+			}
+			.header .header_2 .course_price del{
+				font-size:0.88rem;
+				font-family:PingFangSC-Regular;
+				font-weight:400;
+				color:rgba(111,111,111,1);
+			}
+			.header .header_2 .course_mode{
+				font-size: .875rem;
+				color: #FF5D24;
+			}
+			.header .header_2 .course_learing{
+				text-align: right;
+				font-size: .75rem;
+				color: #B1B1B1;
+			}
     </style>
     <!--<script>
     	var banner_div = document.getElementById("banner_div");
@@ -217,13 +271,30 @@
             	分享赚¥39.90
             </div>
         </div>
+        <div class="header">
+			<div class="header_1">
+				<div class="course_name" id="course_name">
+					吴晓波力荐、支付宝特邀导师：10节小白理课程每天十分钟，轻松实现收益翻倍
+					<input type="hidden" id="course_derc" value="" />
+				</div>
+			</div>
+			<div class="header_2">
+				<div class="course_price" id="course_price">
+					<span id="coursePresentPrice">￥780</span>
+					<del id="courseOriginalPrice">1280</del>
+				</div>
+				<div class="course_learing" id="course_learing">
+					30万人学过
+				</div>
+			</div>
+		</div>
         <!----------Andrew_Tabs---------->
         
         
         <div class="plug_tabs mt_5">
             <nav class="ovh press bg_white"style="padding: 1em 1em 0 1em;border-bottom: 1px #D8D8D8 solid;">
               <ul class="ovh list_h_3em nav_line_c course_details">
-                <li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">课程介绍</li>
+                <li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">课程详情</li>
                 <li class="fl rel text_al_c bor_bottom bor_gray_ddd pointer touchstart">课程目录</li>
               </ul>
             </nav>
@@ -353,6 +424,12 @@
 		document.title = courseObject.courseTitle;//设置网页标题为课程标题
 		$("#banner_img").attr("src",courseObject.courseImg);
 		$(".distri_tip").text("分享赚¥"+courseObject.courseDistributionPrice);
+		$("#course_name").text(courseObject.courseTitle);
+		$("#course_derc").val(courseObject.courseDerc);
+		$("#coursePresentPrice").text("￥"+courseObject.coursePresentPrice);
+		$("#courseOriginalPrice").text(courseObject.courseOriginalPrice);
+		$("#course_learing").text(courseObject.numberOfLearners+"人学过");
+		
 		
 		if(courseObject.isCollect == "Y"){
 			$(".collect_icon").removeClass("no_collect_icon").addClass("has_collect_icon");
@@ -409,12 +486,12 @@
 	
 	//立即学习
 	$("#learing_at_once").click(function(){
-		if(isFree == "Y"){
+		var courseDetails = JSON.parse(window.localStorage.getItem("courseDetails"));
+		if(isFree == "Y" || courseDetails.isBuy == "Y"){
 			window.localStorage.setItem("courseChapterUrl",courseDetails.daniuCourseChapterList[0].courseChapterUrl);
 			window.localStorage.setItem("nums",1);
 			window.location.href = "play.html";
 		}else{
-			//showTip(".tip");
 			showTip("img/tip.png","加入学习后才能观看哦");
 		}
 		

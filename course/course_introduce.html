@@ -18,53 +18,19 @@
 	<script src="js/custom/WXPay.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/Mdate.js"></script>
 		<style>
-			.header{
-				border: 0px red solid;
-				width: calc(100%-20px);
-				height: 6em;
-				display: flex;
-				flex-direction: column;
-				padding: 14px 10px 20px 10px;
-			}
-			.header .header_1{
-				width: 100%;
-			    flex: 2;
-			    display: flex;
-			    flex-direction: row;
-			    justify-content: space-between;
-			}
-			.header .header_2{
-				width: 100%;
-				flex: 1;
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-			}
-			.header .header_1 .course_name{
-				font-size: 1.5em;
-				flex: 1;
-			    color: #1F1F1F;
-			    overflow: hidden;
-			    white-space: nowrap;
-			    text-overflow: ellipsis;
-			}
-			.header .header_1 .course_price{
-				text-align: right;
-				font-size: 1.25em;
-				color: #F24724;
-			}
-			.header .header_2 .course_mode{
-				font-size: .875em;
-				color: #FF5D24;
-			}
-			.header .header_2 .course_learing{
-				text-align: right;
-				font-size: .875em;
-				color: #1F1F1F;
+			.course_details_img{
+				margin-top: 1rem;
 			}
 			.course_details_img img{
 				width: 100%;
 				height: auto;
+			}
+			.course_introduce{
+				font-size:1.13rem;
+				font-family:PingFangSC-Semibold;
+				font-weight:600;
+				color:rgba(51,51,51,1);
+				padding-bottom: 1rem;
 			}
 		</style>
 		
@@ -75,7 +41,7 @@
 		</script>
 	</head>
 	<body>
-		<div class="header">
+		<!--<div class="header">
 			<div class="header_1">
 				<div class="course_name" id="course_name">
 					<input type="hidden" id="course_derc" value="" />
@@ -92,8 +58,8 @@
 					
 				</div>
 			</div>
-		</div>
-		<div class="module list press mt_5">
+		</div>-->
+		<!--<div class="module list press mt_5">
             <ul class="list_h_36em" id="course_hard_list">
               <li class="bor_bottom bor_gray_ddd bg_white">
                 <dl class="ovh h_in">
@@ -160,6 +126,12 @@
                 </dl>
               </li>
             </ul>
+        </div>-->
+        <div class="course_derc">
+        	<div class="course_introduce">
+        		课程介绍
+        	</div>
+        	<p id="course_derc">我叫风胡子，是一名心理学培训师，同时也是一名父亲，擅长将心理学的研究成果融合亲子之间的琐碎事件，以便为解决为人父母的小烦恼提供科学的切入点。</p>
         </div>
         <div class="course_details_img" id="course_details_img">
         	<img src="http://p8v8q53wo.bkt.clouddn.com/yujiashipin1_fengm1.jpg" />
@@ -178,15 +150,7 @@
 		var hardList = courseDetails.daniuCourseHardDtlList;
 		
 		$("#course_details_img img").attr("src",courseDetails.detailsImg);
-		$("#course_name").text(courseDetails.courseTitle);
-		$("#course_derc").val(courseDetails.courseDerc);
-		$("#course_price").text("￥"+courseDetails.coursePresentPrice);
-		$("#course_learing").text(courseDetails.numberOfLearners+"人学过");
-		if(courseDetails.courseMode == 1){
-			$("#course_mode").text("训练营课程模式");
-		}else if(courseDetails.courseMode == 2){
-			$("#course_mode").text("在线课程模式");
-		}
+		$("#course_derc").html(courseDetails.courseDerc);
 		
 		if (hardList != "") {
 			var dom = "";

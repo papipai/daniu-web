@@ -59,9 +59,9 @@ function onBridgeReady(appid,paySign,prepay_id,nonceStr,timestamp,courseId,userI
            "paySign":paySign //微信签名 （这个签名获取看后台）
        },
        function(res){
+       		//alert("购买回调="+res.err_msg)
     		// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
            if(res.err_msg == "get_brand_wcpay_request:ok" ) {//添加订单记录和用户购买的课程
-           	//alert("购买回调="+res.err_msg)
            	//console.log("购买回调="+res.err_msg);
         	    $.ajax({
         	    	async: false,
@@ -82,7 +82,7 @@ function onBridgeReady(appid,paySign,prepay_id,nonceStr,timestamp,courseId,userI
 						"order_type":order_type
 					},
 					success : function(data) { // 服务器响应成功时的处理函数
-						//alert("支付是否成功="+data.code);
+//						alert("支付是否成功="+data.code);
 						if(data.code == 0){//插入支付记录
 							setTimeout(function(){
 								//showTip(".buy_tip");
@@ -142,6 +142,7 @@ if (courseDetails.courseMode == 2) {//因为点击事件与Mdata插件冲突，�
 }
 $("#btn_buy").click(function(){
 	console.log("在线模式直接购买");
+//	alert("disUserId="+disUserId+",order_type="+order_type)
 	toPayInit(courseDetails.courseId,userInfo.userId,disUserId,order_type);
 })
 

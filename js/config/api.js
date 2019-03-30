@@ -30,7 +30,7 @@ var user = new Map([
 	['learning', 'daniu.school.user.course.learning'],
 	['add', 'daniu.school.user.course.add'],
 	['userinfo', 'daniu.school.user.info.details'],
-	['adduser', 'daniu.school.user.info.add'],
+	['adduser', 'camp.user.info.add'],
 	['delete', 'daniu.school.user.course.delete'],
 	['shopDetails','daniu.school.user.shop.details'],
 	['addShopCourse','daniu.school.user.shop.course.add'],

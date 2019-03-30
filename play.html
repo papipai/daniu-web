@@ -715,7 +715,9 @@
            addRecord();
         }
       }
-	  
+	  /**
+	   * 把用户最后一次观看的课程保存到本地
+	   */
 	  function addRecord(){
 	  		window.localStorage.setItem("historyPlay","1");//标志用户有观看记录
 		 	window.localStorage.setItem("courseDetails",JSON.stringify(courseDetails));
