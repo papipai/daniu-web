@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -10,14 +10,13 @@
     <meta name="x5-fullscreen" content="true" />
     <meta name="format-detection" content="telphone=no, email=no" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <title>超级讲座</title>
+    <title>增长帮</title>
     <script type="text/javascript" src="http://libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
     
     <script src="js/config/browser.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/config/Authorize.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/config/GetUserInfo.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
     
     <link rel="stylesheet" type="text/css" href="css/akjs.mobile.min.css" /><!--AKjs公共样式库引入-->
     <link rel="stylesheet" type="text/css" href="css/style.css" /><!--布局相关样式-->
@@ -124,38 +123,38 @@
 			height: 100%;
 			background: #fff;
 			font-size: 1em;
-			color: #FF5D24;
+			color: rgba(111,111,111,1);
 			display: flex;
 			justify-content: center;
 			align-items: center;
 		}
 		.btn .btn_collect .no_collect_icon{
-			background: url(img/my/soucang_xiangqingye.png) center center no-repeat;
-			background-size: 1.3rem 1.3rem;
-			width: 1.3rem;
+			background: url(img/index.png) center center no-repeat;
+			background-size: 1.5rem 1.5rem;
+			width: 1.5rem;
 		    height: 100%;
-		    margin-left: .5rem;
 		}
 		.btn .btn_collect .has_collect_icon{
 			background: url(img/my/yishoucang_xiangqingye.png) center center no-repeat;
-			background-size: 1.3rem 1.3rem;
-			width: 1.3rem;
+			background-size: 1.5rem 1.5rem;
+			width: 1.5rem;
 		    height: 100%;
 		    margin-left: .5rem;
 		}
 		.btn .btn_buy{
 			flex: 3;
 			height: 100%;
-			background-image: linear-gradient(-90deg, #FF7D25 0%, #FF5D24 100%);
+			background: rgba(69,161,244,1);;
 			font-size: 1em;
 			color: #fff;
 			display: flex;
 			justify-content: center;
 			align-items: center;
 		}
-		.learing_at_once{
+		/*.learing_at_once{
 			flex: 3;
 		    height: 100%;
+		    background: #45A1F4;
 		    background-image: linear-gradient(-90deg, #FF7D25 0%, #FF5D24 100%);
 		    font-size: 1em;
 		    color: #fff;
@@ -163,25 +162,31 @@
 		    justify-content: center;
 		    align-items: center;
 			display: none;
-		}
+		}*/
 		.distri_tip{
-			width: 5.38rem;
-			height: 2.44rem;
-			background-image: url(img/my/tip_bg.png);
-			background-repeat: no-repeat;
-			background-size: 5.38rem 2.44rem;
-			padding: .5rem 0rem 0 .3rem;
-			position: absolute;
-			right: 2.75rem;
-			top: 0.81rem;
-			color: #ffffff;
-			font-size: .75rem;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-content: center;
+			width: 5.8rem;
+		    height: 2.44rem;
+		    background-image: url(img/my/tip_bg.png);
+		    background-repeat: no-repeat;
+		    background-size: 100%;
+		    position: absolute;
+		    right: .75rem;
+		    top: 0.81rem;
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    padding-top: 0.2rem;
+			
 		}
-		
+		.distri_tip_word{
+			display: flex;
+		    flex-direction: column;
+		    justify-content: center;
+		    align-content: center;
+		    font-size: .75rem;
+		    color: #ffffff;
+		    height: 1.5rem;
+		}
 		.header{
 				display: flex;
 				flex-direction: column;
@@ -232,17 +237,105 @@
 				font-size: .75rem;
 				color: #B1B1B1;
 			}
+			.distri_mark{
+				display: none;
+				width: 100%;
+				height: 100%;
+				background: rgba(0,0,0,0.8);
+				position: fixed;
+				left: 0;
+				top: 0;
+				z-index: 2;
+				text-align: center;
+			}
+			.distri_mark .share_img{
+				width: 70%;
+				margin: 1rem 0 5rem 4rem;
+			}
+			
+			.group_tip{
+				display: none;
+				flex-direction: column;
+				position: fixed;
+				left: 0;
+				top: 0;
+				z-index: 1;
+				width: 100%;
+				justify-content: center;
+				align-content: center;
+				text-align: center;
+				background:rgba(0,0,0,0.5);
+			}
+			.group_img{
+			    display: flex;
+			    flex-direction: column;
+			    align-items: center;
+			    margin-bottom: 6rem;
+			}
+			.group_img .qrcode{
+				width:18rem;
+				height:24rem;
+				margin-bottom: 2rem;
+			}
+			.close{
+				width: 2.29rem;
+				height: 2.29rem;
+				margin: auto;
+			}
+			.close .close_icon{
+				width: 100%;
+				height: 100%;
+			}
+			#banner_img{
+				height: 11.25rem;
+			}
+			.addGroupTip{
+				display: none;
+				width: 100%;
+				height: 3rem;
+				line-height: 3rem;
+				background: #fddade;
+				flex-direction: row;
+				align-items: center;
+				justify-content: space-around;
+			}
+			.addGroupTip img{
+				width: 1.2rem;
+				height: 1.2rem;
+			}
+			.tosub{
+				width: 4rem;
+				height: 1.5rem;
+				border-radius: 0.2rem;
+				border: 1px #dc1800 solid;
+				text-align: center;
+				line-height: 1.5rem;
+				font-size: 0.8rem;
+				color: #d02712;
+			}
+			.addGroupTip span{
+				font-size: 1rem;
+				margin-left: 0.5rem;
+			}
+			.gzh{
+				color: #292524;
+			}
+			.redword{
+				color: #d02712;
+			}
+			.tipleft{
+				display: flex;
+				flex-direction: row;
+			}
+			.tixing{
+				background-size: 1.2rem;
+			    background-image: url(img/recommend.png);
+			    width: 1.2rem;
+			    height: 1.2rem;
+			    background-repeat: no-repeat;
+			    margin: auto;
+			}
     </style>
-    <!--<script>
-    	var banner_div = document.getElementById("banner_div");
-    	var banner_width = banner_div.style.width;
-    	banner_div.height = banner_width/2.083;
-    	var banner_img = document.getElementById("banner_img");
-    	var banner_img_width = banner_img.style.width;
-    	banner_img.height = banner_img_width/2.083;
-    	console.log("banner_width="+banner_width);
-    	console.log("banner_width="+banner_width/2.083);
-    </script>-->
 </head>
 <body>
 <!-- 提示窗-->
@@ -262,26 +355,54 @@
 		购买成功
 	</div>
 </div>
+<div class="addGroupTip">
+	
+	<div class="tipleft">
+		<div class="tixing"></div>
+		<span class="gzh">关注公众号,</span>
+		<span class="redword">及时接受奖励金到账通知</span>
+	</div>
+	
+	<div class="tosub" onclick="showGroupCode()">
+		马上关注
+	</div>
+</div>
+<div class="group_tip">
+	<div class="group_img">
+		<img class="qrcode" src="http://p8v8q53wo.bkt.clouddn.com/zzb/pay_success.png"/>
+		<div class="close" onclick="closeQrcode()">
+			<img class="close_icon" src="img/close.png"/>
+		</div>
+	</div>
+</div>
+<div class="distri_mark">
+	<img class="share_img" src="http://p8v8q53wo.bkt.clouddn.com/zzb_fx.png"/>
+	<div class="close" onclick="closeShare()">
+		<img class="close_icon" src="img/close.png"/>
+	</div>
+</div>
 <main>
     <article class="plug_refresh">
         <!----------Andrew_Slider---------->
         <div class="course_banner w_100 h_12_em ovh rel" id="banner_div">
-            <img src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png" id="banner_img">
-            <div class="distri_tip">
-            	分享赚¥39.90
+            <img src="" id="banner_img">
+            <div class="distri_tip" onclick="shareCourse()">
+            	<div class="distri_tip_word">
+            		
+            	</div>
             </div>
         </div>
         <div class="header">
 			<div class="header_1">
 				<div class="course_name" id="course_name">
-					吴晓波力荐、支付宝特邀导师：10节小白理课程每天十分钟，轻松实现收益翻倍
+					
 					<input type="hidden" id="course_derc" value="" />
 				</div>
 			</div>
 			<div class="header_2">
 				<div class="course_price" id="course_price">
-					<span id="coursePresentPrice">￥780</span>
-					<del id="courseOriginalPrice">1280</del>
+					<span id="coursePresentPrice"></span>
+					<del id="courseOriginalPrice"></del>
 				</div>
 				<div class="course_learing" id="course_learing">
 					30万人学过
@@ -320,21 +441,20 @@
 
         <!----------Andrew_PopupWin End---------->
     </article>
-	<div class="btn">
-    	<div class="btn_collect" id="btn_collect">
-    		<span id="">收藏</span>
-    		<div class="collect_icon no_collect_icon"></div>
-    	</div>
-    	<div class="btn_buy" id="dateSelectorOne">
-    		立即购买
-    	</div>
-    	<div class="learing_at_once" id="learing_at_once">
-	    	立即学习
-	    </div>
-    </div>
     <input type="hidden" id="courseId" value="" />
 </main>
-
+<div class="btn">
+	<div class="btn_collect" id="btn_collect">
+		<div class="collect_icon no_collect_icon"></div>
+		<span id="">首页</span>
+	</div>
+	<div class="btn_buy" id="dateSelectorOne">
+		立即购买
+	</div>
+	<!--<div class="learing_at_once" id="learing_at_once">
+    	立即学习
+    </div>-->
+</div>
 
 </body>
 <script	src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js" type="text/javascript"></script>
@@ -370,14 +490,18 @@
 		
 		$("#courseId").val(courseId);
 		
-		console.log("课程id="+courseId);
 		var userId = window.localStorage.getItem("userId");
-		console.log("课程详情页去除用户id="+userId);
+		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
 	
 		var bannerWidth = $(".h_12_em img").width();
 	    var	bannerHeight = bannerWidth/(375/180);
 	    $(".h_12_em img").height(bannerHeight);
 	    
+	    $(".group_tip").height(screen.height);
+	    
+	    if (userInfo.subscribe == 0) {
+	    	$(".addGroupTip").css("display","flex")
+	    }
 	    //当浏览器大小变化时
 	    $(window).resize(function () {
 		    var bannerWidth = $(".h_12_em img").width();
@@ -397,9 +521,13 @@
 				"userId":userId
 			},
 			success:function(data){
+				console.log("data")
+				console.log("data")
+				console.log("data")
+				console.log(data.object)
 				if(data.code == 0){
-					reloadDom(data.object[0]);
-					getShareSign(data.object[0].courseTitle,data.object[0].courseDerc,data.object[0].courseImg);
+					reloadDom(data.object);
+					getShareSign(data.object.courseTitle,data.object.courseDerc,data.object.courseThumbImg);
 				}
 				
 			},
@@ -409,7 +537,16 @@
 		});
 		
 	})
-	
+	/**
+	 * 关闭二维码提示
+	 */
+	function closeQrcode(){
+		$(".group_tip").css("display","none");
+	}
+	//关闭分享引导
+	function closeShare(){
+		$(".distri_mark").css("display","none");
+	}
 	/**
 	 * 渲染数据
 	 */
@@ -421,15 +558,27 @@
 		 * 后续要操作该JSON对象，要将之前存储的JSON字符串先转成JSON对象再进行操作
 		 * JSON.parse(localStorage.getItem("****"));
 		 */
+		if (courseObject.isBuy == "Y") {
+			$(".btn_buy").attr("id","learing_atonce");
+			$(".btn_buy").text("立即学习");
+			
+			//立即学习
+			$("#learing_atonce").click(function(){
+				window.localStorage.setItem("courseChapterUrl",courseObject.courseChapterList.courseChapterUrl);
+				window.localStorage.setItem("nums",1);
+				window.location.href = "play.html";
+				
+			})
+		}
+		
 		document.title = courseObject.courseTitle;//设置网页标题为课程标题
-		$("#banner_img").attr("src",courseObject.courseImg);
-		$(".distri_tip").text("分享赚¥"+courseObject.courseDistributionPrice);
+		$("#banner_img").attr("src",courseObject.courseBanner);
+		$(".distri_tip_word").text("分享赚¥"+courseObject.courseDistributionPrice+"元");
 		$("#course_name").text(courseObject.courseTitle);
 		$("#course_derc").val(courseObject.courseDerc);
 		$("#coursePresentPrice").text("￥"+courseObject.coursePresentPrice);
 		$("#courseOriginalPrice").text(courseObject.courseOriginalPrice);
 		$("#course_learing").text(courseObject.numberOfLearners+"人学过");
-		
 		
 		if(courseObject.isCollect == "Y"){
 			$(".collect_icon").removeClass("no_collect_icon").addClass("has_collect_icon");
@@ -438,16 +587,22 @@
 		
 	}
 	
-	//点击添加或取消课程收藏
+	//首页
 	$("#btn_collect").click(function(){
-		console.log("添加收藏。。。。")
-		if($(".collect_icon").hasClass("has_collect_icon")){
-			collectCourse(user.get("delete"),"已取消收藏");
-		}else{
-			collectCourse(user.get("add"),"已添加到“我的收藏”");
-		}
+		window.location.href = "index.html";
 		
 	})
+	
+	//点击添加或取消课程收藏
+//	$("#btn_collect").click(function(){
+//		console.log("添加收藏。。。。")
+//		if($(".collect_icon").hasClass("has_collect_icon")){
+//			collectCourse(user.get("delete"),"已取消收藏");
+//		}else{
+//			collectCourse(user.get("add"),"已添加到“我的收藏”");
+//		}
+//		
+//	})
 	
 	/**
 	 * 收藏函数
@@ -484,29 +639,21 @@
 		});
 	}
 	
-	//立即学习
-	$("#learing_at_once").click(function(){
-		var courseDetails = JSON.parse(window.localStorage.getItem("courseDetails"));
-		if(isFree == "Y" || courseDetails.isBuy == "Y"){
-			window.localStorage.setItem("courseChapterUrl",courseDetails.daniuCourseChapterList[0].courseChapterUrl);
-			window.localStorage.setItem("nums",1);
-			window.location.href = "play.html";
-		}else{
-			showTip("img/tip.png","加入学习后才能观看哦");
-		}
-		
-	})
 	
 	//分销
-	$(".distri_tip").click(function(){
-//		alert("分销")
-	})
+	function shareCourse(){
+		$(".distri_mark").css("display","block")
+	}
+	function showGroupCode(){
+		$(".qrcode").attr("src","http://p8v8q53wo.bkt.clouddn.com/zzb/sub_gzh.png");
+		$(".group_tip").css("display","flex")
+	}
 	
 	function getShareSign(title,derc,img){
 		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));	
 		var userId = userInfo.userId;
 		var currurl = location.href.split('#')[0];
-
+		console.log("currurl="+currurl);
 		console.log("userInfo="+userInfo+",currurl="+currurl+",title="+title+",derc="+derc+",img="+img);
 //		var shareData = {
 //	   			
@@ -608,8 +755,8 @@
 
 </script>
 
-<!--<script src="js/custom/WXShare.js" type="text/javascript" charset="utf-8"></script>
---><script src="js/custom/tip.js" type="text/javascript" charset="utf-8"></script>
+<!--<script src="js/custom/WXShare.js" type="text/javascript" charset="utf-8"></script>-->
+<script src="js/custom/tip.js" type="text/javascript" charset="utf-8"></script>
 	
 <script type="text/javascript">
     //引入Andrew插件的区域

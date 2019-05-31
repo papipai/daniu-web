@@ -15,8 +15,8 @@
 	<script src="js/iScroll.js"></script>
 	<!--api.js和WXPay.js必须放在Mdate.js前面-->
 	<script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
-	<script src="js/custom/WXPay.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/Mdate.js"></script>
+	<script src="js/custom/CourseWXPay.js" type="text/javascript" charset="utf-8"></script>
+    <!--<script src="js/Mdate.js"></script>-->
 		<style>
 			.course_details_img{
 				margin-top: 1rem;
@@ -134,7 +134,7 @@
         	<p id="course_derc">我叫风胡子，是一名心理学培训师，同时也是一名父亲，擅长将心理学的研究成果融合亲子之间的琐碎事件，以便为解决为人父母的小烦恼提供科学的切入点。</p>
         </div>
         <div class="course_details_img" id="course_details_img">
-        	<img src="http://p8v8q53wo.bkt.clouddn.com/yujiashipin1_fengm1.jpg" />
+        	<img src="" />
         </div>
 	</body>
 	<script src="js/custom/tip.js" type="text/javascript" charset="utf-8"></script>
@@ -143,44 +143,24 @@
 		 * 从localStorage中获取课程信息
 		 * courseDetails 课程json数据对象
 		 * chapterList 课程章节集合
-		 * hardList 课程难度集合
+		 * courseDetailImgList 课程详情图集合
 		 */
 		var courseDetails = JSON.parse(window.localStorage.getItem("courseDetails"));
-		var chapterList = courseDetails.daniuCourseChapterList;
-		var hardList = courseDetails.daniuCourseHardDtlList;
-		
-		$("#course_details_img img").attr("src",courseDetails.detailsImg);
+		var chapterList = courseDetails.courseChapterList;
+		var courseDetailImgList = courseDetails.courseDetailImgList;
+		this.courseCourseDetails(courseDetailImgList);
 		$("#course_derc").html(courseDetails.courseDerc);
 		
-		if (hardList != "") {
+		function courseCourseDetails(courseDetailImgList){
+			$("#course_details_img img").remove();
 			var dom = "";
-			$("#course_hard_list li").remove();//清空默认的星星
-			for(var i = 0; i < hardList.length; i++ ){
-				var itemVO = hardList[i];
+			for(var i = 0; i < courseDetailImgList.length; i++ ){
+				var itemVO = courseDetailImgList[i];
+				dom += "<img src='"+itemVO.imgUrl+"' />";
 				
-				dom += "<li class='bor_bottom bor_gray_ddd bg_white'>";
-				dom += "<dl class='ovh h_in'>";
-				dom += "<dt class='fl ovh ml_3 mr_03em'>"+itemVO.courseDimensionDerc+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</dt>";
-				dom += "<dd class='fl ovh'>";
-				dom += "<div class='line_h_in ovh'>";
-				dom += "<span id='plug_ratyli2' data-rate='3' data-ratemax='4'>";
-				//难度星级
-				if(itemVO.source <= 5 && itemVO.source >= 1){
-					for(var j = 0; j < itemVO.source; j++ ){//根据source大小设置黄色的星星数量
-					dom += "<span><i class='c_gray_ccc_fill text_18em line_h_2em icon-mn_xingxing_fill mr_05em'></i></span>";
-					}
-					for(var k = 0; k < 5-itemVO.source; k++){//设置灰色星星个数
-						dom += "<span><i class='c_gray_ccc text_18em line_h_2em icon-mn_xingxing_fill mr_05em'></i></span>";
-					}
-				}
-				dom += "</span>";
-				dom += "</div>";
-				dom += "</dd>";
-				dom += "</dl>";
-				dom += "</li>";
 			}
-			
-			$("#course_hard_list").append(dom);
+			$("#course_details_img").append(dom);
+			console.log("dom="+dom)
 		}
 		//开课时间(在Mdate.js中设置)
 		//var timeList = JSON.parse(window.localStorage.getItem("daniuCourseBeginTimeList"));
@@ -227,7 +207,6 @@
 		});
 		console.log("isbuy="+isbuy)
 		if(isbuy == "Y"){
-			$(".btn_buy").css("display","none");
 			$(".learing_at_once").css("display","flex");
 		}else{
 			$(".btn").css("display","flex");
@@ -251,14 +230,6 @@
 		console.log("是否有试看章节="+isFree+" 试看章节数量="+freeChapters+" 是否购买="+isbuy)
 		
 		
-		
-		
 	</script>
 
-	<script type="text/javascript">
-		if (courseDetails.courseMode == 1) { 
-			new Mdate("dateSelectorOne");
-		}
-		
-	</script>
 </html>

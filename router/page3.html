@@ -10,7 +10,7 @@
 				用户昵称
 			</div>
 		</div>
-		<div class="my_btn" id="collect_btn">
+		<!--<div class="my_btn" id="collect_btn">
 			<div class="btn_logo">
 				<img src="img/my/shoucang _wode.png"/>
 			</div>
@@ -22,7 +22,7 @@
 					<img src="img/myChevron.png"/>
 				</div>
 			</div>
-		</div>
+		</div>-->
 		<div class="my_btn" id="mycourse_btn">
 			<div class="btn_logo">
 				<img src="img/my/wodekecheng_wode.png"/>
@@ -36,7 +36,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="spacing"></div>
+		<!--<div class="spacing"></div>
 		<div class="my_btn" id="distribution_btn">
 			<div class="btn_logo">
 				<img src="img/my/shop.png"/>
@@ -64,7 +64,7 @@
 					<img src="img/myChevron.png"/>
 				</div>
 			</div>
-		</div>
+		</div>-->
 		<div class="spacing"></div>
 		<div class="my_btn" id="suggestion_btn">
 			<div class="btn_logo">
@@ -135,7 +135,7 @@
 				if(data.code == 0){
 					$(".head_div img").attr("src",data.object.headimgurl);
 					$(".head_div .nickname").text(data.object.nickname);
-					$(".btn_msg_draw").text("¥"+(data.object.reward).toFixed(2)+"元可提现")
+//					$(".btn_msg_draw").text("¥"+(data.object.reward).toFixed(2)+"元可提现")
 				}else if(data.code == 500){
 					alert("接口请求出错");
 				}

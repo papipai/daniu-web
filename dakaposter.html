@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" style="font-size: 32px;"><head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no,minimal-ui">
+    <script src="js/config/browser.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/config/Authorize.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/config/GetUserInfo.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://cdn.bootcss.com/vue/2.5.17/vue.min.js"></script>
+    <title>大咖会</title>
+<style type="text/css">
+body {
+  padding: 0;
+  margin: 0;
+}
+.detail{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.btn-join {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1.5625rem;
+  background: #45a1f4;
+  font-size: 0.5rem;
+  font-family: PingFangSC-Medium;
+  color: white;
+  text-align: center;
+  line-height: 1.5625rem;
+  border: 0;
+}
+.img-root {
+  font-size: 0;
+  width: 100%;
+}
+.img-poster {
+  width: 100%;
+}
+.btn-join {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1.5625rem;
+  background: #45a1f4;
+  font-size: 0.5rem;
+  font-family: PingFangSC-Medium;
+  color: white;
+  text-align: center;
+  line-height: 1.5625rem;
+  border: 0;
+}
+.distri_tip{
+	width: 5rem;
+    height: 1rem;
+    line-height: 1rem;
+    position: fixed;
+    right: 0;
+    top: 2rem;
+    z-index: 1;
+    color: #fff;
+    background-image: linear-gradient(-90deg, #FF7D25 0%, #FF5D24 100%);
+    background-image: lavender;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    padding-left: .5rem;
+    font-size: 0.5rem;
+}
+.distri_mark{
+	display: none;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.8);
+	transform: translateZ(0);
+	-webkit-transform: translateZ(0);
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 2;
+	text-align: center;
+}
+.distri_mark img{
+	width: 70%;
+  	margin: 0.5rem 0 0 2rem;
+}
+.close{
+	width: 2.29rem;
+	height: 2.29rem;
+	margin: auto;
+}
+.close .close_icon{
+	width: 100%;
+	height: 100%;
+}
+</style>
+</head>
+<body>
+    <div id="app">
+    	<div class="distri_tip" @click="share()" >
+        	分享最高可赚¥79.80
+        </div>
+        <div class="distri_mark" @click="close()">
+        	<img src="http://p8v8q53wo.bkt.clouddn.com/zzb_fx.png"/>
+        	<div class="close" @click="close()">
+				<img class="close_icon" src="img/close.png"/>
+			</div>
+        </div>
+    	<div class="detail">
+    		<div class="img-root">
+    			<img v-for="item of posterList" :src="item.imgUrl" class="img-poster">
+    		</div>
+    		<button class="btn-join" @click="addCommunity()">加入大咖会</button>
+    	</div>
+    </div>
+</body>
+<script type="text/javascript">
+	/**
+	 * 从url中获取courseId
+	 */
+	function GetRequest() {
+		var url = location.search; //获取url中"?"符后的字串
+		var theRequest = new Object();
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			strs = str.split("&");
+			for(var i = 0; i < strs.length; i ++) {
+				theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+			}
+		}
+		return theRequest;
+	}
+	var Request = new Object();
+		  Request = GetRequest();
+	courseTypeId = Request['courseTypeId'];
+	console.log("courseTypeId="+courseTypeId)
+	new Vue({
+	    el: '#app',
+	        data: {
+	            posterList: []
+	        },
+	        created: function () {
+	        var self = this;
+	        $.ajax({
+	        	async:false,
+	            type:"post",
+				url:apiPath.userPath,
+				xhrFields:{withCredentials:true},
+				data:{
+					"method":community.get('communityPoster'),
+					"courseTypeId":courseTypeId
+				},
+	            dataType: 'json'
+	            }).then(function (res) {
+	                console.log(res.object);
+				if (res.code == 0) {
+					self.posterList = res.object;
+				}
+	            
+	        }).fail(function () {
+	            console.log('失败');
+	        })
+	    },
+	    methods:{
+	    	addCommunity() {
+	    		window.location.href = "registion.html";
+	    	},
+	    	share(){
+				$(".distri_mark").css("display","block")
+			},
+			close(){
+				$(".distri_mark").css("display","none")
+			}
+	    }
+	})
+</script>
+<script type="text/javascript">
+	$(document).ready(function (){
+		
+	})
+</script>
+</html>

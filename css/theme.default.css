@@ -1,6 +1,6 @@
 ﻿/*********************主题颜色定义(默认风格)*********************/
 .c_title {
-	color: #F24724 !important;
+	color: #45A1F4 !important;
     font-weight: bold;
 }
 .c_title09 {
@@ -31,7 +31,7 @@
     color: rgba(121,195,74,0.1);
 }
 .bg_title {
-    background-color: #FF5D24 !important;
+    background-color: #45A1F4 !important;
 }
 .bg_title09 {
     background-color: rgba(121,195,74,0.9);
@@ -61,7 +61,7 @@
     background-color: rgba(121,195,74,0.1);
 }
 .bor_title {
-    border-color: #FF5D24 !important;
+    border-color: #45A1F4 !important;
 }
 .bor_title09 {
     border-color: #85c75a;

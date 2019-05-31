@@ -71,7 +71,7 @@
 			height: 2.24rem;
 			background: #F5F5F5;
 			font-size: .32rem
-			color: #FF5D24;
+			color: #45A1F4;
 			display: flex;
 			flex-direction: column;
 			border-radius: .106rem;
@@ -79,7 +79,7 @@
 		}
 		/*被选中的章节加框*/
 		.chapter-selected{
-			border: .026rem solid #FF5D24;
+			border: .026rem solid #45A1F4;
 			background: #fff;
 		}
 		/*未解锁的章节样式*/
@@ -110,7 +110,7 @@
 			border-top-right-radius: .106rem;
 		}
 		.course-chapter .course-mode-free{
-			background: #FF5D24;
+			background: #45A1F4;
 		}
 		.course-chapter .course-mode-buy{
 			background: #B1B1B1;
@@ -119,7 +119,7 @@
 			font-size: .26rem;
 			float: right;
 			padding: .26rem .26rem 0 0;
-			color: #FF5D24;
+			color: #45A1F4;
 		}
 		.course-chapter .course-status img{
 			width: .38rem;
@@ -129,7 +129,7 @@
 			flex: 2;
 			display: flex;
 			font-size: .32rem;
-			color: #FF5D24;
+			color: #45A1F4;
 			align-items: center;
 			padding: 0 .23rem;
 			text-align: left;
@@ -205,7 +205,7 @@
 			width: 2.88rem;
 			height: .853rem;
 			line-height: .853rem;
-			background-image: linear-gradient(-90deg, #FF7D25 0%, #FF5D24 100%);
+			background: #45A1F4;
 			border-radius: 4px;
 			font-size: .426rem;
 			color: #FFFFFF;
@@ -218,9 +218,118 @@
 			height: 3.33rem;
 			background: #fff;
 		}
+		
+		.subscribe{
+				display: none;
+				width: 100%;
+			    background: rgba(0,0,0,0.6);
+			    position: fixed;
+			    left: 0;
+			    top: 0;
+			    z-index: 1;
+			}
+			.sub_tip{
+				width:17.88rem;
+				height:10.13rem;
+				background:rgba(255,255,255,1);
+				border-radius:0.63rem;
+				margin: auto;
+			}
+			.msg{
+				height: 7rem;
+			    line-height: 2rem;
+			    display: flex;
+			    flex-direction: column;
+			    justify-content: center;
+			    text-align: center;
+			    font-size: 1rem;
+			    font-family: PingFangSC-Regular;
+			    font-weight: 400;
+			    color: rgba(111,111,111,1);
+			}
+			.botton{
+				display: flex;
+				flex-direction: row;
+			}
+			.has_sub{
+				height: 3rem;
+				line-height: 3rem;
+				flex: 1;
+				text-align: center;
+				font-size:1rem;
+				font-family:PingFangSC-Regular;
+				font-weight:400;
+				color:rgba(177,177,177,1);
+			}
+			.to_sub{
+				height: 3rem;
+				line-height: 3rem;
+				flex: 1;
+				text-align: center;
+				font-size:1rem;
+				font-family:PingFangSC-Regular;
+				font-weight:400;
+				color:rgba(243,116,53,1);
+			}
+			.group_tip{
+				display: none;
+				flex-direction: column;
+				position: fixed;
+				left: 0;
+				top: 0;
+				z-index: 2;
+				width: 100%;
+				justify-content: center;
+				align-content: center;
+				text-align: center;
+				background:rgba(0,0,0,0.5);
+			}
+			.group_img{
+			    display: flex;
+			    flex-direction: column;
+			    align-items: center;
+			}
+			.group_img .qrcode{
+				width: 7.707rem;
+    			height: 10.24rem;
+				margin-bottom: .853rem;
+			}
+			.close{
+				width: 1rem;
+				height: 1rem;
+			}
+			.close .close_icon{
+				width: 100%;
+				height: 100%;
+			}
 	</style>
 </head>
 <body>
+	<!--提醒用户关注公众号-->
+	<div class="subscribe">
+		<div class="sub_tip">
+			<div class="msg">
+				<span>关注公众号</span>
+				<span>下次听课不迷路</span>
+			</div>
+			<div class="botton">
+				<div class="has_sub" onclick="canleSub()">
+					我已关注
+				</div>
+				<div class="to_sub" onclick="toSub()">
+					立即关注
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="group_tip">
+		<div class="group_img">
+			<img class="qrcode" src="http://p8v8q53wo.bkt.clouddn.com/zzb/pay_success.png"/>
+			<div class="close" onclick="closeQrcode()">
+				<img class="close_icon" src="img/close.png"/>
+			</div>
+		</div>
+	</div>
 	<!--视频播放区-->
 	<div class="course-mark">
 		<div class="course-mark-tip">需要购买课程后才能观看哦~</div>
@@ -229,7 +338,7 @@
 
 	<div id="video-wrap" class="video-wrap">
 	    <div id="video-screen" class="video-screen">
-	        <video id="video" poster="http://p8v8q53wo.bkt.clouddn.com/yujiashipin1_fengmian2.jpg" src="" playsinline webkit-playsinline ></video>
+	        <video id="video" poster="" src="" playsinline webkit-playsinline ></video>
 	        <div id="loading" class="loading hide"></div>
 	        <div id="play-btn" class="play-btn play-hide"></div>
 	    </div>
@@ -440,13 +549,14 @@
 <script src="js/video/hls.min.js"></script>
 <script type="text/javascript">
 	var courseDetails = JSON.parse(window.localStorage.getItem("courseDetails"));
+	var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
 	var courseChapterUrl = window.localStorage.getItem("courseChapterUrl");
 	var nums = window.localStorage.getItem("nums");
 	var isbuy = window.localStorage.getItem("isbuy");
 	var isFree = window.localStorage.getItem("isFree");
 	var freeChapters = window.localStorage.getItem("freeChapters");
 	var userId = window.localStorage.getItem("userId");
-	var chapterList = courseDetails.daniuCourseChapterList;
+	var chapterList = courseDetails.courseChapterList;
 	var j = 0;
 	
 	var audio = document.getElementsByTagName('audio')[0];
@@ -455,8 +565,8 @@
 	
 	document.title = courseDetails.courseTitle;//设置网页标题为课程标题
 	$("#course-title").text(chapterList[nums-1].courseChapterTitle);//设置课程章节标题
-	$("#course-chapter-numbers").text("共"+courseDetails.daniuCourseChapterList.length+"个课时");
-	$("#video").attr("poster",courseDetails.courseImg);
+	$("#course-chapter-numbers").text("共"+courseDetails.courseChapterList.length+"个课时");
+	$("#video").attr("poster",courseDetails.courseBanner);
 	
 	changeChapter(courseChapterUrl,nums,1);
 	
@@ -698,21 +808,33 @@
 		//toPayInit(courseDetails.courseId,userInfo.userId);
 	})
 	
+	window.isCloseHint = true;
+	//初始化关闭
+	window.addEventListener("beforeunload", function(e) {
+	    if (window.isCloseHint) {
+	        var confirmationMessage = "要记得保存！你确定要离开我吗？";
+	        (e || window.event).returnValue = confirmationMessage; // 兼容 Gecko + IE
+	        return confirmationMessage; // 兼容 Gecko + Webkit, Safari, Chrome
+	    }
+	});
 	/**
 	 * 监听页面关闭时间，把用户最后一次观看的课程保存到本地
 	 */
 	if (window.addEventListener) {
         window.addEventListener('pagehide', function () {
-         addRecord();
+          addRecord();
+          isSub();
         })
       } else if (window.attachEvent) {
         // 主要是为了兼容老的IE
         window.attachEvent('on' + 'pagehide', function () {
           addRecord();
+          isSub();
         })
       } else {
         window.onbeforeunload = function () {
            addRecord();
+           isSub();
         }
       }
 	  /**
@@ -736,6 +858,37 @@
 		 		window.localStorage.setItem("timepoint",$("#audio-source")[0].currentTime);
 		 	}
 	  }
+	  
+	  $(".subscribe").height(screen.height);
+	  $(".group_tip").height(screen.height);
+	  /**
+	     * 判断用户是否关注了公众号
+	     */
+	  function isSub(){
+	    console.log("用户是否关注公众号="+userInfo.subscribe)
+	    if (userInfo.subscribe == 0) {
+	    	$(".subscribe").css("display","flex")
+	    }
+	  }
+	  
+	 /**
+	 * 我已关注
+	 */
+	function canleSub(){
+		$(".subscribe").css("display","none");
+	}
+	
+	/**
+	 * 立即关注
+	 */
+	function toSub(){
+		$(".subscribe").css("display","none");
+		$(".group_tip").css("display","flex");
+	}
+	
+	function closeQrcode(){
+		$(".group_tip").css("display","none");
+	}
 </script>
 <!--<script src="js/config/api.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/custom/WXPay.js" type="text/javascript" charset="utf-8"></script>-->

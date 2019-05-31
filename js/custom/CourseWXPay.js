@@ -7,7 +7,8 @@
 //初始化下单信息
 var pay_platform = 1;//公众号为1
 var pay_way = 1;//1-微信支付，2-支付宝支付，3-华为支付
-function toPayInit(courseId,userId,disUserId,order_type){
+function toPayInit(courseId,userId,order_type,disUserId){
+	console.log(courseId+ userId+ order_type)
 	var that = this;
 	$.ajax({
 		async: false,
@@ -18,25 +19,31 @@ function toPayInit(courseId,userId,disUserId,order_type){
 			"method":wechat.get('coursePay'),
 			"courseId":courseId,
 			"userId":userId,
+			"order_type":order_type,
+			"disUserId":disUserId,
 			"pay_platform":pay_platform,
 			"pay_way":pay_way
 		},
 		success : function(data) {// 服务器响应成功时的处理函数
+			console.log(data)
 			//alert("result="+data.object.result+" prepay_id="+data.object.prepay_id);
-			console.log("初始化下单信息是否成功="+data.object.result+" courseId="+courseId+" userId="+userId+" disUserId="+disUserId+" order_type="+order_type);
+			console.log("初始化下单信息是否成功="+data.object.result+" courseId="+courseId+" userId="+userId+" order_type="+order_type);
 			if(data.object.result==1){//插入支付记录
-				var paySign = data.object.paySign;
-				var prepay_id = data.object.prepay_id;
-				var nonceStr = data.object.noncestr;
-				var timestamp = data.object.timestamp;
-				var spbill_create_ip = data.object.spbill_create_ip;
-				var detail = data.object.detail;
-				var body = data.object.body;
-				var out_trade_no = data.object.out_trade_no;
-				var money = data.object.payMoery;
 				var appid = data.object.appid;
+				var timestamp = data.object.timestamp;
+				var nonceStr = data.object.noncestr;
+				var prepay_id = data.object.prepay_id;
+				var paySign = data.object.paySign;
+				var out_trade_no = data.object.out_trade_no;
+//				var spbill_create_ip = data.object.spbill_create_ip;
+//				var detail = data.object.detail;
+//				var body = data.object.body;
+//				var out_trade_no = data.object.out_trade_no;
+//				var money = data.object.payMoery;
+				
 				//alert("money="+money)
-				that.onBridgeReady(appid,paySign,prepay_id,nonceStr,timestamp,courseId,userId,detail,body,out_trade_no,money,disUserId,order_type);
+//				that.onBridgeReady(appid,paySign,prepay_id,nonceStr,timestamp,courseId,userId,detail,body,out_trade_no,money,order_type);
+				that.onBridgeReady(appid,timestamp,nonceStr,prepay_id,paySign,courseId,out_trade_no);
 			}else{
 				layer.msg('初始化支付接口失败，请联系系统运营商');
 			}
@@ -48,7 +55,8 @@ function toPayInit(courseId,userId,disUserId,order_type){
 }
 
 //开始支付
-function onBridgeReady(appid,paySign,prepay_id,nonceStr,timestamp,courseId,userId,detail,body,out_trade_no,money,disUserId,order_type){
+//function onBridgeReady(appid,timestamp,nonceStr,prepay_id,paySign,courseId,userId,detail,body,out_trade_no,money,order_type){
+function onBridgeReady(appid,timestamp,nonceStr,prepay_id,paySign,courseId,out_trade_no){
 	WeixinJSBridge.invoke(
        'getBrandWCPayRequest', {
            "appId":appid,     //公众号名称，由商户传入     
@@ -62,42 +70,51 @@ function onBridgeReady(appid,paySign,prepay_id,nonceStr,timestamp,courseId,userI
        		//alert("购买回调="+res.err_msg)
     		// 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。 
            if(res.err_msg == "get_brand_wcpay_request:ok" ) {//添加订单记录和用户购买的课程
-           	//console.log("购买回调="+res.err_msg);
+           	//查询订单状态是否为已支付
         	    $.ajax({
         	    	async: false,
 					type:"post",
-					url:apiPath.wechatPath,
+					url:apiPath.userPath,
 					xhrFields:{withCredentials:true},
 					data:{
-						"method":wechat.get('createOrder'),
-						"courseId":courseId,
-						"userId":userId,
-						"detail":detail,
-						"body":body,
-						"out_trade_no":out_trade_no,
-						"money":money,
-						"pay_platform":pay_platform,
-						"pay_way":pay_way,
-						"disUserId":disUserId,
-						"order_type":order_type
+						"method":user.get('orderStatus'),
+						"out_trade_no":out_trade_no
 					},
 					success : function(data) { // 服务器响应成功时的处理函数
-//						alert("支付是否成功="+data.code);
-						if(data.code == 0){//插入支付记录
-							setTimeout(function(){
-								//showTip(".buy_tip");
-								showTip("img/gou.png","购买成功");
-							},500);
-							window.localStorage.setItem("courseId",courseId);
-							window.localStorage.setItem("isbuy","Y");
-							window.location.href = "play.html";
+//						alert("查询订单结果："+data.object.orderStatus)
+//						alert("课程支付订单结果="+data)
+//						alert("用户是否关注公众号："+userInfo.subscribe)
+						if(data.object.orderStatus == 1){//插入支付记录
+							$(".btn_buy").attr("id","learing_atonce");
+							$(".btn_buy").text("立即学习");
+							//立即学习
+							$("#learing_atonce").click(function(){
+								var courseDetails = JSON.parse(window.localStorage.getItem("courseDetails"));
+								window.localStorage.setItem("courseChapterUrl",courseDetails.courseChapterList.courseChapterUrl);
+								window.localStorage.setItem("nums",1);
+								window.location.href = "play.html";
+								
+							})
+			
+							if (userInfo.subscribe == 0) {
+								//提示用户关注公众号
+								$(".group_tip").css("display","flex");
+							}else if (userInfo.subscribe == 1) {
+								$(".buy_tip").css("display","flex");
+								setTimeout(function(){
+									window.localStorage.setItem("courseId",courseId);
+									window.localStorage.setItem("isbuy","Y");
+									window.location.href = "play.html";
+								},2000);
+							}
 							
-							//alert('购买成功，开启学霸模式~');
+						}else{
+							alert("支付成功！")
 						}
 					}
 				}); 
            }else if(res.err_msg == "get_brand_wcpay_request:cancel" ) {
-        	   alert('付款失败，请重新购买');
+//      	   alert('付款失败，请重新购买');
            }    
        }
    );
@@ -135,14 +152,7 @@ if (disUserId == null) {
  * @param {Object} userId
  */
 var courseDetails = JSON.parse(window.localStorage.getItem("courseDetails"));
-//判断购买的课程模式是否为训练营模式，训练营模式需选择开课时间再支付，在线模式直接支付
-if (courseDetails.courseMode == 2) {//因为点击事件与Mdata插件冲突，所以当课程为在线模式时修改立即购买按钮的id
-	$(".btn_buy").attr("id","btn_buy");
-	//$("#buy-now").attr("id","buy-now-mode1");//播放详情页的立即购买
-}
-$("#btn_buy").click(function(){
-	console.log("在线模式直接购买");
-//	alert("disUserId="+disUserId+",order_type="+order_type)
-	toPayInit(courseDetails.courseId,userInfo.userId,disUserId,order_type);
+$("#dateSelectorOne").click(function(){
+	toPayInit(courseDetails.courseId,userInfo.userId,order_type,disUserId);
 })
 

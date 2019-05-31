@@ -1,116 +1,387 @@
 <template>
-	<script src="js/config/browser.js" type="text/javascript" charset="utf-8"></script>
-    <article class="plug_refresh">
-        <!----------Andrew_NavScroll---------->
-        <div class="course_learing">
-			<div class="learing_head">
-				<div class="border"></div>
-				<div class="word">最近学习</div>
-			</div>
-			<div class="item_cell_box nocourse" id="learingCourselist">
-				<div class="no_learing_course">
-					你暂时还没有学习的课程哦~
+<style type="text/css">
+body {
+  padding: 0;
+  margin: 0;
+}
+.poster_detail{
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.img-root {
+  font-size: 0;
+  width: 100%;
+}
+.img-poster {
+  width: 100%;
+}
+.btn-join {
+    position: fixed;
+    bottom: 3.5rem;
+    left: 0;
+    width: 100%;
+    height: 3.125rem;
+    background: #45a1f4;
+    font-size: 1rem;
+    font-family: PingFangSC-Medium;
+    color: white;
+    text-align: center;
+    line-height: 3.125rem;
+    border: 0;
+}
+.distri_tip{
+	  width: 11rem;
+    height: 2rem;
+    line-height: 2rem;
+    position: fixed;
+    right: 0;
+    top: 2rem;
+    z-index: 1;
+    color: #fff;
+    background-image: linear-gradient(-90deg, #FF7D25 0%, #FF5D24 100%);
+    background-image: lavender;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    padding-left: 1rem;
+}
+.distri_mark{
+	display: none;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.8);
+	transform: translateZ(0);
+	-webkit-transform: translateZ(0);
+	position: fixed;
+	left: 0;
+	top: 0;
+	z-index: 2;
+	text-align: center;
+}
+.distri_mark .share_tip{
+	width: 70%;
+  margin: 1rem 0 5rem 4rem;
+}
+.close{
+	width: 2.29rem;
+	height: 2.29rem;
+	margin: auto;
+}
+.close .close_icon{
+	width: 100%;
+	height: 100%;
+}
+</style>
+	<div id="app">
+			<div class="distri_tip" @click="share()" >
+	    	分享最高可赚¥79.80
+	    </div>
+	    <div class="distri_mark">
+	    	<img class="share_tip" src="http://p8v8q53wo.bkt.clouddn.com/zzb_fx.png"/>
+	    	<div class="close" @click="close()">
+					<img class="close_icon" src="img/close.png"/>
 				</div>
-				<!--<div class="courses">
-					<div class="kh_goods" onclick="bindgome(1)">
-						<div>
-							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
-						</div>
-						<div>
-							<div class="kh_maintitle">基金训练营</div>
-						</div>
-					</div>
-				</div>
-				<div class="courses">
-					<div class="kh_goods" onclick="bindgome(2)">
-						<div>
-							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
-						</div>
-						<div>
-							<div class="kh_maintitle">基金训练营</div>
-						</div>
-					</div>
-				</div>
-				<div class="courses">
-					<div class="kh_goods" onclick="bindgome(3)">
-						<div>
-							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
-						</div>
-						<div>
-							<div class="kh_maintitle">基金训练营</div>
-						</div>
-					</div>
-				</div>
-				<div class="courses">
-					<div class="kh_goods" onclick="bindgome(4)">
-						<div>
-							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
-						</div>
-						<div>
-							<div class="kh_maintitle">基金训练营</div>
-						</div>
-					</div>
-				</div>-->
-			</div>
-		</div>
-		<div class="course_recommend">
-			<div class="learing_head">
-				<div class="border"></div>
-				<div class="word">课程推荐</div>
-			</div>
-			<div class="item_cell_box nocourse" id="recommendCourselist">
-				<div class="no_recommend_course">
-					暂无相关课程推荐哦~
-				</div>
-				<!--<div class="courses">
-					<div class="kh_goods" onclick="bindgome(1,0.01)">
-						<div>
-							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
-						</div>
-						<div>
-							<div class="kh_maintitle">基金训练营</div>
-						</div>
-					</div>
-				</div>
-				<div class="courses">
-					<div class="kh_goods" onclick="bindgome(1,0.01)">
-						<div>
-							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
-						</div>
-						<div>
-							<div class="kh_maintitle">基金训练营</div>
-						</div>
-					</div>
-				</div>
-				<div class="courses">
-					<div class="kh_goods" onclick="bindgome(1,0.01)">
-						<div>
-							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
-						</div>
-						<div>
-							<div class="kh_maintitle">基金训练营</div>
-						</div>
-					</div>
-				</div>
-				<div class="courses">
-					<div class="kh_goods" onclick="bindgome(1,0.01)">
-						<div>
-							<img class="kh_img" src="http://p8v8q53wo.bkt.clouddn.com/coursebanner1.png">
-						</div>
-						<div>
-							<div class="kh_maintitle">基金训练营</div>
-						</div>
-					</div>
-				</div>-->
-			</div>
-		</div>
-        <!----------Andrew_PopupWin End---------->
-    </article>
-
-    <ak-footer data-display="true">
+	    </div>
+    	<div class="poster_detail">
+    		<div class="img-root">
+    			<img v-for="item of posterList" :src="item.imgUrl" class="img-poster">
+    		</div>
+    		<button class="btn-join" @click="addCommunity()">加入大咖会</button>
+    	</div>
+    </div>
+	<ak-footer data-display="true">
     </ak-footer>
 </template>
-	<script type="text/javascript">
+<script type="text/javascript">
+	/**
+	 * 从url中获取courseId
+	 */
+	function GetRequest() {
+		var url = location.search; //获取url中"?"符后的字串
+		var theRequest = new Object();
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			strs = str.split("&");
+			for(var i = 0; i < strs.length; i ++) {
+				theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+			}
+		}
+		return theRequest;
+	}
+	var Request = new Object();
+		  Request = GetRequest();
+	courseTypeId = Request['courseTypeId'];
+	console.log("courseTypeId="+courseTypeId)
+	new Vue({
+	    el: '#app',
+	        data: {
+	            posterList: []
+	        },
+	        created: function () {
+	        	this.$options.methods.getShareSign();
+		        var self = this;
+		        $.ajax({
+		        	async:false,
+		          type:"post",
+							url:apiPath.userPath,
+							xhrFields:{withCredentials:true},
+							data:{
+								"method":community.get('communityPoster'),
+								"courseTypeId":1
+							},
+		          dataType: 'json'
+		        }).then(function (res) {
+							if (res.code == 0) {
+								self.posterList = res.object;
+							}
+		        }).fail(function () {
+		            console.log('失败');
+		        })
+		    },
+		    methods:{
+		    	addCommunity : function() {
+		    		window.location.href = "registion.html";
+		    	},
+		    	share : function(){
+		    		window.localStorage.setItem("title","大咖会社群");
+						window.localStorage.setItem("derc","大咖会由移动互联网大咖董董一手创办，董董曾以极低的成本打造过3亿用户的App，产品日活超千万。并且实现了零成本打造百万量级小程序的社群！");
+						window.localStorage.setItem("img","http://p8v8q53wo.bkt.clouddn.com/zzb/daka.png");
+						$(".distri_mark").css("display","block")
+					},
+					close : function(){
+						$(".distri_mark").css("display","none")
+					},
+					getShareSign : function(){
+		
+						var title = "大咖会社群";
+						var derc = "大咖会由移动互联网大咖董董一手创办，董董曾以极低的成本打造过3亿用户的App，产品日活超千万。并且实现了零成本打造百万量级小程序的社群！";
+						var img = "http://p8v8q53wo.bkt.clouddn.com/zzb/daka.png";
+						
+						var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));	
+						var userId = userInfo.userId;
+						var currurl = location.href.split('#')[0];
+						console.log("currurl="+currurl);
+						console.log("userInfo="+userInfo+",currurl="+currurl+",title="+title+",derc="+derc+",img="+img);
+						//		var shareData = {
+						//	   			
+						//	   	   };
+						//ajax注入权限验证  
+						$.ajax({
+							async: false,
+							type:'get',
+							url : apiPath.wxSharePath,
+							dataType : 'json',
+							data : {
+								"method":wxShare.get('getSign'),
+								'url' : currurl
+							},
+							success : function(res) {
+								console.log(res);
+								var appId = res.object.appId;
+								var timestamp = res.object.timestamp;
+								var nonceStr = res.object.nonceStr;
+								var signature = res.object.signature;
+								console.log("appId="+appId+" timestamp="+timestamp+" nonceStr="+nonceStr+" signature="+signature);
+								wx.config({
+									debug : false, //开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。  
+									appId : appId, //必填，公众号的唯一标识  
+									timestamp : timestamp, // 必填，生成签名的时间戳  
+									nonceStr : nonceStr, //必填，生成签名的随机串  
+									signature : signature, // 必填，签名，见附录1  
+									jsApiList : [ 'onMenuShareAppMessage', 'onMenuShareTimeline' ] //必填，需要使用的JS接口列表，所有JS接口列表 见附录2  
+								});
+								
+								wx.ready(function() {
+									wx.onMenuShareAppMessage({
+										title:title,
+									  	link: currurl+"&disUserId="+userId,
+									  	desc: derc,
+									   	imgUrl: img,
+									   	success : function() {
+									   		$.ajax({
+									  			 type:'post',
+									  			 url:apiPath.userPath,
+									  			 dataType:'json',
+									  			 data:{
+														"method":user.get('addShare'),
+														"userId":userId,
+														"courseId":$("#courseId").val(),
+														"shareWay":"news",
+														"sharePlace":2
+													},
+									  			 success:function(res){
+									  			 	console.log(res.code);
+									    			if (res.code == 0) {
+									    				console.log("分享成功");
+													}
+									  			}
+									  		 });
+									   	},
+										cancel : function() {
+											console.log("取消分享");
+											}
+										});
+						 
+										wx.onMenuShareTimeline({
+											title:title,
+										  	link: currurl+"&disUserId="+userId,
+									  	desc: derc,
+									   	imgUrl: img,
+									   	success : function() {
+									   		$.ajax({
+									  			 type:'post',
+									  			 url:apiPath.userPath,
+									  			 dataType:'json',
+									  			 data:{
+														"method":user.get('addShare'),
+														"userId":userId,
+														"courseId":$("#courseId").val(),
+														"shareWay":"news",
+														"sharePlace":1
+													},
+									  			 success:function(res){
+									  			 	console.log(res.code);
+									    			if (res.code == 0) {
+									    				console.log("分享成功");
+													}
+									  			}
+									  		 });
+									   	},
+										cancel : function() {
+											console.log("取消分享");
+											}
+										});
+									}); 
+						 
+									wx.error(function(res) {
+										//alert('config错误'+res);
+									});
+								} 
+							});
+					}
+		    }
+	})
+</script>
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		document.body.style.overflow='hidden';
+		document.body.addEventListener('touchmove', function (e) {
+		  e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
+		}, {passive: false}); //passive 参数不能省略，用来兼容ios和android
+    })
+	
+</script>
+<script type="text/javascript">
+//		var title = "大咖会社群";
+//		var derc = "大咖会由移动互联网大咖董董一手创办，董董曾以极低的成本打造过3亿用户的App，产品日活超千万。并且实现了零成本打造百万量级小程序的社群！";
+//		var img = "http://p8v8q53wo.bkt.clouddn.com/zzb/daka.png";
+//		getShareSign(title,derc,img);
+//		function getShareSign(title,derc,img){
+//		var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));	
+//		var userId = userInfo.userId;
+//		var currurl = location.href.split('#')[0];
+//		console.log("currurl="+currurl);
+//		console.log("userInfo="+userInfo+",currurl="+currurl+",title="+title+",derc="+derc+",img="+img);
+////		var shareData = {
+////	   			
+////	   	   };
+//		//ajax注入权限验证  
+//		$.ajax({
+//			async: false,
+//			type:'get',
+//			url : apiPath.wxSharePath,
+//			dataType : 'json',
+//			data : {
+//				"method":wxShare.get('getSign'),
+//				'url' : currurl
+//			},
+//			success : function(res) {
+//				console.log(res);
+//				var appId = res.object.appId;
+//				var timestamp = res.object.timestamp;
+//				var nonceStr = res.object.nonceStr;
+//				var signature = res.object.signature;
+//				console.log("appId="+appId+" timestamp="+timestamp+" nonceStr="+nonceStr+" signature="+signature);
+//				wx.config({
+//					debug : false, //开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。  
+//					appId : appId, //必填，公众号的唯一标识  
+//					timestamp : timestamp, // 必填，生成签名的时间戳  
+//					nonceStr : nonceStr, //必填，生成签名的随机串  
+//					signature : signature, // 必填，签名，见附录1  
+//					jsApiList : [ 'onMenuShareAppMessage', 'onMenuShareTimeline' ] //必填，需要使用的JS接口列表，所有JS接口列表 见附录2  
+//				});
+//				
+//				wx.ready(function() {
+//					wx.onMenuShareAppMessage({
+//						title:title,
+//					  	link: currurl+"&disUserId="+userId,
+//					  	desc: derc,
+//					   	imgUrl: img,
+//					   	success : function() {
+//					   		$.ajax({
+//					  			 type:'post',
+//					  			 url:apiPath.userPath,
+//					  			 dataType:'json',
+//					  			 data:{
+//										"method":user.get('addShare'),
+//										"userId":userId,
+//										"courseId":$("#courseId").val(),
+//										"shareWay":"news",
+//										"sharePlace":2
+//									},
+//					  			 success:function(res){
+//					  			 	console.log(res.code);
+//					    			if (res.code == 0) {
+//					    				console.log("分享成功");
+//									}
+//					  			}
+//					  		 });
+//					   	},
+//						cancel : function() {
+//							console.log("取消分享");
+//						}
+//					});
+//	 
+//					wx.onMenuShareTimeline({
+//						title:title,
+//					  	link: currurl+"&disUserId="+userId,
+//					  	desc: derc,
+//					   	imgUrl: img,
+//					   	success : function() {
+//					   		$.ajax({
+//					  			 type:'post',
+//					  			 url:apiPath.userPath,
+//					  			 dataType:'json',
+//					  			 data:{
+//										"method":user.get('addShare'),
+//										"userId":userId,
+//										"courseId":$("#courseId").val(),
+//										"shareWay":"news",
+//										"sharePlace":1
+//									},
+//					  			 success:function(res){
+//					  			 	console.log(res.code);
+//					    			if (res.code == 0) {
+//					    				console.log("分享成功");
+//									}
+//					  			}
+//					  		 });
+//					   	},
+//						cancel : function() {
+//							console.log("取消分享");
+//						}
+//					});
+//				}); 
+//	 
+//				wx.error(function(res) {
+//					//alert('config错误'+res);
+//				});
+//			} 
+//		});
+//	}
+</script>
+<!--	<script type="text/javascript">
 		/**
 		 * 初始化页面数据
 		 */
@@ -209,92 +480,10 @@
     		var courseImgHeight = courseImgWidth/(330/198);
     		$(".kh_goods .kh_img").height(courseImgHeight)
     	}
-	</script>   
+	</script> -->  
 
 <script type="text/javascript">
     //引入Andrew插件的区域
-
-    /*-----------------------------------------------Andrew_ReadMore 使用方法-------------------------------------------*/
-//  $(function () {
-//      $('.plug_readmore').Andrew_ReadMore({
-//          speed: 500, //展开折叠毫秒速度
-//          maxHeight: 200, //被隐藏更多的内容时的高度（px）
-//          heightMargin: 16, //以像素为单位，以避免倒塌是比仅稍大块了maxHeight
-//          moreLink: '<button class="bg_white c_gray_333 w_100 h_36em bor_top bor_gray_ddd">查看更多 <i class="icon-ln_xiangxia"></i></button>', //展开按钮HTML
-//          lessLink: '<button class="bg_white c_gray_333 w_100 h_36em bor_top bor_gray_ddd">收起内容 <i class="icon-ln_xiangshang"></i></button>', //收起按钮HTML
-//          startOpen: false, //不要立即截断，开始在全开位置
-//          afterToggle: function(trigger, element, expanded) { //称为后，该块被折叠或展开
-//              if(!expanded) {
-//                  $('main').animate({
-//                      scrollTop: element.offset().top
-//                  }, {duration: 500 } );
-//              }
-//          },
-//          beforeToggle: function(trigger, element, expanded) { //称为或多或少链接被点击后，但之前的块被折叠或展开
-//              if(!expanded) {
-//              }
-//          }
-//      });
-//  });
-
-    /*-----------------------------------------------Andrew_Vticker 使用方法-------------------------------------------*/
-//  $(function(){
-//      $('.plug_vticker').Andrew_Vticker({
-//          showItems : 4, //显示多少行
-//          pause : 3000, //滚动间隔，单位为毫秒
-//          speed : 500, //每次滚动持续时间，单位为毫秒
-//          mousePause : false, //鼠标悬停是否停止滚动
-//          direction : "up", //滚动方向，可选 ‘up’ / ‘down’
-//          isPaused: false, //默认是否暂停
-//          height: 0 //容器高度，默认为 0，即根据 showItems 个数自动计算
-//      });
-//  });
-
-    /*-----------------------------------------------Andrew_TypeIt 使用方法-------------------------------------------*/
-//  $(function(){
-//      $(".plug_TypeIt").Andrew_TypeIt({
-//          strings: [
-//              "欢迎使用AKjs移动端前端UI框架。",
-//              "AKjs移动端插件是一个基于JQuery的一套构建用户界面的前端框架插件里包含着移动端常用的功能效果以及简单明亮的CSS样式库对IOS和安卓系统的微站兼容性很完美。"
-//          ],
-//          typeSpeed: 10, //打字速度
-//          backDelay: 50, //删除文字速度
-//          contentType: 'html', // html or text
-//          loop: true, //是否重复循环 （true,false）
-//          callback: function(fun){ //结束后的回调
-//              //console.log("已结束")
-//          },
-//          preString: function(array) {
-//              //console.log("准备就绪")
-//          },
-//          onString: function(array) {
-//              //console.log("进行中")
-//          }
-//      });
-//  });
-
-    /*-----------------------------------------------Andrew_Template 使用方法-------------------------------------------*/
-//  var list_data = [
-//      {
-//          Image: "<img src=\"./img/tibet-1.jpg\">",
-//          Title: "产品名称001",
-//          Price: "￥400.00",
-//          Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
-//      },
-//      {
-//          Image: "<img src=\"./img/tibet-2.jpg\">",
-//          Title: "产品名称002",
-//          Price: "￥500.00",
-//          Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
-//      },
-//      {
-//          Image: "<img src=\"./img/tibet-3.jpg\">",
-//          Title: "产品名称003",
-//          Price: "￥250.00",
-//          Content: "该产品的简介和描述该产品的简介和描述该产品的简介和描述"
-//      }
-//  ];
-//  $(".plug_for").Andrew_Template(list_data);
 
     /*-----------------------------------------------Andrew_Lazyload 使用方法-------------------------------------------*/
     $(function() {
@@ -313,26 +502,6 @@
         });
     });
 
-    /*-----------------------------------------------Andrew_Popupwin (分享功能) 使用方法-------------------------------------------*/
-//  $(function(){
-//      setTimeout(function() { //为了兼容所有的jQuery版本header元素里面的任何绑定事件都需要延迟执行
-//          $("#plug_Share").bind("click", function (c) {
-//              Andrew_Popupwin({
-//                  dom: "#plug_ShareWin", //弹窗内容的布局
-//                  position: "bottom", //位置类型(top，bottom，left，right，middle)
-//                  effectIn: "slideInUp ani_05s", //弹窗显示效果 (css动画库：andrew.animate.css)
-//                  effectOut: "slideOutDown ani_05s", //弹窗消失效果 (css动画库：andrew.animate.css)
-//                  maskPosition:"4", //Mask的z-index数值
-//                  closeBtn: ".ak-mask", //关闭弹窗按钮的Class名
-//                  OneButton: c.currentTarget, //点击按钮和关闭按钮通用时需要加该属性
-//                  toggleIcon: "", //是否点击后替换图标功能，加图标的Class名 （建议启用OneButton的参数后使用）
-//                  callback :function (ele) { //通过回调获取弹窗显示后的以上参数
-//                      console.log($(ele[0].dom)); //获取当前的弹窗元素
-//                  }
-//              });
-//          });
-//      },100);
-//  });
 
     /*-----------------------------------------------Andrew_Marquee 使用方法-------------------------------------------*/
     $(function(){
@@ -350,46 +519,6 @@
         });
     });
 
-    /*-----------------------------------------------Andrew_QRcode 使用方法-------------------------------------------*/
-//  $(function(){
-//      $(".plug_qrcode").Andrew_QRcode({
-//          width: 200, //宽度
-//          height:200, //高度
-//          background: "#ffffff", //背景色
-//          foreground: "#000000", //前景色
-//          text: "http://m.baidu.com" //任意内容
-//      });
-//  });
-
-    /*-----------------------------------------------Andrew_NavScroll 使用方法-------------------------------------------*/
-//  $(function() {
-//      $(".plug_tabs_find").Andrew_NavScroll({
-//          line_style: "dis_block abs bor_top2 bor_title",
-//          active_corlor: "c_title",
-//          ClickCallback: function(ele,index) { //回调获取点击后的元素和元素的index
-//              console.log(ele);
-//          }
-//      });
-//  });
-
-    /*-----------------------------------------------Andrew_Circliful 使用方法-------------------------------------------*/
-//  $(function(){
-//      $('.plug_circliful').Andrew_Circliful({
-//          animationStep: 0.2 //动画毫秒设置
-//      });
-//      data-dimension === 整个圆形的宽高
-//      data-text === 圆形里的大标题
-//      data-info === 圆形里的小标题
-//      data-width="30" === 当前参数进度条边框宽度设置
-//      data-prog_color === 当前参数进度条边框颜色设置
-//      data-font_size  === 圆形里的大标题文字大小（px）
-//      data-percent  === 当前参数设置（百分比）
-//      data-font_color === 大标题和小标题文字颜色设置
-//      data-bg_color === 整个圆形的边框颜色
-//      data-fill_color === 里面填充颜色设置
-//      data-spacing_color === 整个圆形的边框颜色
-//      data-type="spacing" === 饼图类型设置 （half, spacing）；空值代表默认类型
-//  });
 
     /*-----------------------------------------------Andrew_DropLoad （页面刷新） 使用方法-------------------------------------------*/
     $(function(){
@@ -420,20 +549,4 @@
     });
 </script>
 
-<style type="text/css">
-    /*样式覆盖区域*/
-</style>
 
-<!--
-//注：template，ak-header，ak-footer，script，style等这些元素在页面中不能多个使用否则代码无效；
-路由页面的布局结构使用方法（必须用以下的结构使用）：
-<template>
-    <ak-header></ak-header>
-    <div></div>
-    <ak-footer></ak-footer>
-</template>
-<script>
-</script>
-<style>
-</style>
--->

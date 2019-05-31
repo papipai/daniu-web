@@ -274,8 +274,8 @@ div,header,section,footer,aside,nav,article,figure,figcaption,details,main {
 }
 
 figure {
-	height: 100%;
-	max-height: inherit
+	/*height: 100%;
+	max-height: inherit*/
 }
 
 figure img {
@@ -7591,7 +7591,8 @@ legend {
 }
 
 .ma_3 {
-	margin: 3%
+	padding: 3%;
+	background: #fff;
 }
 
 .ma_2 {
